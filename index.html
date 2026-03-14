@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flight Payment Plan — AKL to Milan to Tunis</title>
+  <title>Trip Payment Plan — AKL to Milan to Tunis</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -261,8 +261,8 @@
 <body>
 <div class="container">
 
-  <h1>Flight Payment Plan</h1>
-  <p class="subtitle">Auckland &rarr; Hong Kong &rarr; Milan &rarr; Tunis &nbsp;|&nbsp; Fortnightly repayment</p>
+  <h1>Trip Payment Plan</h1>
+  <p class="subtitle">Auckland &rarr; Hong Kong &rarr; Milan &rarr; Tunis &nbsp;|&nbsp; Flights + Hotel &nbsp;|&nbsp; Fortnightly repayment</p>
 
   <!-- Top controls -->
   <div class="controls-bar">
@@ -298,7 +298,7 @@
       <div class="simple-total-card">
         <div class="label">Total Trip Cost (incl. 5% fee)</div>
         <div class="amount" id="simple-total"></div>
-        <div class="sub" id="simple-total-sub">Cathay Pacific + ITA Airways</div>
+        <div class="sub" id="simple-total-sub">Cathay Pacific + ITA Airways + Hotel</div>
       </div>
     </div>
 
@@ -377,9 +377,9 @@
       </div>
     </div>
 
-    <h2 class="section-title">Flight Cost Breakdown</h2>
+    <h2 class="section-title">Cost Breakdown</h2>
     <table>
-      <thead><tr><th>Airline</th><th>Route</th><th class="r" id="cost-col-header">Cost (USD)</th></tr></thead>
+      <thead><tr><th>Item</th><th>Details</th><th class="r" id="cost-col-header">Cost (USD)</th></tr></thead>
       <tbody>
         <tr>
           <td>Cathay Pacific</td>
@@ -390,6 +390,11 @@
           <td>ITA Airways</td>
           <td>Milan &rarr; Tunis <span class="route-sub">MXP &rarr; TUN</span></td>
           <td class="r" id="cost-ita"></td>
+        </tr>
+        <tr>
+          <td>Hotel</td>
+          <td>Sep 3–4 &nbsp; <span class="route-sub">1 night &middot; booked at &euro;135.00</span></td>
+          <td class="r" id="cost-hotel"></td>
         </tr>
         <tr class="fee-row"><td colspan="2">5% transfer fee</td><td class="r" id="cost-fee"></td></tr>
         <tr class="total-row"><td colspan="2">Total to Repay</td><td class="r" id="cost-total"></td></tr>
@@ -484,11 +489,14 @@
 </div>
 
 <script>
-  // ===== BASE DATA (USD) =====
+  // ===== BASE DATA (USD, hotel in EUR) =====
   const BASE = {
     cathay: 3113.89,
     ita: 1136.20,
-    get subtotal() { return this.cathay + this.ita; },
+    hotelEur: 135.00,
+    eurToUsd: 1.09, // default fallback, updated live
+    get hotelUsd() { return Math.round(this.hotelEur * this.eurToUsd * 100) / 100; },
+    get subtotal() { return this.cathay + this.ita + this.hotelUsd; },
     get fee() { return Math.round(this.subtotal * 0.05 * 100) / 100; },
     get total() { return Math.round((this.subtotal + this.fee) * 100) / 100; },
   };
@@ -544,9 +552,11 @@
     try {
       const res = await fetch('https://open.er-api.com/v6/latest/USD');
       const data = await res.json();
-      if (data.result === 'success' && data.rates && data.rates.NZD) {
-        nzdRate = data.rates.NZD;
-        document.getElementById('rate-display').textContent = nzdRate.toFixed(4);
+      if (data.result === 'success' && data.rates) {
+        if (data.rates.NZD) nzdRate = data.rates.NZD;
+        // EUR→USD = 1 / (USD→EUR)
+        if (data.rates.EUR) BASE.eurToUsd = Math.round(1 / data.rates.EUR * 10000) / 10000;
+        document.getElementById('rate-display').textContent = nzdRate ? nzdRate.toFixed(4) : '—';
         document.getElementById('rate-time').textContent =
           'updated ' + new Date().toLocaleTimeString('en-NZ', { hour: '2-digit', minute: '2-digit' });
         renderAll();
@@ -661,6 +671,7 @@
     document.getElementById('cost-col-header').textContent = 'Cost (' + cur + ')';
     document.getElementById('cost-cathay').textContent = fmt(BASE.cathay);
     document.getElementById('cost-ita').textContent = fmt(BASE.ita);
+    document.getElementById('cost-hotel').textContent = fmt(BASE.hotelUsd);
     document.getElementById('cost-fee').textContent = fmt(BASE.fee);
     document.getElementById('cost-total').textContent = fmt(BASE.total);
 
@@ -745,8 +756,8 @@
     donutChart = new Chart(document.getElementById('donutChart'), {
       type: 'doughnut',
       data: {
-        labels: ['Cathay Pacific (AKL→HKG→MXP)', 'ITA Airways (MXP→TUN)', 'Transfer Fee (5%)'],
-        datasets: [{ data: [BASE.cathay, BASE.ita, BASE.fee].map(v => Math.round(v * r() * 100) / 100), backgroundColor: ['#0f3460','#3a86ff','#e0e4ef'], borderWidth: 0, hoverOffset: 8 }]
+        labels: ['Cathay Pacific (AKL→HKG→MXP)', 'ITA Airways (MXP→TUN)', 'Hotel (Sep 3–4)', 'Transfer Fee (5%)'],
+        datasets: [{ data: [BASE.cathay, BASE.ita, BASE.hotelUsd, BASE.fee].map(v => Math.round(v * r() * 100) / 100), backgroundColor: ['#0f3460','#3a86ff','#f39c12','#e0e4ef'], borderWidth: 0, hoverOffset: 8 }]
       },
       options: { responsive: true, cutout: '55%', plugins: { legend: { position: 'bottom', labels: { padding: 14, font: { size: 11 }, usePointStyle: true, pointStyleWidth: 10 } }, tooltip: { callbacks: { label: ctx => ` ${sym}${ctx.parsed.toFixed(2)} (${(ctx.parsed / totalC * 100).toFixed(1)}%)` } } } }
     });
