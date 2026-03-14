@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ibrahim & Haajar — Mediterranean Journey 2026</title>
+<link rel="manifest" href="data:application/json,%7B%22name%22%3A%22Mediterranean%20Journey%202026%22%2C%22short_name%22%3A%22Our%20Trip%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%231a1a3e%22%2C%22theme_color%22%3A%22%231a1a3e%22%7D">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1a1a3e">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -352,9 +356,126 @@ h3{font-size:1.3rem;line-height:1.3}
 .memory-card textarea{width:100%;min-height:100px;border:1px solid rgba(0,0,0,.1);border-radius:var(--radius-sm);padding:14px;font-family:var(--font-body);font-size:.9rem;line-height:1.6;color:#333;background:rgba(255,255,255,.7);resize:vertical;transition:border-color .3s}
 .memory-card textarea:focus{outline:none;border-color:var(--clr-gold)}
 .memory-card textarea::placeholder{color:var(--clr-muted);font-style:italic}
+
+/* ===== LOADING SPLASH (Feature 11) ===== */
+.loading-splash{position:fixed;inset:0;z-index:9999;background:var(--clr-dark);display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity .5s ease;pointer-events:all}
+.loading-splash.fade-out{opacity:0;pointer-events:none}
+.loading-splash h1{color:var(--clr-gold);font-family:var(--font-heading);font-size:clamp(1.8rem,5vw,3rem);animation:splashIn .6s ease;text-align:center;padding:0 20px}
+.loading-splash .splash-sub{color:rgba(255,255,255,.5);font-family:var(--font-body);font-size:.95rem;margin-top:8px;animation:splashIn .6s ease .15s both}
+@keyframes splashIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== SUBTLE BACKGROUND TEXTURE (Feature 12) ===== */
+body{background-image:radial-gradient(circle,rgba(26,26,62,.04) 1px,transparent 1px);background-size:20px 20px}
+
+/* ===== DAY X LIVE BANNER (Feature 8) ===== */
+.live-banner{background:linear-gradient(135deg,var(--clr-dark),var(--clr-purple));color:var(--clr-gold-light);text-align:center;padding:10px 16px;font-family:var(--font-body);font-size:.88rem;font-weight:600;display:none;letter-spacing:.3px}
+.live-banner .banner-phase{color:var(--clr-gold);font-weight:700}
+
+/* ===== SHARE BUTTON (Feature 10) ===== */
+.share-fab{position:fixed;bottom:24px;right:24px;z-index:90;width:52px;height:52px;border-radius:50%;background:var(--clr-gold);border:none;color:var(--clr-dark);font-size:1.3rem;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.25);transition:var(--transition);display:flex;align-items:center;justify-content:center}
+.share-fab:hover{transform:scale(1.1);box-shadow:0 6px 24px rgba(0,0,0,.35)}
+.share-toast{position:fixed;bottom:90px;right:24px;z-index:91;background:var(--clr-dark);color:var(--clr-gold-light);padding:10px 20px;border-radius:var(--radius-sm);font-size:.85rem;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,.3);opacity:0;transform:translateY(8px);transition:all .3s ease;pointer-events:none}
+.share-toast.show{opacity:1;transform:translateY(0)}
+
+/* ===== TRI-STATE CHECKLIST (Feature 1) ===== */
+.check-card.state-done{opacity:.7}
+.check-card.state-done .check-name{text-decoration:none;color:var(--clr-dark)}
+.check-card.state-done .check-box{background:#4caf50;border-color:#4caf50;color:#fff}
+.check-card.state-skip{opacity:.4}
+.check-card.state-skip .check-name{text-decoration:line-through;color:var(--clr-muted)}
+.check-card.state-skip .check-box{background:#999;border-color:#999;color:#fff;font-size:.7rem}
+.check-card.state-buy .check-box{background:transparent;border-color:#e67e22;color:#e67e22}
+.buy-tag{display:inline-block;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:12px;background:#fef3e2;color:#e67e22;letter-spacing:.3px;margin-left:6px}
+.checklist-filters{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:16px}
+.filter-btn{font-family:var(--font-body);font-size:.75rem;font-weight:600;padding:6px 14px;border-radius:20px;border:1.5px solid #ddd;background:var(--clr-card);color:var(--clr-muted);cursor:pointer;transition:var(--transition)}
+.filter-btn:hover{border-color:var(--clr-gold)}
+.filter-btn.active{background:var(--clr-dark);border-color:var(--clr-dark);color:var(--clr-gold)}
+
+/* ===== CALENDAR POPUP (Feature 2) ===== */
+.cal-day.has-event{cursor:pointer}
+.cal-popup-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeUp .25s ease}
+.cal-popup{background:var(--clr-card);border-radius:var(--radius);box-shadow:0 20px 60px rgba(0,0,0,.3);max-width:420px;width:100%;padding:32px;position:relative;animation:fadeUp .3s ease}
+.cal-popup-close{position:absolute;top:12px;right:16px;background:none;border:none;font-size:1.4rem;color:var(--clr-muted);cursor:pointer;transition:var(--transition)}
+.cal-popup-close:hover{color:var(--clr-dark)}
+.cal-popup h3{font-family:var(--font-heading);font-size:1.5rem;color:var(--clr-dark);margin-bottom:4px}
+.cal-popup .popup-day-counter{font-size:.82rem;color:var(--clr-gold);font-weight:700;margin-bottom:16px;display:block}
+.cal-popup .popup-section{margin-bottom:14px}
+.cal-popup .popup-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--clr-muted);margin-bottom:4px}
+.cal-popup .popup-value{font-size:.92rem;color:#444;line-height:1.5}
+
+/* ===== EMERGENCY CONTACTS (Feature 4) ===== */
+.emergency-card{background:linear-gradient(135deg,#1a1a3e,#2a2040);border:1px solid rgba(220,80,80,.3);border-radius:var(--radius);padding:24px 28px;margin:32px auto 0;max-width:700px}
+.emergency-card h4{font-family:var(--font-heading);font-size:1.15rem;color:#e57373;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.emergency-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.88rem;flex-wrap:wrap;gap:4px}
+.emergency-row:last-child{border-bottom:none}
+.emergency-label{color:rgba(255,255,255,.7);flex:1;min-width:0}
+.emergency-value{color:var(--clr-gold-light);font-weight:600;font-family:var(--font-body);letter-spacing:.3px}
+.emergency-value a{color:var(--clr-gold-light)}
+
+/* ===== TRIP STATS (Feature 6) ===== */
+.stats-card{background:linear-gradient(135deg,#1a1a3e,#2d2b55);border:1px solid rgba(201,168,124,.2);border-radius:var(--radius);padding:28px;margin:0 auto 40px;max-width:900px}
+.stats-card h3{font-family:var(--font-heading);font-size:1.3rem;color:var(--clr-gold);margin-bottom:18px;text-align:center}
+.stats-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
+.stat-item{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.06);border:1px solid rgba(201,168,124,.15);border-radius:var(--radius-sm);padding:12px 18px;min-width:140px;flex:1}
+.stat-icon{font-size:1.5rem;flex-shrink:0}
+.stat-num{font-family:var(--font-heading);font-size:1.5rem;font-weight:700;color:var(--clr-gold);line-height:1}
+.stat-label{font-size:.72rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.3px}
+@media(max-width:480px){.stat-item{min-width:calc(50% - 12px);flex:unset}}
+
+/* ===== PHRASE BOOK (Feature 5) ===== */
+.phrase-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -14px;padding:0 14px}
+.phrase-table{width:100%;border-collapse:collapse;font-size:.85rem;min-width:500px}
+.phrase-table th{background:var(--clr-dark);color:var(--clr-gold-light);padding:10px 14px;text-align:left;font-weight:600;font-size:.78rem;letter-spacing:.5px;text-transform:uppercase;position:sticky;top:0}
+.phrase-table td{padding:9px 14px;border-bottom:1px solid rgba(0,0,0,.06);color:#444}
+.phrase-table tr:nth-child(even){background:rgba(240,236,245,.3)}
+.phrase-table tr:hover{background:rgba(201,168,124,.08)}
+.phrase-table td:first-child{font-weight:600;color:var(--clr-dark)}
+
+/* ===== PRE-TRIP TODO (Feature 3) ===== */
+.pretodo-item{display:flex;align-items:center;gap:12px;background:var(--clr-card);border-radius:var(--radius-sm);box-shadow:var(--shadow-card);padding:14px 18px;margin-bottom:10px;cursor:pointer;transition:var(--transition)}
+.pretodo-item:hover{box-shadow:var(--shadow-hover)}
+.pretodo-item.done{opacity:.5}
+.pretodo-item.done .pretodo-text{text-decoration:line-through;color:var(--clr-muted)}
+.pretodo-check{width:22px;height:22px;border:2px solid var(--clr-muted);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.8rem;color:transparent;transition:var(--transition)}
+.pretodo-item.done .pretodo-check{background:var(--clr-gold);border-color:var(--clr-gold);color:var(--clr-dark)}
+.pretodo-text{flex:1;font-size:.9rem;color:#444}
+.pretodo-due{font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:12px;white-space:nowrap;flex-shrink:0}
+.pretodo-due.urgent{background:#fde8e8;color:#c0392b}
+.pretodo-due.soon{background:#fef3e2;color:#e67e22}
+.pretodo-due.ok{background:#e8f5e9;color:#2e7d32}
+
+/* ===== SPENDING TRACKER (Feature 7) ===== */
+.spending-form{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;align-items:flex-end}
+.spending-form select,.spending-form input{font-family:var(--font-body);font-size:.88rem;padding:10px 14px;border:1.5px solid #ddd;border-radius:var(--radius-xs);background:var(--clr-card);color:#333;transition:border-color .3s}
+.spending-form select:focus,.spending-form input:focus{outline:none;border-color:var(--clr-gold)}
+.spending-form input[type=number]{width:110px}
+.spending-form input[type=text]{flex:1;min-width:120px}
+.spending-add-btn{font-family:var(--font-body);font-size:.85rem;font-weight:700;padding:10px 20px;border-radius:var(--radius-xs);border:none;background:var(--clr-gold);color:var(--clr-dark);cursor:pointer;transition:var(--transition)}
+.spending-add-btn:hover{background:#b8956a}
+.spending-entries{margin-bottom:20px}
+.spending-entry{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(0,0,0,.06);font-size:.88rem}
+.spending-entry:last-child{border-bottom:none}
+.spending-cat-badge{font-size:.7rem;font-weight:700;padding:2px 10px;border-radius:12px;background:var(--clr-tag-bg);color:var(--clr-tag-text)}
+.spending-entry-note{flex:1;color:#555}
+.spending-entry-amt{font-weight:700;color:var(--clr-dark)}
+.spending-entry-del{background:none;border:none;color:#ccc;font-size:1rem;cursor:pointer;padding:2px 6px;transition:color .2s}
+.spending-entry-del:hover{color:#e74c3c}
+.spending-totals{background:linear-gradient(135deg,#f8f6f1,#f0ecf5);border-radius:var(--radius);padding:20px 24px}
+.spending-totals h4{font-family:var(--font-heading);font-size:1.1rem;color:var(--clr-dark);margin-bottom:10px}
+.spending-total-row{display:flex;justify-content:space-between;padding:5px 0;font-size:.88rem}
+.spending-total-row.grand{font-weight:700;font-size:1rem;color:var(--clr-dark);border-top:2px solid var(--clr-dark);margin-top:6px;padding-top:10px}
+
+/* ===== PRINT ADDITIONS ===== */
+@media print{.share-fab,.live-banner,.loading-splash,.share-toast,.cal-popup-overlay{display:none !important}}
 </style>
 </head>
 <body>
+
+<!-- ===== LOADING SPLASH (Feature 11) ===== -->
+<div class="loading-splash" id="loading-splash">
+  <h1>Ibrahim &amp; Haajar</h1>
+  <span class="splash-sub">Mediterranean Journey 2026</span>
+</div>
 
 <!-- ===== NAVIGATION ===== -->
 <nav class="nav">
@@ -366,6 +487,13 @@ h3{font-size:1.3rem;line-height:1.3}
     <button class="nav-tab" data-tab="budget">Budget</button>
   </div>
 </nav>
+
+<!-- ===== DAY X LIVE BANNER (Feature 8) ===== -->
+<div class="live-banner" id="live-banner"></div>
+
+<!-- ===== SHARE BUTTON (Feature 10) ===== -->
+<button class="share-fab" id="share-fab" aria-label="Share this page" title="Share">&#x1F517;</button>
+<div class="share-toast" id="share-toast">Link copied!</div>
 
 <!-- ===== TAB 1: OUR TRIP ===== -->
 <div id="tab-trip" class="tab-content active">
@@ -388,6 +516,22 @@ h3{font-size:1.3rem;line-height:1.3}
     <div class="letter-card" style="margin-top:40px">
       <h3>Why This Trip</h3>
       <p>This trip is more than flights and hotels. It&rsquo;s Ibrahim bringing Haajar home to Beni Khiar &mdash; to the town his family comes from, the streets his parents walked, the sea they grew up swimming in. It&rsquo;s Haajar bringing Ibrahim home to Shahhat &mdash; to the Green Mountain, to her family, to the place that shaped her. It&rsquo;s two days with mama, papa, and Yasmeen in Milan before we go. Two homecomings, two families, one unforgettable summer together.</p>
+    </div>
+  </div>
+
+  <!-- ===== TRIP STATS (Feature 6) ===== -->
+  <div class="container">
+    <div class="stats-card">
+      <h3>Trip at a Glance</h3>
+      <div class="stats-grid">
+        <div class="stat-item"><span class="stat-icon">&#x1F30D;</span><div><span class="stat-num">~36,000 km</span><span class="stat-label">Total distance</span></div></div>
+        <div class="stat-item"><span class="stat-icon">&#x1F1F3;&#x1F1FF;</span><div><span class="stat-num">5</span><span class="stat-label">Countries</span></div></div>
+        <div class="stat-item"><span class="stat-icon">&#x2708;&#xFE0F;</span><div><span class="stat-num">10</span><span class="stat-label">Flight segments</span></div></div>
+        <div class="stat-item"><span class="stat-icon">&#x1F4C5;</span><div><span class="stat-num">45</span><span class="stat-label">Days away</span></div></div>
+        <div class="stat-item"><span class="stat-icon">&#x1F6EB;</span><div><span class="stat-num">2</span><span class="stat-label">Airlines</span></div></div>
+        <div class="stat-item"><span class="stat-icon">&#x1F570;&#xFE0F;</span><div><span class="stat-num">11</span><span class="stat-label">Time zones crossed</span></div></div>
+        <div class="stat-item"><span class="stat-icon">&#x1F30A;</span><div><span class="stat-num">3</span><span class="stat-label">Seas &amp; oceans</span></div></div>
+      </div>
     </div>
   </div>
 
@@ -447,6 +591,19 @@ h3{font-size:1.3rem;line-height:1.3}
       <div class="curr-row"><span><span class="curr-flag">&#x1F1F3;&#x1F1FF;</span> 1 NZD</span><span>&asymp; 1.72 TND <span style="color:var(--clr-muted);font-size:.8rem">(Tunisia)</span></span></div>
       <div class="curr-row"><span><span class="curr-flag">&#x1F1F3;&#x1F1FF;</span> 1 NZD</span><span>&asymp; 2.95 LYD <span style="color:var(--clr-muted);font-size:.8rem">(Libya)</span></span></div>
       <p class="curr-note">Approximate rates &mdash; check before travel</p>
+    </div>
+
+    <!-- ===== EMERGENCY CONTACTS (Feature 4) ===== -->
+    <div class="emergency-card">
+      <h4>&#x1F6A8; Emergency Contacts</h4>
+      <div class="emergency-row"><span class="emergency-label">NZ Embassy in Italy</span><span class="emergency-value"><a href="tel:+39068537501">+39 06 853 7501</a></span></div>
+      <div class="emergency-row"><span class="emergency-label">NZ Embassy (Tunisia/Libya) &mdash; Cairo</span><span class="emergency-value"><a href="tel:+20224616000">+20 2 2461 6000</a></span></div>
+      <div class="emergency-row"><span class="emergency-label">Cathay Pacific (NZ)</span><span class="emergency-value"><a href="tel:+6493790861">+64 9 379 0861</a></span></div>
+      <div class="emergency-row"><span class="emergency-label">Cathay Pacific (HK)</span><span class="emergency-value"><a href="tel:+85227475000">+852 2747 5000</a></span></div>
+      <div class="emergency-row"><span class="emergency-label">ITA Airways</span><span class="emergency-value"><a href="tel:+18777931717">+1 877 793 1717</a></span></div>
+      <div class="emergency-row"><span class="emergency-label">Emergency (Italy)</span><span class="emergency-value">112</span></div>
+      <div class="emergency-row"><span class="emergency-label">Emergency (Tunisia)</span><span class="emergency-value">197 (police) / 190 (ambulance)</span></div>
+      <div class="emergency-row"><span class="emergency-label">Emergency (Libya)</span><span class="emergency-value">1515</span></div>
     </div>
   </div>
 </div>
@@ -624,6 +781,9 @@ h3{font-size:1.3rem;line-height:1.3}
       <button class="sub-tab active" data-guide="tunisia">&#x1F1F9;&#x1F1F3; Tunisia</button>
       <button class="sub-tab" data-guide="libya">&#x1F1F1;&#x1F1FE; Libya</button>
       <button class="sub-tab" data-guide="milan">&#x1F1EE;&#x1F1F9; Milan</button>
+      <button class="sub-tab" data-guide="pretodo">&#x1F4CB; Before We Go</button>
+      <button class="sub-tab" data-guide="phrases">&#x1F5E3; Phrases</button>
+      <button class="sub-tab" data-guide="spending">&#x1F4B0; Spending</button>
       <button class="sub-tab" data-guide="packing">&#x1F9F3; Packing</button>
       <button class="sub-tab" data-guide="memories">&#x1F4F8; Memories</button>
     </div>
@@ -669,6 +829,70 @@ h3{font-size:1.3rem;line-height:1.3}
       <div id="milan-funfacts"></div>
       <div class="tips-card" id="milan-tips"></div>
       <div id="milan-scratch"></div>
+    </div>
+
+    <!-- Pre-trip To-Do (Feature 3) -->
+    <div class="guide-panel" id="guide-pretodo">
+      <div class="guide-header">
+        <h3>Before We Go</h3>
+        <p class="subtitle">Pre-trip checklist with due dates</p>
+      </div>
+      <div id="pretodo-list"></div>
+    </div>
+
+    <!-- Phrase Book (Feature 5) -->
+    <div class="guide-panel" id="guide-phrases">
+      <div class="guide-header">
+        <h3>Mini Phrase Book</h3>
+        <p class="subtitle">Essential phrases for Tunisia, Libya &amp; Italy</p>
+      </div>
+      <div class="card">
+        <div class="phrase-table-wrap">
+          <table class="phrase-table">
+            <thead>
+              <tr><th>English</th><th>Tunisian</th><th>Libyan</th><th>Italian</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Hello</td><td>Aslema</td><td>Salam alaikum</td><td>Ciao / Buongiorno</td></tr>
+              <tr><td>Thank you</td><td>Yishek / Barak Allahu fik</td><td>Barak Allahu fik</td><td>Grazie</td></tr>
+              <tr><td>How are you?</td><td>Chnahwalek?</td><td>Kifak?</td><td>Come stai?</td></tr>
+              <tr><td>Good</td><td>Behi</td><td>Tamam</td><td>Bene</td></tr>
+              <tr><td>Please</td><td>Aarbi / Min fadlek</td><td>Min fadlak</td><td>Per favore</td></tr>
+              <tr><td>Yes / No</td><td>Ih / Le</td><td>Aywa / La</td><td>S&igrave; / No</td></tr>
+              <tr><td>How much?</td><td>Bqaddesh?</td><td>Bgaddash?</td><td>Quanto costa?</td></tr>
+              <tr><td>Where is...?</td><td>Wein...?</td><td>Wein...?</td><td>Dove &egrave;...?</td></tr>
+              <tr><td>Delicious</td><td>Bnin</td><td>Bnin</td><td>Delizioso</td></tr>
+              <tr><td>God willing</td><td>Inshallah</td><td>Inshallah</td><td>&mdash;</td></tr>
+              <tr><td>Goodbye</td><td>Bislema</td><td>Ma'a salama</td><td>Arrivederci</td></tr>
+              <tr><td>I love you</td><td>Nhebek</td><td>Nhebek</td><td>Ti amo</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spending Tracker (Feature 7) -->
+    <div class="guide-panel" id="guide-spending">
+      <div class="guide-header">
+        <h3>Daily Budget Tracker</h3>
+        <p class="subtitle">Track spending during the trip</p>
+      </div>
+      <div class="card">
+        <div class="spending-form" id="spending-form">
+          <select id="spending-cat">
+            <option value="Food">Food</option>
+            <option value="Transport">Transport</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Activities">Activities</option>
+            <option value="Other">Other</option>
+          </select>
+          <input type="number" id="spending-amount" placeholder="Amount" min="0" step="0.01">
+          <input type="text" id="spending-note" placeholder="Note (optional)">
+          <button class="spending-add-btn" id="spending-add">+ Add</button>
+        </div>
+        <div class="spending-entries" id="spending-entries"></div>
+        <div class="spending-totals" id="spending-totals"></div>
+      </div>
     </div>
 
     <!-- Packing guide -->
@@ -1167,43 +1391,90 @@ function buildChecklist(containerId, progressId, items, storageKey) {
   const container = document.getElementById(containerId);
   const progressWrap = document.getElementById(progressId);
 
+  // Migrate old boolean format to new tri-state format
   let saved = {};
   try { saved = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch { /* ignore */ }
-  items.forEach(it => { if (saved[it.id] !== undefined) it.checked = saved[it.id]; });
+  items.forEach(it => {
+    if (saved[it.id] !== undefined) {
+      // Migrate old boolean format
+      if (saved[it.id] === true) it.state = 'done';
+      else if (saved[it.id] === false) it.state = 'todo';
+      else it.state = saved[it.id]; // already new format
+    } else {
+      it.state = 'todo';
+    }
+  });
+
+  let currentFilter = 'all';
 
   function save() {
     const obj = {};
-    items.forEach(it => obj[it.id] = it.checked);
+    items.forEach(it => obj[it.id] = it.state);
     localStorage.setItem(storageKey, JSON.stringify(obj));
   }
 
+  // Insert filter buttons before the checklist container
+  let filterWrap = container.previousElementSibling;
+  if (!filterWrap || !filterWrap.classList.contains('checklist-filters')) {
+    filterWrap = document.createElement('div');
+    filterWrap.className = 'checklist-filters';
+    container.parentNode.insertBefore(filterWrap, container);
+  }
+
   function render() {
-    const total = items.length;
-    const done = items.filter(i => i.checked).length;
-    const pct = Math.round((done / total) * 100);
+    const countable = items.filter(i => i.state !== 'skip');
+    const total = countable.length;
+    const done = countable.filter(i => i.state === 'done').length;
+    const pct = total > 0 ? Math.round((done / total) * 100) : 0;
 
     progressWrap.innerHTML = `
       <div class="progress-label"><span>${done} of ${total} explored</span><span>${pct}%</span></div>
       <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
     `;
 
+    // Render filter buttons
+    const filters = [
+      { key:'all', label:'All' },
+      { key:'todo', label:'To Do' },
+      { key:'done', label:'Done' },
+      { key:'buy', label:'Need to Buy' },
+      { key:'skip', label:'Not Needed' }
+    ];
+    filterWrap.innerHTML = filters.map(f =>
+      `<button class="filter-btn${currentFilter===f.key?' active':''}" data-filter="${f.key}">${f.label}</button>`
+    ).join('');
+    filterWrap.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentFilter = btn.dataset.filter;
+        render();
+      });
+    });
+
     container.innerHTML = '';
     items.forEach(item => {
+      // Apply filter
+      if (currentFilter !== 'all' && item.state !== currentFilter) return;
+
       const card = document.createElement('div');
-      card.className = 'check-card' + (item.checked ? ' checked' : '');
+      card.className = 'check-card state-' + item.state;
       const mapQ = MAP_LINKS[item.id];
       const mapBtn = mapQ ? `<a href="https://www.google.com/maps/search/?api=1&query=${mapQ}" target="_blank" rel="noopener" class="map-btn" onclick="event.stopPropagation()" title="View on Google Maps">&#x1F4CD; Map</a>` : '';
+      const buyTag = item.state === 'buy' ? '<span class="buy-tag">NEED TO BUY</span>' : '';
+      const boxContent = item.state === 'done' ? '\u2713' : (item.state === 'skip' ? '\u2715' : (item.state === 'buy' ? '!' : ''));
       card.innerHTML = `
-        <div class="check-box">${item.checked ? '\u2713' : ''}</div>
+        <div class="check-box">${boxContent}</div>
         <div class="check-emoji">${item.emoji}</div>
         <div class="check-body">
-          <div class="check-name">${item.name}</div>
+          <div class="check-name">${item.name}${buyTag}</div>
           <div class="check-desc">${item.desc}</div>
           <div class="check-meta"><span class="check-tag">${item.tag}</span>${mapBtn}</div>
         </div>
       `;
+      // Tri-state cycle: todo -> done -> buy -> skip -> todo
       card.onclick = () => {
-        item.checked = !item.checked;
+        const cycle = ['todo','done','buy','skip'];
+        const idx = cycle.indexOf(item.state);
+        item.state = cycle[(idx + 1) % cycle.length];
         save();
         render();
       };
@@ -1317,22 +1588,47 @@ function buildCalendar() {
   const container = document.getElementById('calendar-grid');
   if (!container) return;
 
+  const tripStart = new Date(2026, 6, 24); // Jul 24
+
   // Trip events: [startDate, endDate, cssClass, label]
   const events = [
-    ['2026-07-24','2026-07-24','travel','AKL→HKG'],
-    ['2026-07-25','2026-07-25','travel','HKG→MXP'],
-    ['2026-07-25','2026-07-27','milan','Milan 🇮🇹'],
-    ['2026-07-27','2026-07-27','travel','MXP→TUN'],
-    ['2026-07-28','2026-08-09','tunisia','Tunisia 🇹🇳'],
-    ['2026-08-10','2026-08-10','travel','→ Libya'],
-    ['2026-08-11','2026-09-01','libya','Libya 🇱🇾'],
-    ['2026-09-02','2026-09-02','travel','→ Tunis'],
-    ['2026-09-03','2026-09-03','travel','TUN→MXP'],
-    ['2026-09-03','2026-09-04','hotel','Hotel 🏨'],
-    ['2026-09-04','2026-09-04','travel','MXP→HKG'],
+    ['2026-07-24','2026-07-24','travel','AKL\u2192HKG'],
+    ['2026-07-25','2026-07-25','travel','HKG\u2192MXP'],
+    ['2026-07-25','2026-07-27','milan','Milan \uD83C\uDDEE\uD83C\uDDF9'],
+    ['2026-07-27','2026-07-27','travel','MXP\u2192TUN'],
+    ['2026-07-28','2026-08-09','tunisia','Tunisia \uD83C\uDDF9\uD83C\uDDF3'],
+    ['2026-08-10','2026-08-10','travel','\u2192 Libya'],
+    ['2026-08-11','2026-09-01','libya','Libya \uD83C\uDDF1\uD83C\uDDFE'],
+    ['2026-09-02','2026-09-02','travel','\u2192 Tunis'],
+    ['2026-09-03','2026-09-03','travel','TUN\u2192MXP'],
+    ['2026-09-03','2026-09-04','hotel','Hotel \uD83C\uDFE8'],
+    ['2026-09-04','2026-09-04','travel','MXP\u2192HKG'],
     ['2026-09-05','2026-09-05','travel','HKG layover'],
-    ['2026-09-06','2026-09-06','travel','→ AKL 🏠'],
+    ['2026-09-06','2026-09-06','travel','\u2192 AKL \uD83C\uDFE0'],
   ];
+
+  // Detailed event info for popup (Feature 2)
+  const dayDetails = {
+    '2026-07-24': { what:'Flight: Auckland \u2192 Hong Kong (CX198)', country:'New Zealand / Transit', accom:'In transit', flight:'CX198 \u2022 13:25 AKL \u2192 21:05 HKG' },
+    '2026-07-25': { what:'Flight: Hong Kong \u2192 Milan (CX233), then Milan arrival', country:'Italy', accom:'Airbnb in Milan (booked by papa)', flight:'CX233 \u2022 00:50 HKG \u2192 08:00 MXP' },
+    '2026-07-26': { what:'Milan with family \u2014 sightseeing day', country:'Italy', accom:'Airbnb in Milan', guides:'Duomo, Galleria, gelato crawl' },
+    '2026-07-27': { what:'Milan morning, then fly to Tunis (ITA Airways)', country:'Italy \u2192 Tunisia', accom:'Airbnb in Jinen Beni Khiar', flight:'AZ2109 19:00 LIN\u2192FCO, AZ862 22:00 FCO\u2192TUN' },
+    '2026-08-10': { what:'Fly Tunisia \u2192 Libya', country:'Tunisia \u2192 Libya', accom:'Haajar\u2019s family home (Shahhat)', flight:'Details TBD' },
+    '2026-09-02': { what:'Fly Libya \u2192 Tunis', country:'Libya \u2192 Tunisia', accom:'Transit in Tunis', flight:'Details TBD' },
+    '2026-09-03': { what:'Fly Tunis \u2192 Milan (ITA Airways)', country:'Tunisia \u2192 Italy', accom:'Crowne Plaza near Malpensa', flight:'AZ861 05:30 TUN\u2192FCO, AZ2028 09:00 FCO\u2192LIN' },
+    '2026-09-04': { what:'Fly Milan \u2192 Hong Kong (CX234)', country:'Italy \u2192 Transit', accom:'In transit', flight:'CX234 \u2022 12:45 MXP \u2192 06:15+1 HKG' },
+    '2026-09-05': { what:'Hong Kong layover', country:'Hong Kong (transit)', accom:'Airport / transit hotel', flight:'CX113 \u2022 21:10 HKG \u2192 11:50+1 AKL' },
+    '2026-09-06': { what:'Arrive home in Auckland!', country:'New Zealand', accom:'Home sweet home', flight:'CX113 arriving 11:50 AKL' },
+  };
+
+  // Fill in default details for date ranges
+  function getDetailForDate(dk) {
+    if (dayDetails[dk]) return dayDetails[dk];
+    if (dk >= '2026-07-25' && dk <= '2026-07-27') return { what:'Milan with family', country:'Italy', accom:'Airbnb in Milan (booked by papa)', guides:'Duomo, Galleria, Navigli, gelato' };
+    if (dk >= '2026-07-28' && dk <= '2026-08-09') return { what:'Tunisia \u2014 Ibrahim\u2019s homeland', country:'Tunisia', accom:'Airbnb in Jinen Beni Khiar', guides:'Medina, Sidi Bou Said, Carthage, Beni Khiar' };
+    if (dk >= '2026-08-11' && dk <= '2026-09-01') return { what:'Libya \u2014 Haajar\u2019s homeland', country:'Libya', accom:'Staying with Haajar\u2019s family (Shahhat)', guides:'Cyrene, Jabal Akhdar, Apollonia, family time' };
+    return null;
+  }
 
   function dateKey(d) { return d.toISOString().slice(0,10); }
   function getEvent(dk) {
@@ -1340,6 +1636,42 @@ function buildCalendar() {
       if (dk >= s && dk <= e) return { cls, lbl };
     }
     return null;
+  }
+
+  function getDayOfTrip(dk) {
+    const d = new Date(dk + 'T00:00:00');
+    const diff = Math.floor((d - tripStart) / 86400000) + 1;
+    if (diff >= 1 && diff <= 45) return diff;
+    return null;
+  }
+
+  function showPopup(dk, ev) {
+    const detail = getDetailForDate(dk);
+    const dayNum = getDayOfTrip(dk);
+    const dateObj = new Date(dk + 'T00:00:00');
+    const dateStr = dateObj.toLocaleDateString('en-NZ', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+
+    let popupHTML = `<div class="cal-popup-overlay" id="cal-popup-overlay">
+      <div class="cal-popup">
+        <button class="cal-popup-close" id="cal-popup-close">&times;</button>
+        <h3>${dateStr}</h3>
+        ${dayNum ? `<span class="popup-day-counter">Day ${dayNum} of 45</span>` : ''}
+        <div class="popup-section"><div class="popup-label">What's happening</div><div class="popup-value">${ev ? ev.lbl : ''} ${detail ? '\u2014 ' + detail.what : ''}</div></div>
+        ${detail && detail.country ? `<div class="popup-section"><div class="popup-label">Country</div><div class="popup-value">${detail.country}</div></div>` : ''}
+        ${detail && detail.accom ? `<div class="popup-section"><div class="popup-label">Accommodation</div><div class="popup-value">${detail.accom}</div></div>` : ''}
+        ${detail && detail.flight ? `<div class="popup-section"><div class="popup-label">Flight</div><div class="popup-value">${detail.flight}</div></div>` : ''}
+        ${detail && detail.guides ? `<div class="popup-section"><div class="popup-label">Guide highlights</div><div class="popup-value">${detail.guides}</div></div>` : ''}
+      </div>
+    </div>`;
+
+    // Remove existing popup
+    const existing = document.getElementById('cal-popup-overlay');
+    if (existing) existing.remove();
+
+    document.body.insertAdjacentHTML('beforeend', popupHTML);
+    const overlay = document.getElementById('cal-popup-overlay');
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+    document.getElementById('cal-popup-close').addEventListener('click', () => overlay.remove());
   }
 
   const months = [
@@ -1366,9 +1698,11 @@ function buildCalendar() {
       const dk = dateKey(dt);
       const ev = getEvent(dk);
       const isToday = dk === today;
-      const cls = (ev ? ev.cls : '') + (isToday ? ' today' : '');
+      const hasEvent = !!ev;
+      const cls = (ev ? ev.cls : '') + (isToday ? ' today' : '') + (hasEvent ? ' has-event' : '');
       const lbl = ev ? ev.lbl : '';
-      html += `<div class="cal-day ${cls}" title="${dk}${lbl ? ' — '+lbl : ''}">
+      const dayOfTrip = getDayOfTrip(dk);
+      html += `<div class="cal-day ${cls}" title="${dk}${lbl ? ' \u2014 '+lbl : ''}${dayOfTrip ? ' (Day '+dayOfTrip+')' : ''}" data-date="${dk}">
         <span class="day-num">${d}</span>
         ${lbl ? `<span class="day-label">${lbl}</span>` : ''}
       </div>`;
@@ -1376,6 +1710,15 @@ function buildCalendar() {
     html += '</div></div>';
   }
   container.innerHTML = html;
+
+  // Add click handlers for event days
+  container.querySelectorAll('.cal-day.has-event').forEach(dayEl => {
+    dayEl.addEventListener('click', () => {
+      const dk = dayEl.dataset.date;
+      const ev = getEvent(dk);
+      showPopup(dk, ev);
+    });
+  });
 }
 
 /* ========================================================
@@ -1667,13 +2010,223 @@ function buildMemories() {
 }
 
 /* ========================================================
+   LOADING SPLASH (Feature 11)
+   ======================================================== */
+function initSplash() {
+  const splash = document.getElementById('loading-splash');
+  if (!splash) return;
+  setTimeout(() => {
+    splash.classList.add('fade-out');
+    setTimeout(() => splash.remove(), 500);
+  }, 500);
+}
+
+/* ========================================================
+   SHARE BUTTON (Feature 10)
+   ======================================================== */
+function initShareButton() {
+  const btn = document.getElementById('share-fab');
+  const toast = document.getElementById('share-toast');
+  if (!btn || !toast) return;
+  btn.addEventListener('click', () => {
+    if (navigator.share) {
+      navigator.share({ title:'Mediterranean Journey 2026', url:window.location.href }).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+      }).catch(() => {
+        toast.textContent = 'Copy the URL from the address bar';
+        toast.classList.add('show');
+        setTimeout(() => { toast.classList.remove('show'); toast.textContent = 'Link copied!'; }, 2500);
+      });
+    }
+  });
+}
+
+/* ========================================================
+   LIVE BANNER (Feature 8)
+   ======================================================== */
+function initLiveBanner() {
+  const banner = document.getElementById('live-banner');
+  if (!banner) return;
+
+  const tripStart = new Date(2026, 6, 24); // Jul 24
+  const tripEnd = new Date(2026, 8, 6);   // Sep 6
+  const now = new Date();
+
+  const phases = [
+    { start:'2026-07-24', end:'2026-07-25', name:'Flights to Milan' },
+    { start:'2026-07-25', end:'2026-07-27', name:'Milan with Family' },
+    { start:'2026-07-27', end:'2026-08-09', name:'Tunisia \u2014 Ibrahim\u2019s Homeland' },
+    { start:'2026-08-10', end:'2026-08-10', name:'Travel to Libya' },
+    { start:'2026-08-11', end:'2026-09-01', name:'Libya \u2014 Haajar\u2019s Homeland' },
+    { start:'2026-09-02', end:'2026-09-03', name:'Return via Tunisia' },
+    { start:'2026-09-03', end:'2026-09-04', name:'Milan Overnight' },
+    { start:'2026-09-04', end:'2026-09-06', name:'Journey Home' }
+  ];
+
+  if (now >= tripStart && now <= tripEnd) {
+    const dayNum = Math.floor((now - tripStart) / 86400000) + 1;
+    const todayKey = now.toISOString().slice(0, 10);
+    let phaseName = '';
+    for (const p of phases) {
+      if (todayKey >= p.start && todayKey <= p.end) { phaseName = p.name; break; }
+    }
+    banner.innerHTML = `Day ${dayNum} of 45 &mdash; <span class="banner-phase">${phaseName}</span>`;
+    banner.style.display = 'block';
+  } else if (now > tripEnd) {
+    banner.innerHTML = 'Trip complete! 45 days of memories \uD83D\uDC95';
+    banner.style.display = 'block';
+  }
+  // Before trip: don't show (countdown is enough)
+}
+
+/* ========================================================
+   PRE-TRIP TODO (Feature 3)
+   ======================================================== */
+const PRETODO_ITEMS = [
+  { text:'Check passport expiry dates (both)', due:'2026-06-30', dueLabel:'Jun 2026' },
+  { text:'Travel insurance \u2014 purchase', due:'2026-07-01', dueLabel:'Jul 1' },
+  { text:'Notify bank of international travel', due:'2026-07-15', dueLabel:'Jul 15' },
+  { text:'Download offline Google Maps (Tunisia, Libya, Milan)', due:'2026-07-20', dueLabel:'Jul 20' },
+  { text:'Exchange currency: EUR, bring USD for Libya', due:'2026-07-20', dueLabel:'Jul 20' },
+  { text:'Confirm Airbnb bookings (Milan + Beni Khiar)', due:'2026-07-15', dueLabel:'Jul 15' },
+  { text:'Print/save flight confirmations on phone', due:'2026-07-20', dueLabel:'Jul 20' },
+  { text:'Check visa requirements (Libya)', due:'2026-06-30', dueLabel:'Jun 2026' },
+  { text:'Register with NZ embassy (Libya, Tunisia)', due:'2026-07-01', dueLabel:'Jul 1' },
+  { text:'Pack bags', due:'2026-07-23', dueLabel:'Jul 23' },
+  { text:'Arrange airport transfer to AKL', due:'2026-07-20', dueLabel:'Jul 20' },
+  { text:'Charge all electronics', due:'2026-07-23', dueLabel:'Jul 23' },
+  { text:'Set out-of-office at work', due:'2026-07-23', dueLabel:'Jul 23' },
+  { text:'Water plants / arrange house care', due:'2026-07-23', dueLabel:'Jul 23' }
+];
+
+function buildPreTodo() {
+  const container = document.getElementById('pretodo-list');
+  if (!container) return;
+
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem('trip-pretodo')) || {}; } catch { /* ignore */ }
+
+  function save() { localStorage.setItem('trip-pretodo', JSON.stringify(saved)); }
+
+  function getUrgency(dueStr) {
+    const now = new Date();
+    const due = new Date(dueStr + 'T23:59:59');
+    const daysLeft = Math.floor((due - now) / 86400000);
+    if (daysLeft < 14) return 'urgent';
+    if (daysLeft < 45) return 'soon';
+    return 'ok';
+  }
+
+  function render() {
+    container.innerHTML = '';
+    PRETODO_ITEMS.forEach((item, idx) => {
+      const isDone = saved[idx] || false;
+      const urgency = getUrgency(item.due);
+      const el = document.createElement('div');
+      el.className = 'pretodo-item' + (isDone ? ' done' : '');
+      el.innerHTML = `
+        <div class="pretodo-check">${isDone ? '\u2713' : ''}</div>
+        <div class="pretodo-text">${item.text}</div>
+        <span class="pretodo-due ${urgency}">Due: ${item.dueLabel}</span>
+      `;
+      el.addEventListener('click', () => {
+        saved[idx] = !saved[idx];
+        save();
+        render();
+      });
+      container.appendChild(el);
+    });
+  }
+
+  render();
+}
+
+/* ========================================================
+   SPENDING TRACKER (Feature 7)
+   ======================================================== */
+function buildSpendingTracker() {
+  const entriesEl = document.getElementById('spending-entries');
+  const totalsEl = document.getElementById('spending-totals');
+  const addBtn = document.getElementById('spending-add');
+  const catEl = document.getElementById('spending-cat');
+  const amtEl = document.getElementById('spending-amount');
+  const noteEl = document.getElementById('spending-note');
+  if (!entriesEl || !totalsEl || !addBtn) return;
+
+  let entries = [];
+  try { entries = JSON.parse(localStorage.getItem('trip-spending')) || []; } catch { /* ignore */ }
+
+  function save() { localStorage.setItem('trip-spending', JSON.stringify(entries)); }
+
+  function render() {
+    if (entries.length === 0) {
+      entriesEl.innerHTML = '<p style="text-align:center;color:var(--clr-muted);font-size:.88rem;padding:16px">No spending logged yet. Add your first entry above.</p>';
+    } else {
+      entriesEl.innerHTML = entries.map((e, i) => `
+        <div class="spending-entry">
+          <span class="spending-cat-badge">${e.cat}</span>
+          <span class="spending-entry-note">${e.note || '\u2014'}</span>
+          <span class="spending-entry-amt">$${Number(e.amount).toFixed(2)}</span>
+          <button class="spending-entry-del" data-idx="${i}" title="Delete">&times;</button>
+        </div>
+      `).join('');
+
+      entriesEl.querySelectorAll('.spending-entry-del').forEach(btn => {
+        btn.addEventListener('click', () => {
+          entries.splice(Number(btn.dataset.idx), 1);
+          save();
+          render();
+        });
+      });
+    }
+
+    // Totals by category
+    const cats = {};
+    let grand = 0;
+    entries.forEach(e => {
+      const amt = Number(e.amount) || 0;
+      cats[e.cat] = (cats[e.cat] || 0) + amt;
+      grand += amt;
+    });
+    let totalsHTML = '<h4>Spending Totals</h4>';
+    for (const [cat, total] of Object.entries(cats)) {
+      totalsHTML += `<div class="spending-total-row"><span>${cat}</span><span>$${total.toFixed(2)}</span></div>`;
+    }
+    totalsHTML += `<div class="spending-total-row grand"><span>Grand Total</span><span>$${grand.toFixed(2)}</span></div>`;
+    totalsEl.innerHTML = totalsHTML;
+  }
+
+  addBtn.addEventListener('click', () => {
+    const amt = parseFloat(amtEl.value);
+    if (!amt || amt <= 0) return;
+    entries.push({ cat: catEl.value, amount: amt, note: noteEl.value.trim(), date: new Date().toISOString().slice(0,10) });
+    save();
+    amtEl.value = '';
+    noteEl.value = '';
+    render();
+  });
+
+  // Allow Enter key to submit
+  amtEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') addBtn.click(); });
+  noteEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') addBtn.click(); });
+
+  render();
+}
+
+/* ========================================================
    INIT
    ======================================================== */
 document.addEventListener('DOMContentLoaded', () => {
+  initSplash();
   initNav();
   updateCountdown();
   setInterval(updateCountdown, 1000);
   initCarousels();
+  initLiveBanner();
+  initShareButton();
 
   buildWeatherCards();
 
@@ -1690,6 +2243,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initScratchCards();
   buildPackingList();
   buildMemories();
+  buildPreTodo();
+  buildSpendingTracker();
 
   buildCalendar();
   initBudgetControls();
