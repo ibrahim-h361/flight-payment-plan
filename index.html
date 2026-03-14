@@ -12,6 +12,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
 <style>
 /* ===== RESET & BASE ===== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -469,6 +471,18 @@ body{background-image:radial-gradient(circle,rgba(26,26,62,.04) 1px,transparent 
 
 /* ===== PRINT ADDITIONS ===== */
 @media print{.share-fab,.live-banner,.loading-splash,.share-toast,.cal-popup-overlay{display:none !important}}
+
+/* ===== INTERACTIVE MAP ===== */
+.route-map-section{max-width:900px;margin:0 auto 40px;padding:0 20px}
+.route-map-header{text-align:center;margin-bottom:16px}
+.route-map-header h3{font-family:var(--font-heading);font-size:1.3rem;color:var(--clr-dark);margin-bottom:4px}
+.route-map-header .subtitle{font-size:.95rem;color:var(--clr-muted);font-weight:400}
+#route-map{width:100%;height:400px;border-radius:var(--radius);box-shadow:var(--shadow-card);border:1px solid rgba(201,168,124,.2);z-index:1}
+#route-map .leaflet-popup-content-wrapper{border-radius:var(--radius-sm);font-family:var(--font-body);font-size:.88rem;box-shadow:var(--shadow-card)}
+#route-map .leaflet-popup-tip{box-shadow:none}
+@media(max-width:768px){#route-map{height:300px}}
+@media(max-width:480px){#route-map{height:250px}}
+@media print{#route-map,.route-map-section{display:none !important}}
 </style>
 </head>
 <body>
@@ -535,6 +549,15 @@ body{background-image:radial-gradient(circle,rgba(26,26,62,.04) 1px,transparent 
         <div class="stat-item"><span class="stat-icon">&#x1F30A;</span><div><span class="stat-num">3</span><span class="stat-label">Seas &amp; oceans</span></div></div>
       </div>
     </div>
+  </div>
+
+  <!-- ===== INTERACTIVE ROUTE MAP ===== -->
+  <div class="route-map-section">
+    <div class="route-map-header">
+      <h3>Our Route</h3>
+      <p class="subtitle">36,000 km across the globe</p>
+    </div>
+    <div id="route-map"></div>
   </div>
 
   <div class="container" id="route-timeline">
@@ -1530,6 +1553,100 @@ function updateCountdown() {
 }
 
 /* ========================================================
+   INTERACTIVE ROUTE MAP
+   ======================================================== */
+let routeMap = null;
+let routeMapInitialized = false;
+
+function initRouteMap() {
+  if (routeMapInitialized || typeof L === 'undefined') return;
+  const mapEl = document.getElementById('route-map');
+  if (!mapEl) return;
+
+  routeMapInitialized = true;
+  routeMap = L.map('route-map', {
+    center: [20, 60],
+    zoom: 3,
+    scrollWheelZoom: false,
+    zoomControl: true
+  });
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(routeMap);
+
+  // Stop locations
+  const stops = [
+    { name: 'Auckland, NZ', lat: -36.8485, lng: 174.7633, popup: '\u{1F3E0} Home \u2014 Auckland, New Zealand', emoji: '\u{1F1F3}\u{1F1FF}' },
+    { name: 'Hong Kong', lat: 22.3080, lng: 113.9185, popup: '\u2708\uFE0F Transit \u2014 Hong Kong International', emoji: '\u{1F1ED}\u{1F1F0}' },
+    { name: 'Milan, Italy', lat: 45.4642, lng: 9.1900, popup: '\u{1F1EE}\u{1F1F9} Milan \u2014 Family time with mama, papa & Yasmeen (Jul 25\u201327) + Overnight Sep 3\u20134', emoji: '\u{1F1EE}\u{1F1F9}' },
+    { name: 'Rome FCO', lat: 41.8003, lng: 12.2389, popup: '\u2708\uFE0F Transit \u2014 Rome Fiumicino', emoji: '\u{1F1EE}\u{1F1F9}' },
+    { name: 'Tunis, Tunisia', lat: 36.7538, lng: 10.6878, popup: '\u{1F1F9}\u{1F1F3} Tunisia \u2014 Ibrahim\'s Homeland, Jinen Beni Khiar (Jul 27 \u2013 Aug 10)', emoji: '\u{1F1F9}\u{1F1F3}' },
+    { name: 'Shahhat, Libya', lat: 32.8242, lng: 21.8561, popup: '\u{1F1F1}\u{1F1FE} Libya \u2014 Haajar\'s Family, Shahhat & Jabal Akhdar (Aug 10 \u2013 Sep 2)', emoji: '\u{1F1F1}\u{1F1FE}' }
+  ];
+
+  // Add markers
+  stops.forEach(stop => {
+    const icon = L.divIcon({
+      className: '',
+      html: '<div style="background:var(--clr-gold,#c9a87c);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.4);">' + stop.emoji + '</div>',
+      iconSize: [32, 32],
+      iconAnchor: [16, 16],
+      popupAnchor: [0, -18]
+    });
+    L.marker([stop.lat, stop.lng], { icon: icon })
+      .addTo(routeMap)
+      .bindPopup('<strong>' + stop.popup + '</strong>');
+  });
+
+  // Route line styles
+  const goldDashed = { color: '#c9a87c', weight: 2.5, opacity: 0.8, dashArray: '8, 6' };
+  const purpleSolid = { color: '#7b6b8a', weight: 2.5, opacity: 0.8 };
+  const redDotted = { color: '#e57373', weight: 2.5, opacity: 0.8, dashArray: '4, 8' };
+
+  // Outbound: Auckland -> Hong Kong -> Milan (Cathay Pacific - gold dashed)
+  // For the Auckland-HongKong line to cross the Pacific correctly (going west via dateline),
+  // we draw it across the Pacific by shifting Auckland's longitude
+  L.polyline([[-36.8485, 174.7633], [22.3080, 113.9185]], goldDashed).addTo(routeMap);
+  L.polyline([[22.3080, 113.9185], [45.4642, 9.1900]], goldDashed).addTo(routeMap);
+
+  // Milan -> Rome -> Tunis (ITA Airways - purple solid)
+  L.polyline([[45.4642, 9.1900], [41.8003, 12.2389]], purpleSolid).addTo(routeMap);
+  L.polyline([[41.8003, 12.2389], [36.7538, 10.6878]], purpleSolid).addTo(routeMap);
+
+  // Tunis -> Libya (TBD - red dotted)
+  L.polyline([[36.7538, 10.6878], [32.8242, 21.8561]], redDotted).addTo(routeMap);
+
+  // Libya -> Tunis (return, TBD - red dotted)
+  // Same line as above, already drawn
+
+  // Tunis -> Rome -> Milan (ITA Airways return - purple solid)
+  // Same paths as above, already drawn
+
+  // Milan -> Hong Kong -> Auckland (return, Cathay Pacific - gold dashed)
+  // Same paths as outbound, already drawn
+
+  // Fit map bounds to show all markers
+  const bounds = L.latLngBounds(stops.map(s => [s.lat, s.lng]));
+  routeMap.fitBounds(bounds, { padding: [40, 40] });
+
+  // Add a legend
+  const legend = L.control({ position: 'bottomleft' });
+  legend.onAdd = function() {
+    const div = L.DomUtil.create('div');
+    div.style.cssText = 'background:rgba(26,26,62,.9);padding:10px 14px;border-radius:8px;font-family:DM Sans,sans-serif;font-size:12px;color:#fff;line-height:1.8;';
+    div.innerHTML =
+      '<span style="color:#c9a87c;">\u2500 \u2500 \u2500</span> Cathay Pacific<br>' +
+      '<span style="color:#7b6b8a;">\u2500\u2500\u2500\u2500</span> ITA Airways<br>' +
+      '<span style="color:#e57373;">\u00B7 \u00B7 \u00B7 \u00B7</span> TBD flights';
+    return div;
+  };
+  legend.addTo(routeMap);
+}
+
+/* ========================================================
    NAVIGATION
    ======================================================== */
 function initNav() {
@@ -1542,6 +1659,10 @@ function initNav() {
       const target = document.getElementById('tab-' + tab.dataset.tab);
       if (target) target.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Invalidate map size when trip tab becomes visible
+      if (tab.dataset.tab === 'trip' && routeMap) {
+        setTimeout(() => routeMap.invalidateSize(), 100);
+      }
     });
   });
 
@@ -2227,6 +2348,7 @@ function buildSpendingTracker() {
 document.addEventListener('DOMContentLoaded', () => {
   initSplash();
   initNav();
+  initRouteMap();
   updateCountdown();
   setInterval(updateCountdown, 1000);
   initCarousels();
