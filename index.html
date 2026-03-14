@@ -3,509 +3,1964 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trip Payment Plan — AKL to Milan to Tunis</title>
+  <title>Ibrahim &amp; Haajar — Mediterranean Adventure 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --teal: #0d9488;
+      --teal-dark: #0a7a70;
+      --teal-light: #99f6e4;
+      --gold: #f59e0b;
+      --gold-light: #fde68a;
+      --coral: #f43f5e;
+      --coral-light: #fecdd3;
+      --sky: #38bdf8;
+      --sky-light: #bae6fd;
+      --navy: #0f172a;
+      --slate: #475569;
+      --slate-light: #94a3b8;
+      --bg: #f0fdfa;
+      --card-bg: #ffffff;
+      --card-shadow: 0 4px 24px rgba(13,148,136,0.08);
+      --card-hover-shadow: 0 8px 32px rgba(13,148,136,0.16);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --font-heading: 'Fredoka', sans-serif;
+      --font-body: 'Nunito', sans-serif;
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      color: #1a1a2e;
-      background: #f5f6fa;
-      padding: 40px 20px;
+      font-family: var(--font-body);
+      color: var(--navy);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== FADE-UP ANIMATION ===== */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== CLOUDS ANIMATION (HERO) ===== */
+    @keyframes drift {
+      0% { transform: translateX(-10%); }
+      50% { transform: translateX(10%); }
+      100% { transform: translateX(-10%); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(245,158,11,0.3); }
+      50% { box-shadow: 0 0 40px rgba(245,158,11,0.6); }
+    }
+
+    /* ===== TOP NAV ===== */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 2px solid var(--teal-light);
+      padding: 0 20px;
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .nav-brand {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--teal);
+      padding: 14px 0;
+      margin-right: auto;
+      white-space: nowrap;
+    }
+    .nav-tabs {
+      display: flex;
+      gap: 0;
+    }
+    .nav-tab {
+      padding: 14px 20px;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--slate);
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .nav-tab:hover { color: var(--teal); }
+    .nav-tab.active { color: var(--teal); }
+    .nav-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 12px;
+      right: 12px;
+      height: 3px;
+      background: var(--teal);
+      border-radius: 3px 3px 0 0;
+    }
+
+    /* ===== MAIN CONTAINER ===== */
+    .main-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    /* ===== TAB PANELS ===== */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      position: relative;
+      background: linear-gradient(135deg, var(--teal) 0%, #0ea5e9 50%, var(--sky) 100%);
+      border-radius: 0 0 var(--radius) var(--radius);
+      padding: 60px 30px 50px;
+      text-align: center;
+      color: #fff;
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+    .hero-clouds {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .cloud {
+      position: absolute;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+    }
+    .cloud-1 { width: 300px; height: 80px; top: 10%; left: -5%; animation: drift 20s ease-in-out infinite; }
+    .cloud-2 { width: 200px; height: 60px; top: 25%; right: -5%; animation: drift 25s ease-in-out infinite reverse; }
+    .cloud-3 { width: 250px; height: 70px; top: 60%; left: 10%; animation: drift 22s ease-in-out infinite 3s; }
+    .cloud-4 { width: 180px; height: 50px; top: 75%; right: 15%; animation: drift 18s ease-in-out infinite 5s; }
+
+    .hero-content { position: relative; z-index: 2; }
+    .hero h1 {
+      font-family: var(--font-heading);
+      font-size: 2.6rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    }
+    .hero-subtitle {
+      font-size: 1.15rem;
+      font-weight: 500;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+    .hero-route-badges {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    .hero-route-badges .city {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(4px);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .hero-route-badges .arrow {
+      font-size: 1rem;
+      opacity: 0.7;
+    }
+
+    /* Countdown */
+    .countdown-wrap {
+      margin-bottom: 28px;
+    }
+    .countdown-label {
+      font-size: 0.85rem;
+      opacity: 0.75;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .countdown-unit {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(6px);
+      border-radius: var(--radius-sm);
+      padding: 12px 18px;
+      min-width: 80px;
+      text-align: center;
+    }
+    .countdown-unit .num {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .countdown-unit .lbl {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      opacity: 0.8;
+      margin-top: 4px;
+    }
+
+    /* Person badges */
+    .person-badges {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 8px;
+    }
+    .person-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(6px);
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .person-badge .avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+    }
+    .person-badge .avatar.ib { background: var(--gold); color: var(--navy); }
+    .person-badge .avatar.ha { background: var(--coral); color: #fff; }
+
+    /* ===== SECTION STYLES ===== */
+    .section-heading {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--teal-dark);
+      margin-bottom: 6px;
+    }
+    .section-subheading {
+      font-size: 1rem;
+      color: var(--slate-light);
+      margin-bottom: 30px;
+      font-weight: 500;
+    }
+
+    /* ===== ROUTE TIMELINE ===== */
+    .route-timeline {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .route-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      border-left: 4px solid var(--teal);
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+    }
+    .route-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--card-hover-shadow);
+    }
+    .route-card:nth-child(2) { border-left-color: var(--gold); }
+    .route-card:nth-child(3) { border-left-color: var(--coral); }
+    .route-card:nth-child(4) { border-left-color: var(--sky); }
+    .route-card:nth-child(5) { border-left-color: #a78bfa; }
+    .route-card .rc-icon {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+    .route-card .rc-dates {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--teal);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+    .route-card:nth-child(2) .rc-dates { color: var(--gold); }
+    .route-card:nth-child(3) .rc-dates { color: var(--coral); }
+    .route-card:nth-child(4) .rc-dates { color: var(--sky); }
+    .route-card:nth-child(5) .rc-dates { color: #a78bfa; }
+    .route-card .rc-title {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .route-card .rc-desc {
+      font-size: 0.88rem;
+      color: var(--slate);
       line-height: 1.5;
     }
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-      background: #fff;
-      border-radius: 16px;
-      padding: 40px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+
+    /* ===== FLIGHT CARDS ===== */
+    .flights-section {
+      margin-bottom: 40px;
+    }
+    .flights-section .leg-title {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--teal-dark);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--teal-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .flights-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+    .flight-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .flight-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--card-hover-shadow);
+    }
+    .flight-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--teal), var(--sky));
+    }
+    .flight-card.ita::before {
+      background: linear-gradient(90deg, var(--coral), var(--gold));
+    }
+    .fc-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+    .fc-flight-num {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--teal-dark);
+    }
+    .flight-card.ita .fc-flight-num { color: var(--coral); }
+    .fc-airline {
+      font-size: 0.75rem;
+      color: var(--slate-light);
+      font-weight: 600;
+    }
+    .fc-date {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--slate-light);
+      text-align: right;
+    }
+    .fc-route {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .fc-airport {
+      text-align: center;
+    }
+    .fc-airport .code {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1;
+    }
+    .fc-airport .city {
+      font-size: 0.72rem;
+      color: var(--slate-light);
+      margin-top: 2px;
+    }
+    .fc-airport .time {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--teal-dark);
+      margin-top: 4px;
+    }
+    .flight-card.ita .fc-airport .time { color: var(--coral); }
+    .fc-line {
+      flex: 1;
+      position: relative;
+      height: 2px;
+      background: var(--teal-light);
+    }
+    .flight-card.ita .fc-line { background: var(--coral-light); }
+    .fc-line::before {
+      content: '';
+      position: absolute;
+      right: -2px;
+      top: -4px;
+      width: 0; height: 0;
+      border-left: 8px solid var(--teal-light);
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+    }
+    .flight-card.ita .fc-line::before { border-left-color: var(--coral-light); }
+    .fc-line .duration-pill {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--bg);
+      padding: 1px 10px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--teal-dark);
+      white-space: nowrap;
+    }
+    .flight-card.ita .fc-line .duration-pill { color: var(--coral); }
+    .fc-meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 0.75rem;
+      color: var(--slate);
+    }
+    .fc-meta span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
-    h1 { font-size: 1.7rem; margin-bottom: 4px; color: #0f3460; }
-    .subtitle { font-size: 0.95rem; color: #666; margin-bottom: 20px; }
+    /* Hotel card */
+    .hotel-card {
+      background: linear-gradient(135deg, #fef3c7 0%, #fff7ed 100%);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      box-shadow: var(--card-shadow);
+      border: 2px solid var(--gold-light);
+      margin-bottom: 30px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .hotel-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--card-hover-shadow);
+    }
+    .hotel-card .hc-title {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .hotel-card .hc-details {
+      font-size: 0.9rem;
+      color: var(--slate);
+    }
 
-    /* ===== TOP CONTROLS BAR ===== */
-    .controls-bar {
+    /* Baggage card */
+    .baggage-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      box-shadow: var(--card-shadow);
+      border: 2px solid var(--teal-light);
+    }
+    .baggage-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--teal-dark);
+      margin-bottom: 10px;
+    }
+    .baggage-card ul {
+      list-style: none;
+      padding: 0;
+    }
+    .baggage-card li {
+      font-size: 0.88rem;
+      color: var(--slate);
+      padding: 5px 0;
+      border-bottom: 1px solid #f0fdf4;
+    }
+    .baggage-card li:last-child { border-bottom: none; }
+    .baggage-card li strong { color: var(--navy); }
+
+    /* ===== TUNISIA GUIDE ===== */
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .guide-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .guide-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--card-hover-shadow);
+    }
+    .guide-card .gc-icon {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+    .guide-card .gc-name {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .guide-card .gc-desc {
+      font-size: 0.88rem;
+      color: var(--slate);
+      line-height: 1.55;
+      margin-bottom: 10px;
+    }
+    .gc-tag {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .gc-tag.culture { background: #ede9fe; color: #7c3aed; }
+    .gc-tag.beach { background: #e0f2fe; color: #0284c7; }
+    .gc-tag.food { background: #fef3c7; color: #d97706; }
+    .gc-tag.adventure { background: #dcfce7; color: #16a34a; }
+    .gc-tag.history { background: #fee2e2; color: #dc2626; }
+
+    /* Tips card */
+    .tips-card {
+      background: linear-gradient(135deg, var(--coral) 0%, #fb7185 100%);
+      border-radius: var(--radius);
+      padding: 28px;
+      color: #fff;
+      grid-column: 1 / -1;
+    }
+    .tips-card .tc-title {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+    .tips-card ul {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 10px;
+    }
+    .tips-card li {
+      font-size: 0.9rem;
+      padding: 6px 0;
+      padding-left: 24px;
+      position: relative;
+      line-height: 1.5;
+    }
+    .tips-card li::before {
+      content: attr(data-icon);
+      position: absolute;
+      left: 0;
+      top: 6px;
+    }
+
+    /* ===== PAYMENT PLAN TAB ===== */
+    .payment-section {
+      margin-bottom: 40px;
+    }
+
+    /* Controls bar */
+    .payment-controls {
       display: flex;
       align-items: center;
       gap: 16px;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
       flex-wrap: wrap;
     }
-
-    /* View toggle */
-    .view-toggle {
+    .toggle-group {
       display: flex;
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
       overflow: hidden;
-      border: 2px solid #0f3460;
+      border: 2px solid var(--teal);
     }
-    .view-toggle button {
-      padding: 7px 18px;
+    .toggle-group button {
+      padding: 8px 20px;
       border: none;
       background: #fff;
-      color: #0f3460;
-      font-weight: 600;
+      color: var(--teal);
+      font-family: var(--font-body);
+      font-weight: 700;
       font-size: 0.82rem;
       cursor: pointer;
       transition: all 0.2s;
     }
-    .view-toggle button.active { background: #0f3460; color: #fff; }
-    .view-toggle button:hover:not(.active) { background: #e8ecf4; }
+    .toggle-group button.active {
+      background: var(--teal);
+      color: #fff;
+    }
+    .toggle-group button:hover:not(.active) {
+      background: var(--teal-light);
+    }
 
     /* Currency bar */
     .currency-bar {
       display: flex;
       align-items: center;
       gap: 12px;
-      background: #f0f2f8;
-      border-radius: 10px;
-      padding: 12px 18px;
-      margin-bottom: 32px;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 14px 20px;
+      margin-bottom: 28px;
+      box-shadow: var(--card-shadow);
       flex-wrap: wrap;
     }
-    .currency-bar label { font-size: 0.82rem; font-weight: 600; color: #444; }
-    .currency-toggle {
-      display: flex; border-radius: 8px; overflow: hidden; border: 2px solid #0f3460;
+    .currency-bar label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--slate);
     }
-    .currency-toggle button {
-      padding: 7px 20px; border: none; background: #fff; color: #0f3460;
-      font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
-    }
-    .currency-toggle button.active { background: #0f3460; color: #fff; }
-    .currency-toggle button:hover:not(.active) { background: #e8ecf4; }
     .refresh-btn {
-      display: flex; align-items: center; gap: 6px; padding: 7px 16px;
-      border: 2px solid #27ae60; border-radius: 8px; background: #fff; color: #27ae60;
-      font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      border: 2px solid var(--teal);
+      border-radius: var(--radius-sm);
+      background: #fff;
+      color: var(--teal);
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-    .refresh-btn:hover { background: #27ae60; color: #fff; }
+    .refresh-btn:hover { background: var(--teal); color: #fff; }
     .refresh-btn.loading { opacity: 0.5; pointer-events: none; }
     .refresh-btn svg { width: 16px; height: 16px; }
     .refresh-btn.loading svg { animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .rate-info { font-size: 0.78rem; color: #888; margin-left: auto; }
-    .rate-info strong { color: #0f3460; }
+    .rate-info {
+      font-size: 0.78rem;
+      color: var(--slate-light);
+      margin-left: auto;
+    }
+    .rate-info strong { color: var(--teal-dark); }
 
-    /* ===== SIMPLE VIEW ===== */
+    /* Simple view - total card */
     .simple-hero {
       text-align: center;
-      padding: 30px 0 10px;
+      padding: 10px 0 20px;
     }
-    .simple-hero .flight-route {
-      font-size: 1.1rem;
-      color: #888;
+    .simple-route {
+      font-size: 1rem;
+      color: var(--slate-light);
       margin-bottom: 24px;
     }
-    .simple-hero .flight-route span {
+    .simple-route span {
       display: inline-block;
-      background: #f0f2f8;
+      background: var(--teal-light);
       border-radius: 6px;
       padding: 2px 10px;
-      margin: 0 4px;
-      color: #0f3460;
-      font-weight: 600;
+      color: var(--teal-dark);
+      font-weight: 700;
+      font-size: 0.88rem;
     }
     .simple-total-card {
-      background: #0f3460;
-      border-radius: 14px;
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+      border-radius: var(--radius);
       padding: 28px 30px;
       color: #fff;
       display: inline-block;
       margin-bottom: 32px;
+      box-shadow: 0 8px 32px rgba(13,148,136,0.3);
     }
-    .simple-total-card .label { font-size: 0.8rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.06em; }
-    .simple-total-card .amount { font-size: 2.4rem; font-weight: 700; margin: 4px 0; }
-    .simple-total-card .sub { font-size: 0.85rem; opacity: 0.7; }
+    .simple-total-card .label {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+    .simple-total-card .amount {
+      font-family: var(--font-heading);
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin: 4px 0;
+    }
+    .simple-total-card .sub {
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
 
+    /* Option cards (simple) */
     .simple-options {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 16px;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
     .simple-opt {
+      background: var(--card-bg);
       border: 2px solid #e0e4ef;
-      border-radius: 14px;
+      border-radius: var(--radius);
       padding: 24px 16px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.25s;
+      transition: all 0.3s;
       position: relative;
+      box-shadow: var(--card-shadow);
     }
-    .simple-opt:hover { border-color: #0f3460; transform: translateY(-2px); }
-    .simple-opt.active { border-color: #0f3460; box-shadow: 0 4px 20px rgba(15,52,96,0.18); transform: translateY(-2px); }
+    .simple-opt:hover {
+      border-color: var(--teal);
+      transform: translateY(-3px);
+      box-shadow: var(--card-hover-shadow);
+    }
+    .simple-opt.active {
+      border-color: var(--teal);
+      box-shadow: 0 4px 20px rgba(13,148,136,0.25);
+      transform: translateY(-3px);
+    }
     .simple-opt .s-badge {
-      position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
-      font-size: 0.62rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.06em; padding: 3px 14px; border-radius: 10px; color: #fff; white-space: nowrap;
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 14px;
+      border-radius: 10px;
+      color: #fff;
+      white-space: nowrap;
     }
-    .simple-opt:nth-child(1) .s-badge { background: #e74c3c; }
-    .simple-opt:nth-child(2) .s-badge { background: #f39c12; }
-    .simple-opt:nth-child(3) .s-badge { background: #27ae60; }
-    .simple-opt .s-duration { font-size: 0.85rem; color: #888; margin-top: 8px; margin-bottom: 12px; }
-    .simple-opt .s-amount { font-size: 2rem; font-weight: 700; color: #0f3460; }
-    .simple-opt .s-label { font-size: 0.78rem; color: #888; margin-bottom: 4px; }
-    .simple-opt .s-per-person { font-size: 0.82rem; color: #555; margin-top: 10px; padding-top: 10px; border-top: 1px solid #eee; }
-    .simple-opt .s-per-person strong { color: #0f3460; font-size: 1.05rem; }
+    .simple-opt:nth-child(1) .s-badge { background: var(--coral); }
+    .simple-opt:nth-child(2) .s-badge { background: var(--gold); }
+    .simple-opt:nth-child(3) .s-badge { background: var(--teal); }
+    .simple-opt .s-duration {
+      font-size: 0.85rem;
+      color: var(--slate-light);
+      margin-top: 8px;
+      margin-bottom: 12px;
+    }
+    .simple-opt .s-amount {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--teal-dark);
+    }
+    .simple-opt .s-label {
+      font-size: 0.78rem;
+      color: var(--slate-light);
+      margin-bottom: 4px;
+    }
+    .simple-opt .s-per-person {
+      font-size: 0.82rem;
+      color: var(--slate);
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+    }
+    .simple-opt .s-per-person strong {
+      color: var(--teal-dark);
+      font-size: 1.05rem;
+    }
 
     .simple-summary {
-      background: #f8f9fc;
-      border-radius: 12px;
+      background: var(--card-bg);
+      border-radius: var(--radius);
       padding: 24px 28px;
       text-align: center;
       margin-bottom: 28px;
+      box-shadow: var(--card-shadow);
     }
     .simple-summary .s-msg {
       font-size: 1.05rem;
-      color: #444;
+      color: var(--slate);
       line-height: 1.7;
     }
-    .simple-summary .s-msg strong { color: #0f3460; }
+    .simple-summary .s-msg strong { color: var(--teal-dark); }
     .simple-summary .s-msg .highlight {
       display: inline-block;
-      background: #0f3460;
+      background: var(--teal);
       color: #fff;
       padding: 2px 12px;
       border-radius: 6px;
+      font-family: var(--font-heading);
       font-weight: 700;
       font-size: 1.15rem;
     }
 
-    /* ===== ADVANCED VIEW (existing styles) ===== */
-    .summary-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 36px; }
-    .summary-card { border: 1px solid #e0e4ef; border-radius: 10px; padding: 18px 20px; text-align: center; background: #fafbff; }
-    .summary-card h3 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: #888; margin-bottom: 4px; }
-    .summary-card .val { font-size: 1.4rem; font-weight: 700; color: #0f3460; }
-    .summary-card .det { font-size: 0.78rem; color: #aaa; margin-top: 2px; }
-    .summary-card.grand { background: #0f3460; border-color: #0f3460; }
-    .summary-card.grand h3, .summary-card.grand .det { color: rgba(255,255,255,0.6); }
+    /* ===== ADVANCED VIEW ===== */
+    .summary-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+    .summary-card {
+      border: 1px solid var(--teal-light);
+      border-radius: var(--radius-sm);
+      padding: 18px 20px;
+      text-align: center;
+      background: var(--card-bg);
+      box-shadow: var(--card-shadow);
+    }
+    .summary-card h3 {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--slate-light);
+      margin-bottom: 4px;
+      font-family: var(--font-body);
+    }
+    .summary-card .val {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--teal-dark);
+    }
+    .summary-card .det {
+      font-size: 0.78rem;
+      color: var(--slate-light);
+      margin-top: 2px;
+    }
+    .summary-card.grand {
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+      border-color: var(--teal);
+    }
+    .summary-card.grand h3,
+    .summary-card.grand .det { color: rgba(255,255,255,0.65); }
     .summary-card.grand .val { color: #fff; }
 
-    .section-title { font-size: 1.05rem; font-weight: 600; color: #0f3460; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 2px solid #0f3460; }
+    .adv-section-title {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--teal-dark);
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--teal);
+    }
 
-    table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 0.88rem; }
-    th { text-align: left; padding: 9px 10px; background: #f0f2f8; font-weight: 600; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.03em; color: #555; }
-    td { padding: 9px 10px; border-bottom: 1px solid #eee; }
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 32px;
+      font-size: 0.88rem;
+    }
+    th {
+      text-align: left;
+      padding: 9px 10px;
+      background: var(--teal-light);
+      font-weight: 700;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: var(--teal-dark);
+    }
+    td {
+      padding: 9px 10px;
+      border-bottom: 1px solid #eee;
+    }
     .r { text-align: right; font-variant-numeric: tabular-nums; }
-    .total-row td { font-weight: 700; border-top: 2px solid #0f3460; border-bottom: 2px solid #0f3460; background: #f8f9fc; }
-    .fee-row td { color: #999; font-style: italic; }
-    .route-sub { font-size: 0.75rem; color: #999; display: block; }
+    .total-row td {
+      font-weight: 700;
+      border-top: 2px solid var(--teal);
+      border-bottom: 2px solid var(--teal);
+      background: #f0fdf4;
+    }
+    .fee-row td { color: var(--slate-light); font-style: italic; }
+    .route-sub { font-size: 0.75rem; color: var(--slate-light); display: block; }
 
-    .visuals-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 36px; }
-    .visual-card { border: 1px solid #e0e4ef; border-radius: 12px; padding: 20px; background: #fafbff; }
+    /* Visuals */
+    .visuals-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 36px;
+    }
+    .visual-card {
+      border: 1px solid var(--teal-light);
+      border-radius: var(--radius);
+      padding: 20px;
+      background: var(--card-bg);
+      box-shadow: var(--card-shadow);
+    }
     .visual-card.full-width { grid-column: 1 / -1; }
-    .visual-card h3 { font-size: 0.85rem; font-weight: 600; color: #0f3460; margin-bottom: 14px; }
+    .visual-card h3 {
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--teal-dark);
+      margin-bottom: 14px;
+    }
     .chart-wrap { position: relative; width: 100%; }
     .chart-wrap.donut { max-width: 280px; margin: 0 auto; }
 
-    .options-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 36px; }
-    .option-card { border: 2px solid #dde; border-radius: 12px; padding: 22px 16px; text-align: center; position: relative; cursor: pointer; transition: all 0.25s; background: #fff; }
-    .option-card:hover { border-color: #0f3460; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(15,52,96,0.1); }
-    .option-card.active { border-color: #0f3460; box-shadow: 0 4px 20px rgba(15,52,96,0.18); transform: translateY(-2px); }
-    .option-card .badge { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); color: #fff; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 14px; border-radius: 10px; white-space: nowrap; }
-    .option-card.opt-a .badge { background: #e74c3c; }
-    .option-card.opt-b .badge { background: #f39c12; }
-    .option-card.opt-c .badge { background: #27ae60; }
-    .option-card h3 { font-size: 0.95rem; color: #0f3460; margin-bottom: 2px; margin-top: 8px; }
-    .option-card .period { font-size: 0.78rem; color: #888; margin-bottom: 14px; }
-    .option-card .big-amount { font-size: 1.55rem; font-weight: 700; color: #1a1a2e; }
-    .option-card .per-label { font-size: 0.72rem; color: #888; margin-bottom: 10px; }
-    .option-card .each { font-size: 1rem; font-weight: 600; color: #0f3460; }
-    .option-card .each-label { font-size: 0.7rem; color: #999; }
-    .option-card .monthly-eq { font-size: 0.75rem; color: #888; margin-top: 12px; padding-top: 10px; border-top: 1px solid #eee; }
-
-    .person-split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 32px; }
-    .person-card { border: 1px solid #e0e4ef; border-radius: 10px; padding: 16px 18px; text-align: center; background: #fafbff; }
-    .person-card h4 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: #888; margin-bottom: 4px; }
-    .person-card .amt { font-size: 1.2rem; font-weight: 700; color: #0f3460; }
-    .person-card .det { font-size: 0.75rem; color: #999; margin-top: 2px; }
-
-    .schedule-section { margin-bottom: 40px; }
-    .schedule-section .sched-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; padding-bottom: 5px; border-bottom: 2px solid #0f3460; }
-    .schedule-section .sched-header h2 { font-size: 1.05rem; font-weight: 600; color: #0f3460; }
-    .schedule-section .sched-header .option-label { font-size: 0.8rem; color: #888; }
-    .sched-table tbody tr:nth-child(even) { background: #fafbfd; }
-    .sched-table tr.paid-off td { background: #e8f5e9; }
-    .sched-note { font-size: 0.78rem; color: #999; margin-top: -20px; margin-bottom: 24px; }
-
-    footer { text-align: center; font-size: 0.72rem; color: #ccc; margin-top: 40px; padding-top: 14px; border-top: 1px solid #eee; }
-
-    /* Hide/show */
-    .hidden { display: none !important; }
-
-    @media print {
-      body { padding: 10px; background: #fff; }
-      .container { box-shadow: none; padding: 20px; }
-      .option-card:hover, .simple-opt:hover { transform: none; }
-      .option-card.active { transform: none; border-color: #0f3460 !important; }
-      .simple-opt.active { transform: none; border-color: #0f3460 !important; }
-      .sched-table tbody tr:nth-child(even), .sched-table tr.paid-off td,
-      th, .total-row td, .summary-card, .summary-card.grand,
-      .option-card .badge, .visual-card, .currency-toggle button.active,
-      .view-toggle button.active, .simple-total-card, .simple-opt .s-badge,
-      .simple-summary { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .sched-table td, .sched-table th { padding: 5px 7px; font-size: 0.78rem; }
+    /* Option cards (advanced) */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+    .option-card {
+      border: 2px solid #dde;
+      border-radius: var(--radius);
+      padding: 22px 16px;
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: var(--card-bg);
+      box-shadow: var(--card-shadow);
+    }
+    .option-card:hover {
+      border-color: var(--teal);
+      transform: translateY(-3px);
+      box-shadow: var(--card-hover-shadow);
+    }
+    .option-card.active {
+      border-color: var(--teal);
+      box-shadow: 0 4px 20px rgba(13,148,136,0.25);
+      transform: translateY(-3px);
+    }
+    .option-card .badge {
+      position: absolute;
+      top: -11px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #fff;
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 14px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+    .option-card.opt-a .badge { background: var(--coral); }
+    .option-card.opt-b .badge { background: var(--gold); }
+    .option-card.opt-c .badge { background: var(--teal); }
+    .option-card h3 {
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      color: var(--teal-dark);
+      margin-bottom: 2px;
+      margin-top: 8px;
+    }
+    .option-card .period { font-size: 0.78rem; color: var(--slate-light); margin-bottom: 14px; }
+    .option-card .big-amount {
+      font-family: var(--font-heading);
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .option-card .per-label { font-size: 0.72rem; color: var(--slate-light); margin-bottom: 10px; }
+    .option-card .each {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--teal-dark);
+    }
+    .option-card .each-label { font-size: 0.7rem; color: var(--slate-light); }
+    .option-card .monthly-eq {
+      font-size: 0.75rem;
+      color: var(--slate-light);
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
     }
 
-    @media (max-width: 700px) {
-      .summary-row, .options-grid, .simple-options { grid-template-columns: 1fr; }
-      .visuals-grid, .person-split { grid-template-columns: 1fr; }
-      .currency-bar, .controls-bar { flex-direction: column; align-items: flex-start; }
+    /* Person split */
+    .person-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+    .person-card-adv {
+      border: 1px solid var(--teal-light);
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+      text-align: center;
+      background: var(--card-bg);
+      box-shadow: var(--card-shadow);
+    }
+    .person-card-adv h4 {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--slate-light);
+      margin-bottom: 4px;
+    }
+    .person-card-adv .amt {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--teal-dark);
+    }
+    .person-card-adv .det {
+      font-size: 0.75rem;
+      color: var(--slate-light);
+      margin-top: 2px;
+    }
+
+    /* Schedule section */
+    .schedule-section { margin-bottom: 40px; }
+    .schedule-section .sched-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid var(--teal);
+    }
+    .schedule-section .sched-header h2 {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--teal-dark);
+    }
+    .schedule-section .sched-header .option-label { font-size: 0.8rem; color: var(--slate-light); }
+    .sched-table tbody tr:nth-child(even) { background: #f0fdf4; }
+    .sched-table tr.paid-off td { background: #dcfce7; }
+    .sched-note {
+      font-size: 0.78rem;
+      color: var(--slate-light);
+      margin-top: -20px;
+      margin-bottom: 24px;
+    }
+
+    /* Footer */
+    .site-footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--slate-light);
+      margin-top: 40px;
+      padding-top: 14px;
+      border-top: 1px solid var(--teal-light);
+    }
+
+    .hidden { display: none !important; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 1.8rem; }
+      .hero { padding: 40px 20px 35px; }
+      .countdown { gap: 10px; }
+      .countdown-unit { padding: 8px 12px; min-width: 65px; }
+      .countdown-unit .num { font-size: 1.5rem; }
+      .nav-brand { font-size: 0.9rem; }
+      .nav-tab { padding: 12px 12px; font-size: 0.78rem; }
+      .simple-options,
+      .options-grid,
+      .summary-row { grid-template-columns: 1fr; }
+      .visuals-grid,
+      .person-split { grid-template-columns: 1fr; }
+      .flights-grid { grid-template-columns: 1fr; }
+      .guide-grid { grid-template-columns: 1fr; }
+      .route-timeline { grid-template-columns: 1fr; }
+      .currency-bar,
+      .payment-controls { flex-direction: column; align-items: flex-start; }
       .rate-info { margin-left: 0; }
+      .tips-card ul { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.4rem; }
+      .hero-subtitle { font-size: 0.95rem; }
+      .nav-tabs { gap: 0; }
+      .nav-tab { padding: 10px 8px; font-size: 0.72rem; }
+      .main-container { padding: 0 12px 40px; }
+    }
+
+    /* ===== PRINT STYLES ===== */
+    @media print {
+      body { background: #fff; }
+      .top-nav { position: static; border-bottom: 1px solid #ccc; }
+      .hero { break-inside: avoid; }
+      .tab-panel { display: block !important; page-break-before: always; }
+      .tab-panel:first-child { page-break-before: auto; }
+      .flight-card, .guide-card, .route-card, .simple-opt, .option-card, .summary-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ddd;
+      }
+      .flight-card:hover, .guide-card:hover, .route-card:hover,
+      .simple-opt:hover, .option-card:hover { transform: none; }
+      .simple-opt.active, .option-card.active { transform: none; }
+      .fade-up { opacity: 1 !important; transform: none !important; }
+      .hero,
+      .simple-total-card, .summary-card.grand, .tips-card,
+      .simple-opt .s-badge, .option-card .badge,
+      .sched-table tbody tr:nth-child(even),
+      .sched-table tr.paid-off td,
+      th, .total-row td,
+      .toggle-group button.active,
+      .gc-tag, .person-badge, .countdown-unit, .hero-route-badges .city {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .sched-table td, .sched-table th { padding: 4px 6px; font-size: 0.75rem; }
     }
   </style>
 </head>
 <body>
-<div class="container">
 
-  <h1>Trip Payment Plan</h1>
-  <p class="subtitle">Auckland &rarr; Hong Kong &rarr; Milan &rarr; Tunis &nbsp;|&nbsp; Flights + Hotel &nbsp;|&nbsp; Fortnightly repayment</p>
+<!-- ===== TOP NAVIGATION ===== -->
+<nav class="top-nav">
+  <div class="nav-inner">
+    <div class="nav-brand">Mediterranean 2026</div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="switchTab('adventure')">Our Adventure</button>
+      <button class="nav-tab" onclick="switchTab('flights')">Flights</button>
+      <button class="nav-tab" onclick="switchTab('tunisia')">Tunisia Guide</button>
+      <button class="nav-tab" onclick="switchTab('payment')">Payment Plan</button>
+    </div>
+  </div>
+</nav>
 
-  <!-- Top controls -->
-  <div class="controls-bar">
-    <div class="view-toggle">
-      <button id="btn-simple" class="active" onclick="setView('simple')">Simple View</button>
-      <button id="btn-advanced" onclick="setView('advanced')">Advanced View</button>
+<!-- ===== MAIN CONTENT ===== -->
+<div class="main-container">
+
+  <!-- ==================== TAB 1: OUR ADVENTURE ==================== -->
+  <div id="tab-adventure" class="tab-panel active">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-clouds">
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
+        <div class="cloud cloud-4"></div>
+      </div>
+      <div class="hero-content">
+        <h1>Ibrahim &amp; Haajar's Mediterranean Adventure</h1>
+        <p class="hero-subtitle">Auckland &rarr; Milan &rarr; Tunisia &rarr; Libya &rarr; Home</p>
+
+        <div class="hero-route-badges">
+          <span class="city">Auckland</span>
+          <span class="arrow">&rarr;</span>
+          <span class="city">Hong Kong</span>
+          <span class="arrow">&rarr;</span>
+          <span class="city">Milan</span>
+          <span class="arrow">&rarr;</span>
+          <span class="city">Tunis</span>
+          <span class="arrow">&rarr;</span>
+          <span class="city">Libya</span>
+          <span class="arrow">&rarr;</span>
+          <span class="city">Auckland</span>
+        </div>
+
+        <div class="countdown-wrap">
+          <div class="countdown-label">Countdown to Departure</div>
+          <div class="countdown" id="countdown">
+            <div class="countdown-unit"><div class="num" id="cd-days">--</div><div class="lbl">Days</div></div>
+            <div class="countdown-unit"><div class="num" id="cd-hours">--</div><div class="lbl">Hours</div></div>
+            <div class="countdown-unit"><div class="num" id="cd-mins">--</div><div class="lbl">Minutes</div></div>
+            <div class="countdown-unit"><div class="num" id="cd-secs">--</div><div class="lbl">Seconds</div></div>
+          </div>
+        </div>
+
+        <div class="person-badges">
+          <div class="person-badge">
+            <div class="avatar ib">I</div>
+            Ibrahim
+          </div>
+          <div class="person-badge">
+            <div class="avatar ha">H</div>
+            Haajar
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROUTE OVERVIEW -->
+    <h2 class="section-heading fade-up">The Journey</h2>
+    <p class="section-subheading fade-up">Six weeks across three countries, one unforgettable summer</p>
+
+    <div class="route-timeline">
+      <div class="route-card fade-up">
+        <div class="rc-icon">&#127987;&#65039;</div>
+        <div class="rc-dates">Jul 25 &ndash; 27</div>
+        <div class="rc-title">Milan with Family</div>
+        <div class="rc-desc">Land in Milan and spend two days with mama, papa, and Yasmeen. Catch up, eat well, recharge before the next leg.</div>
+      </div>
+      <div class="route-card fade-up">
+        <div class="rc-icon">&#127796;</div>
+        <div class="rc-dates">Jul 27 &ndash; Aug 10</div>
+        <div class="rc-title">Tunisia</div>
+        <div class="rc-desc">Two weeks exploring Tunis and Beni Khiar. Ancient medinas, blue-and-white villages, stunning coastline, incredible food. Haajar's first time here.</div>
+      </div>
+      <div class="route-card fade-up">
+        <div class="rc-icon">&#127962;&#65039;</div>
+        <div class="rc-dates">Aug 10 &ndash; Sep 2</div>
+        <div class="rc-title">Libya</div>
+        <div class="rc-desc">Three weeks visiting Haajar's family. Flights TBD. Time to connect, explore, and make memories on home turf.</div>
+      </div>
+      <div class="route-card fade-up">
+        <div class="rc-icon">&#127751;</div>
+        <div class="rc-dates">Sep 3 &ndash; 4</div>
+        <div class="rc-title">Milan Overnight</div>
+        <div class="rc-desc">Fly back to Milan from Tunisia. One night at Crowne Plaza near Malpensa before the long haul home.</div>
+      </div>
+      <div class="route-card fade-up">
+        <div class="rc-icon">&#9992;&#65039;</div>
+        <div class="rc-dates">Sep 4 &ndash; 6</div>
+        <div class="rc-title">Flying Home</div>
+        <div class="rc-desc">Milan &rarr; Hong Kong &rarr; Auckland. Two flights, one stopover, and then back to reality in Aotearoa.</div>
+      </div>
     </div>
   </div>
 
-  <!-- Currency bar -->
-  <div class="currency-bar">
-    <label>Currency:</label>
-    <div class="currency-toggle">
-      <button id="btn-usd" class="active" onclick="setCurrency('USD')">USD $</button>
-      <button id="btn-nzd" onclick="setCurrency('NZD')">NZD $</button>
+  <!-- ==================== TAB 2: FLIGHTS ==================== -->
+  <div id="tab-flights" class="tab-panel">
+    <h2 class="section-heading fade-up" style="margin-top: 30px;">Flight Itinerary</h2>
+    <p class="section-subheading fade-up">Every leg of the journey, departure to doorstep</p>
+
+    <!-- Outbound: AKL to MXP -->
+    <div class="flights-section">
+      <div class="leg-title fade-up">&#128747; Auckland to Milan (Outbound)</div>
+      <div class="flights-grid">
+        <div class="flight-card fade-up">
+          <div class="fc-top">
+            <div>
+              <div class="fc-flight-num">CX198</div>
+              <div class="fc-airline">Cathay Pacific &middot; Economy</div>
+            </div>
+            <div class="fc-date">Thu, 24 Jul</div>
+          </div>
+          <div class="fc-route">
+            <div class="fc-airport">
+              <div class="code">AKL</div>
+              <div class="city">Auckland</div>
+              <div class="time">13:25</div>
+            </div>
+            <div class="fc-line">
+              <span class="duration-pill">11h 40m</span>
+            </div>
+            <div class="fc-airport">
+              <div class="code">HKG</div>
+              <div class="city">Hong Kong</div>
+              <div class="time">21:05</div>
+            </div>
+          </div>
+          <div class="fc-meta">
+            <span>&#128188; 1 checked bag each</span>
+            <span>&#128337; Economy Light</span>
+          </div>
+        </div>
+
+        <div class="flight-card fade-up">
+          <div class="fc-top">
+            <div>
+              <div class="fc-flight-num">CX233</div>
+              <div class="fc-airline">Cathay Pacific &middot; Economy</div>
+            </div>
+            <div class="fc-date">Fri, 25 Jul</div>
+          </div>
+          <div class="fc-route">
+            <div class="fc-airport">
+              <div class="code">HKG</div>
+              <div class="city">Hong Kong</div>
+              <div class="time">00:50</div>
+            </div>
+            <div class="fc-line">
+              <span class="duration-pill">13h 10m</span>
+            </div>
+            <div class="fc-airport">
+              <div class="code">MXP</div>
+              <div class="city">Milan Malpensa</div>
+              <div class="time">08:00</div>
+            </div>
+          </div>
+          <div class="fc-meta">
+            <span>&#128188; 1 checked bag each</span>
+            <span>&#128337; Economy Light</span>
+          </div>
+        </div>
+      </div>
     </div>
-    <button class="refresh-btn" id="refresh-btn" onclick="fetchRate()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M1 4v6h6"/><path d="M23 20v-6h-6"/>
-        <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
-      </svg>
-      <span id="refresh-label">Refresh Rate</span>
-    </button>
-    <span class="rate-info" id="rate-info">1 USD = <strong id="rate-display">—</strong> NZD &nbsp;|&nbsp; <span id="rate-time">fetching...</span></span>
+
+    <!-- Milan to Tunis -->
+    <div class="flights-section">
+      <div class="leg-title fade-up">&#127796; Milan to Tunis</div>
+      <div class="flights-grid">
+        <div class="flight-card ita fade-up">
+          <div class="fc-top">
+            <div>
+              <div class="fc-flight-num">AZ2109</div>
+              <div class="fc-airline">ITA Airways</div>
+            </div>
+            <div class="fc-date">Sun, 27 Jul</div>
+          </div>
+          <div class="fc-route">
+            <div class="fc-airport">
+              <div class="code">LIN</div>
+              <div class="city">Milan Linate</div>
+              <div class="time">19:00</div>
+            </div>
+            <div class="fc-line">
+              <span class="duration-pill">1h 10m</span>
+            </div>
+            <div class="fc-airport">
+              <div class="code">FCO</div>
+              <div class="city">Rome</div>
+              <div class="time">20:10</div>
+            </div>
+          </div>
+          <div class="fc-meta">
+            <span>&#128188; 1 checked bag each</span>
+            <span>&#127470;&#127481; ITA Airways</span>
+          </div>
+        </div>
+
+        <div class="flight-card ita fade-up">
+          <div class="fc-top">
+            <div>
+              <div class="fc-flight-num">AZ862</div>
+              <div class="fc-airline">ITA Airways</div>
+            </div>
+            <div class="fc-date">Sun, 27 Jul</div>
+          </div>
+          <div class="fc-route">
+            <div class="fc-airport">
+              <div class="code">FCO</div>
+              <div class="city">Rome</div>
+              <div class="time">22:00</div>
+            </div>
+            <div class="fc-line">
+              <span class="duration-pill">1h 20m</span>
+            </div>
+            <div class="fc-airport">
+              <div class="code">TUN</div>
+              <div class="city">Tunis Carthage</div>
+              <div class="time">22:20</div>
+            </div>
+          </div>
+          <div class="fc-meta">
+            <span>&#128188; 1 checked bag each</span>
+            <span>&#127481;&#127475; Arriving Tunisia</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tunis to Milan (return) -->
+    <div class="flights-section">
+      <div class="leg-title fade-up">&#128747; Tunis to Milan (Return)</div>
+      <div class="flights-grid">
+        <div class="flight-card ita fade-up">
+          <div class="fc-top">
+            <div>
+              <div class="fc-flight-num">AZ861</div>
+              <div class="fc-airline">ITA Airways</div>
+            </div>
+            <div class="fc-date">Wed, 3 Sep</div>
+          </div>
+          <div class="fc-route">
+            <div class="fc-airport">
+              <div class="code">TUN</div>
+              <div class="city">Tunis</div>
+              <div class="time">05:30</div>
+            </div>
+            <div class="fc-line">
+              <span class="duration-pill">1h 25m</span>
+            </div>
+            <div class="fc-airport">
+              <div class="code">FCO</div>
+              <div class="city">Rome</div>
+              <div class="time">07:55</div>
+            </div>
+          </div>
+          <div class="fc-meta">
+            <span>&#128188; 1 checked bag each</span>
+            <span>&#128188; Haajar has extra bag</span>
+          </div>
+        </div>
+
+        <div class="flight-card ita fade-up">
+          <div class="fc-top">
+            <div>
+              <div class="fc-flight-num">AZ2028</div>
+              <div class="fc-airline">ITA Airways</div>
+            </div>
+            <div class="fc-date">Wed, 3 Sep</div>
+          </div>
+          <div class="fc-route">
+            <div class="fc-airport">
+              <div class="code">FCO</div>
+              <div class="city">Rome</div>
+              <div class="time">09:00</div>
+            </div>
+            <div class="fc-line">
+              <span class="duration-pill">1h 10m</span>
+            </div>
+            <div class="fc-airport">
+              <div class="code">LIN</div>
+              <div class="city">Milan Linate</div>
+              <div class="time">10:10</div>
+            </div>
+          </div>
+          <div class="fc-meta">
+            <span>&#128188; 1 checked bag each</span>
+            <span>&#127470;&#127481; ITA Airways</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hotel -->
+    <div class="hotel-card fade-up">
+      <div class="hc-title">&#127976; Crowne Plaza Milan-Malpensa</div>
+      <div class="hc-details">
+        <strong>Sep 3 &ndash; 4</strong> &middot; 1 night &middot; Overnight stop before the long-haul home
+      </div>
+    </div>
+
+    <!-- Milan to Auckland (return) -->
+    <div class="flights-section">
+      <div class="leg-title fade-up">&#127758; Milan to Auckland (Home)</div>
+      <div class="flights-grid">
+        <div class="flight-card fade-up">
+          <div class="fc-top">
+            <div>
+              <div class="fc-flight-num">CX234</div>
+              <div class="fc-airline">Cathay Pacific &middot; Economy</div>
+            </div>
+            <div class="fc-date">Thu, 4 Sep</div>
+          </div>
+          <div class="fc-route">
+            <div class="fc-airport">
+              <div class="code">MXP</div>
+              <div class="city">Milan Malpensa</div>
+              <div class="time">12:45</div>
+            </div>
+            <div class="fc-line">
+              <span class="duration-pill">11h 30m</span>
+            </div>
+            <div class="fc-airport">
+              <div class="code">HKG</div>
+              <div class="city">Hong Kong</div>
+              <div class="time">06:15+1</div>
+            </div>
+          </div>
+          <div class="fc-meta">
+            <span>&#128188; 2 checked bags each</span>
+            <span>&#128337; Economy Essential</span>
+          </div>
+        </div>
+
+        <div class="flight-card fade-up">
+          <div class="fc-top">
+            <div>
+              <div class="fc-flight-num">CX113</div>
+              <div class="fc-airline">Cathay Pacific &middot; Economy</div>
+            </div>
+            <div class="fc-date">Fri, 5 Sep</div>
+          </div>
+          <div class="fc-route">
+            <div class="fc-airport">
+              <div class="code">HKG</div>
+              <div class="city">Hong Kong</div>
+              <div class="time">21:10</div>
+            </div>
+            <div class="fc-line">
+              <span class="duration-pill">10h 40m</span>
+            </div>
+            <div class="fc-airport">
+              <div class="code">AKL</div>
+              <div class="city">Auckland</div>
+              <div class="time">11:50+1</div>
+            </div>
+          </div>
+          <div class="fc-meta">
+            <span>&#128188; 2 checked bags each</span>
+            <span>&#127758; Welcome home!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Baggage summary -->
+    <div class="baggage-card fade-up">
+      <h3>&#128188; Baggage Summary</h3>
+      <ul>
+        <li><strong>Outbound (Cathay Pacific):</strong> 1 checked bag each &mdash; Economy Light fare</li>
+        <li><strong>Milan &rarr; Tunis (ITA Airways):</strong> 1 checked bag each</li>
+        <li><strong>Tunis &rarr; Milan (ITA Airways):</strong> 1 checked bag each + Haajar has an extra bag on return</li>
+        <li><strong>Return (Cathay Pacific):</strong> 2 checked bags each &mdash; Economy Essential fare</li>
+      </ul>
+    </div>
   </div>
 
-  <!-- ==================== SIMPLE VIEW ==================== -->
-  <div id="view-simple">
-    <div class="simple-hero">
-      <div class="flight-route">
-        <span>Auckland</span> &rarr; <span>Hong Kong</span> &rarr; <span>Milan</span> &rarr; <span>Tunis</span>
-      </div>
-      <div class="simple-total-card">
-        <div class="label">Total Trip Cost (incl. 5% fee)</div>
-        <div class="amount" id="simple-total"></div>
-        <div class="sub" id="simple-total-sub">Cathay Pacific + ITA Airways + Hotel</div>
-      </div>
-    </div>
+  <!-- ==================== TAB 3: TUNISIA GUIDE ==================== -->
+  <div id="tab-tunisia" class="tab-panel">
+    <h2 class="section-heading fade-up" style="margin-top: 30px;">Discovering Tunisia</h2>
+    <p class="section-subheading fade-up">Haajar's First Visit &mdash; Between Tunis &amp; Beni Khiar &mdash; Jul 27 to Aug 10</p>
 
-    <h2 class="section-title">Pick a Payment Plan</h2>
-    <div class="simple-options">
-      <div class="simple-opt" id="sopt-a" onclick="pickSimple('a')">
-        <div class="s-badge">6 Months</div>
-        <div class="s-duration">13 fortnights</div>
-        <div class="s-label">Each of us pays</div>
-        <div class="s-amount" id="sopt-a-each"></div>
-        <div class="s-label">per fortnight</div>
-        <div class="s-per-person">Combined: <strong id="sopt-a-combined"></strong></div>
+    <div class="guide-grid">
+      <div class="guide-card fade-up">
+        <div class="gc-icon">&#127979;</div>
+        <div class="gc-name">Medina of Tunis</div>
+        <div class="gc-desc">A UNESCO World Heritage labyrinth of ancient souks, hidden courtyards, and the grand Zitouna Mosque. Lose yourself in the narrow alleys lined with spice vendors, copper artisans, and traditional perfume shops.</div>
+        <span class="gc-tag culture">Culture</span>
+        <span class="gc-tag history">History</span>
       </div>
-      <div class="simple-opt" id="sopt-b" onclick="pickSimple('b')">
-        <div class="s-badge">9 Months</div>
-        <div class="s-duration">20 fortnights</div>
-        <div class="s-label">Each of us pays</div>
-        <div class="s-amount" id="sopt-b-each"></div>
-        <div class="s-label">per fortnight</div>
-        <div class="s-per-person">Combined: <strong id="sopt-b-combined"></strong></div>
-      </div>
-      <div class="simple-opt active" id="sopt-c" onclick="pickSimple('c')">
-        <div class="s-badge">12 Months</div>
-        <div class="s-duration">26 fortnights</div>
-        <div class="s-label">Each of us pays</div>
-        <div class="s-amount" id="sopt-c-each"></div>
-        <div class="s-label">per fortnight</div>
-        <div class="s-per-person">Combined: <strong id="sopt-c-combined"></strong></div>
-      </div>
-    </div>
 
-    <div class="simple-summary" id="simple-summary"></div>
+      <div class="guide-card fade-up">
+        <div class="gc-icon">&#128153;</div>
+        <div class="gc-name">Sidi Bou Said</div>
+        <div class="gc-desc">The most photographed village in Tunisia. Whitewashed walls, cobalt-blue doors, and bougainvillea everywhere. Sip mint tea at the legendary Caf&eacute; des Nattes while overlooking the Gulf of Tunis.</div>
+        <span class="gc-tag culture">Culture</span>
+      </div>
 
-    <!-- Simple view also shows the schedule for the selected option -->
-    <div id="simple-schedule-a" class="schedule-section hidden">
-      <div class="sched-header"><h2>Payment Schedule</h2><span class="option-label">6 months / 13 fortnights</span></div>
-      <table class="sched-table" id="stable-a">
-        <thead><tr><th>#</th><th>Due Date</th><th class="r">Each Pays</th><th class="r">Remaining</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div id="simple-schedule-b" class="schedule-section hidden">
-      <div class="sched-header"><h2>Payment Schedule</h2><span class="option-label">9 months / 20 fortnights</span></div>
-      <table class="sched-table" id="stable-b">
-        <thead><tr><th>#</th><th>Due Date</th><th class="r">Each Pays</th><th class="r">Remaining</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div id="simple-schedule-c" class="schedule-section hidden">
-      <div class="sched-header"><h2>Payment Schedule</h2><span class="option-label">12 months / 26 fortnights</span></div>
-      <table class="sched-table" id="stable-c">
-        <thead><tr><th>#</th><th>Due Date</th><th class="r">Each Pays</th><th class="r">Remaining</th></tr></thead>
-        <tbody></tbody>
-      </table>
+      <div class="guide-card fade-up">
+        <div class="gc-icon">&#127963;&#65039;</div>
+        <div class="gc-name">Carthage Ruins</div>
+        <div class="gc-desc">Walk through Punic and Roman ruins that once rivalled Rome itself. Climb Byrsa Hill for sweeping views, explore the massive Antonine Baths, and stand where Hannibal once ruled. UNESCO World Heritage.</div>
+        <span class="gc-tag history">History</span>
+      </div>
+
+      <div class="guide-card fade-up">
+        <div class="gc-icon">&#127912;</div>
+        <div class="gc-name">Bardo Museum</div>
+        <div class="gc-desc">Home to the world's finest collection of Roman mosaics, displayed in a former Ottoman palace. Stunning floors and walls covered in intricate ancient art spanning centuries of North African civilisation.</div>
+        <span class="gc-tag history">History</span>
+        <span class="gc-tag culture">Culture</span>
+      </div>
+
+      <div class="guide-card fade-up">
+        <div class="gc-icon">&#127958;&#65039;</div>
+        <div class="gc-name">Beni Khiar</div>
+        <div class="gc-desc">Your home base on the Cap Bon coast. Known for traditional Tunisian foutas (hand-woven textiles), local beach access, and an authentic small-town pace. The perfect launchpad for exploring the peninsula.</div>
+        <span class="gc-tag beach">Beach</span>
+        <span class="gc-tag culture">Culture</span>
+      </div>
+
+      <div class="guide-card fade-up">
+        <div class="gc-icon">&#127754;</div>
+        <div class="gc-name">Hammamet</div>
+        <div class="gc-desc">Just next door to Beni Khiar, this resort town has golden beaches, an old medina with jasmine-scented gardens, and a lively waterfront. Perfect for lazy beach days and sunset strolls.</div>
+        <span class="gc-tag beach">Beach</span>
+      </div>
+
+      <div class="guide-card fade-up">
+        <div class="gc-icon">&#127843;</div>
+        <div class="gc-name">Nabeul</div>
+        <div class="gc-desc">The ceramics capital of Tunisia, right next to Beni Khiar. Hit the famous Friday market for hand-painted pottery, colourful tiles, and local produce. A feast for the senses and perfect for picking up souvenirs.</div>
+        <span class="gc-tag culture">Culture</span>
+        <span class="gc-tag adventure">Adventure</span>
+      </div>
+
+      <div class="guide-card fade-up">
+        <div class="gc-icon">&#127773;</div>
+        <div class="gc-name">La Marsa Beach</div>
+        <div class="gc-desc">A trendy beach suburb of Tunis with a relaxed vibe, waterfront caf&eacute;s, and golden sand. Stroll the corniche at sunset, grab street food, and watch the city skyline glow against the Mediterranean.</div>
+        <span class="gc-tag beach">Beach</span>
+      </div>
+
+      <div class="guide-card fade-up">
+        <div class="gc-icon">&#127860;</div>
+        <div class="gc-name">Tunisian Food Guide</div>
+        <div class="gc-desc">Must-try dishes: <strong>brik</strong> (crispy egg pastry), <strong>lablebi</strong> (chickpea soup), <strong>couscous</strong> with lamb, <strong>ojja</strong> (spicy egg and tomato shakshuka-style), <strong>bambalouni</strong> (Tunisian doughnuts), and endless glasses of sweet <strong>mint tea</strong>.</div>
+        <span class="gc-tag food">Food</span>
+      </div>
+
+      <div class="guide-card fade-up">
+        <div class="gc-icon">&#127747;</div>
+        <div class="gc-name">Cap Bon Peninsula</div>
+        <div class="gc-desc">The dramatic peninsula curving northeast from Tunis. Take coastal drives past vineyards and citrus groves, visit the ancient hot springs at Korbous, and find secluded beaches along the rugged shore.</div>
+        <span class="gc-tag adventure">Adventure</span>
+      </div>
+
+      <div class="guide-card fade-up">
+        <div class="gc-icon">&#127963;&#65039;</div>
+        <div class="gc-name">El Jem Amphitheatre</div>
+        <div class="gc-desc">If you take a day trip south, this is the third-largest Roman amphitheatre in the world, remarkably preserved. Walk the underground chambers where gladiators once waited. UNESCO World Heritage and absolutely jaw-dropping.</div>
+        <span class="gc-tag history">History</span>
+        <span class="gc-tag adventure">Adventure</span>
+      </div>
+
+      <div class="guide-card fade-up">
+        <div class="gc-icon">&#127970;</div>
+        <div class="gc-name">Dar Essid &amp; Traditional Dars</div>
+        <div class="gc-desc">Step inside a centuries-old Tunisian townhouse. Ornate tilework, carved stucco, interior courtyards with fountains. These historic homes offer a window into traditional Tunisian family life and architecture.</div>
+        <span class="gc-tag culture">Culture</span>
+        <span class="gc-tag history">History</span>
+      </div>
+
+      <!-- Tips card -->
+      <div class="tips-card fade-up">
+        <div class="tc-title">&#128161; Tips for Haajar</div>
+        <ul>
+          <li data-icon="&#127483;&#127475;">Arabic is the main language &mdash; Tunisian dialect (Derja) is close to Libyan Arabic, so you will understand most of it</li>
+          <li data-icon="&#128176;">Currency is the Tunisian Dinar (TND). ATMs are widely available; carry small notes for souks</li>
+          <li data-icon="&#9728;&#65039;">Summer is HOT &mdash; expect 30&ndash;40&deg;C. Stay hydrated, wear sunscreen, plan activities for mornings and evenings</li>
+          <li data-icon="&#128087;">Modest dress is appreciated in medinas and mosques &mdash; a light scarf is useful</li>
+          <li data-icon="&#128172;">Haggling is expected in souks &mdash; start at half the asking price and enjoy the back-and-forth</li>
+          <li data-icon="&#127817;">Try local fruit &mdash; summer means figs, peaches, watermelon, and prickly pear everywhere</li>
+        </ul>
+      </div>
     </div>
   </div>
 
-  <!-- ==================== ADVANCED VIEW ==================== -->
-  <div id="view-advanced" class="hidden">
+  <!-- ==================== TAB 4: PAYMENT PLAN ==================== -->
+  <div id="tab-payment" class="tab-panel">
+    <h2 class="section-heading fade-up" style="margin-top: 30px;">Payment Plan</h2>
+    <p class="section-subheading fade-up">Flights + Hotel &middot; Fortnightly repayment &middot; Split 50/50</p>
 
-    <div class="summary-row">
-      <div class="summary-card">
-        <h3>Flights Subtotal</h3>
-        <div class="val" id="sum-subtotal"></div>
-        <div class="det" id="sum-subtotal-det">USD before fees</div>
-      </div>
-      <div class="summary-card">
-        <h3>5% Transfer Fee</h3>
-        <div class="val" id="sum-fee"></div>
-        <div class="det">Applied to total</div>
-      </div>
-      <div class="summary-card grand">
-        <h3>Grand Total</h3>
-        <div class="val" id="sum-grand"></div>
-        <div class="det" id="sum-grand-det">Amount to repay</div>
+    <!-- Controls -->
+    <div class="payment-controls fade-up">
+      <div class="toggle-group">
+        <button id="btn-simple" class="active" onclick="setView('simple')">Simple View</button>
+        <button id="btn-advanced" onclick="setView('advanced')">Advanced View</button>
       </div>
     </div>
 
-    <h2 class="section-title">Cost Breakdown</h2>
-    <table>
-      <thead><tr><th>Item</th><th>Details</th><th class="r" id="cost-col-header">Cost (USD)</th></tr></thead>
-      <tbody>
-        <tr>
-          <td>Cathay Pacific</td>
-          <td>Auckland &rarr; Hong Kong &rarr; Milan <span class="route-sub">AKL &rarr; HKG &rarr; MXP</span></td>
-          <td class="r" id="cost-cathay"></td>
-        </tr>
-        <tr>
-          <td>ITA Airways</td>
-          <td>Milan &rarr; Tunis <span class="route-sub">MXP &rarr; TUN</span></td>
-          <td class="r" id="cost-ita"></td>
-        </tr>
-        <tr>
-          <td>Hotel</td>
-          <td>Sep 3–4 &nbsp; <span class="route-sub">1 night &middot; booked at &euro;135.00</span></td>
-          <td class="r" id="cost-hotel"></td>
-        </tr>
-        <tr class="fee-row"><td colspan="2">5% transfer fee</td><td class="r" id="cost-fee"></td></tr>
-        <tr class="total-row"><td colspan="2">Total to Repay</td><td class="r" id="cost-total"></td></tr>
-      </tbody>
-    </table>
-
-    <h2 class="section-title">Visual Overview</h2>
-    <div class="visuals-grid">
-      <div class="visual-card">
-        <h3>1. Where Your Money Goes</h3>
-        <div class="chart-wrap donut"><canvas id="donutChart"></canvas></div>
+    <!-- Currency bar -->
+    <div class="currency-bar fade-up">
+      <label>Currency:</label>
+      <div class="toggle-group">
+        <button id="btn-usd" class="active" onclick="setCurrency('USD')">USD $</button>
+        <button id="btn-nzd" onclick="setCurrency('NZD')">NZD $</button>
       </div>
-      <div class="visual-card">
-        <h3>2. Fortnightly Payment Comparison</h3>
-        <div class="chart-wrap"><canvas id="barChart"></canvas></div>
-      </div>
-      <div class="visual-card full-width">
-        <h3>3. Balance Paydown Over Time</h3>
-        <div class="chart-wrap" style="height: 320px;"><canvas id="lineChart"></canvas></div>
-      </div>
+      <button class="refresh-btn" id="refresh-btn" onclick="fetchRate()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 4v6h6"/><path d="M23 20v-6h-6"/>
+          <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
+        </svg>
+        <span id="refresh-label">Refresh Rate</span>
+      </button>
+      <span class="rate-info" id="rate-info">1 USD = <strong id="rate-display">&mdash;</strong> NZD &nbsp;|&nbsp; <span id="rate-time">fetching...</span></span>
     </div>
 
-    <h2 class="section-title">Choose Your Repayment Option</h2>
-    <div class="options-grid">
-      <div class="option-card opt-a" id="opt-a" onclick="showSchedule('a')">
-        <div class="badge">Fastest Payoff</div>
-        <h3>Option A</h3>
-        <p class="period">6 months &middot; 13 fortnights</p>
-        <div class="big-amount" id="opt-a-combined"></div>
-        <div class="per-label">per fortnight (combined)</div>
-        <div class="each" id="opt-a-each"></div>
-        <div class="each-label">each per fortnight</div>
-        <div class="monthly-eq" id="opt-a-monthly"></div>
+    <!-- ===== SIMPLE VIEW ===== -->
+    <div id="view-simple">
+      <div class="simple-hero">
+        <div class="simple-route">
+          <span>Auckland</span> &rarr; <span>Hong Kong</span> &rarr; <span>Milan</span> &rarr; <span>Tunis</span>
+        </div>
+        <div class="simple-total-card">
+          <div class="label">Total Trip Cost (incl. 5% fee)</div>
+          <div class="amount" id="simple-total"></div>
+          <div class="sub">Cathay Pacific + ITA Airways + Hotel</div>
+        </div>
       </div>
-      <div class="option-card opt-b" id="opt-b" onclick="showSchedule('b')">
-        <div class="badge">Balanced</div>
-        <h3>Option B</h3>
-        <p class="period">9 months &middot; 20 fortnights</p>
-        <div class="big-amount" id="opt-b-combined"></div>
-        <div class="per-label">per fortnight (combined)</div>
-        <div class="each" id="opt-b-each"></div>
-        <div class="each-label">each per fortnight</div>
-        <div class="monthly-eq" id="opt-b-monthly"></div>
+
+      <h3 class="adv-section-title">Pick a Payment Plan</h3>
+      <div class="simple-options">
+        <div class="simple-opt" id="sopt-a" onclick="pickSimple('a')">
+          <div class="s-badge">6 Months</div>
+          <div class="s-duration">13 fortnights</div>
+          <div class="s-label">Each of us pays</div>
+          <div class="s-amount" id="sopt-a-each"></div>
+          <div class="s-label">per fortnight</div>
+          <div class="s-per-person">Combined: <strong id="sopt-a-combined"></strong></div>
+        </div>
+        <div class="simple-opt" id="sopt-b" onclick="pickSimple('b')">
+          <div class="s-badge">9 Months</div>
+          <div class="s-duration">20 fortnights</div>
+          <div class="s-label">Each of us pays</div>
+          <div class="s-amount" id="sopt-b-each"></div>
+          <div class="s-label">per fortnight</div>
+          <div class="s-per-person">Combined: <strong id="sopt-b-combined"></strong></div>
+        </div>
+        <div class="simple-opt active" id="sopt-c" onclick="pickSimple('c')">
+          <div class="s-badge">12 Months</div>
+          <div class="s-duration">26 fortnights</div>
+          <div class="s-label">Each of us pays</div>
+          <div class="s-amount" id="sopt-c-each"></div>
+          <div class="s-label">per fortnight</div>
+          <div class="s-per-person">Combined: <strong id="sopt-c-combined"></strong></div>
+        </div>
       </div>
-      <div class="option-card opt-c active" id="opt-c" onclick="showSchedule('c')">
-        <div class="badge">Most Comfortable</div>
-        <h3>Option C</h3>
-        <p class="period">12 months &middot; 26 fortnights</p>
-        <div class="big-amount" id="opt-c-combined"></div>
-        <div class="per-label">per fortnight (combined)</div>
-        <div class="each" id="opt-c-each"></div>
-        <div class="each-label">each per fortnight</div>
-        <div class="monthly-eq" id="opt-c-monthly"></div>
-      </div>
+
+      <div class="simple-summary" id="simple-summary"></div>
     </div>
 
-    <h2 class="section-title">Per Person Split</h2>
-    <div class="person-split">
-      <div class="person-card"><h4>You</h4><div class="amt" id="you-amt"></div><div class="det" id="you-total"></div></div>
-      <div class="person-card"><h4>Your Wife</h4><div class="amt" id="wife-amt"></div><div class="det" id="wife-total"></div></div>
-    </div>
+    <!-- ===== ADVANCED VIEW ===== -->
+    <div id="view-advanced" class="hidden">
+      <div class="summary-row">
+        <div class="summary-card">
+          <h3>Flights Subtotal</h3>
+          <div class="val" id="sum-subtotal"></div>
+          <div class="det" id="sum-subtotal-det">USD before fees</div>
+        </div>
+        <div class="summary-card">
+          <h3>5% Transfer Fee</h3>
+          <div class="val" id="sum-fee"></div>
+          <div class="det">Applied to total</div>
+        </div>
+        <div class="summary-card grand">
+          <h3>Grand Total</h3>
+          <div class="val" id="sum-grand"></div>
+          <div class="det" id="sum-grand-det">Amount to repay</div>
+        </div>
+      </div>
 
-    <div id="schedule-a" class="schedule-section hidden">
-      <div class="sched-header"><h2>Payment Schedule</h2><span class="option-label">Option A &mdash; 6 months / 13 fortnights</span></div>
-      <p class="sched-note" id="sched-note-a"></p>
-      <table class="sched-table" id="table-a">
-        <thead><tr><th>#</th><th>Due Date</th><th class="r">Payment</th><th class="r">Each Pays</th><th class="r">Remaining</th></tr></thead>
-        <tbody></tbody>
+      <h3 class="adv-section-title">Cost Breakdown</h3>
+      <table>
+        <thead><tr><th>Item</th><th>Details</th><th class="r" id="cost-col-header">Cost (USD)</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Cathay Pacific</td>
+            <td>Auckland &rarr; Hong Kong &rarr; Milan <span class="route-sub">AKL &rarr; HKG &rarr; MXP (return)</span></td>
+            <td class="r" id="cost-cathay"></td>
+          </tr>
+          <tr>
+            <td>ITA Airways</td>
+            <td>Milan &harr; Tunis <span class="route-sub">LIN &rarr; FCO &rarr; TUN (return)</span></td>
+            <td class="r" id="cost-ita"></td>
+          </tr>
+          <tr>
+            <td>Hotel</td>
+            <td>Sep 3&ndash;4 &nbsp;<span class="route-sub">1 night &middot; booked at &euro;135.00</span></td>
+            <td class="r" id="cost-hotel"></td>
+          </tr>
+          <tr class="fee-row"><td colspan="2">5% transfer fee</td><td class="r" id="cost-fee"></td></tr>
+          <tr class="total-row"><td colspan="2">Total to Repay</td><td class="r" id="cost-total"></td></tr>
+        </tbody>
       </table>
-    </div>
-    <div id="schedule-b" class="schedule-section hidden">
-      <div class="sched-header"><h2>Payment Schedule</h2><span class="option-label">Option B &mdash; 9 months / 20 fortnights</span></div>
-      <p class="sched-note" id="sched-note-b"></p>
-      <table class="sched-table" id="table-b">
-        <thead><tr><th>#</th><th>Due Date</th><th class="r">Payment</th><th class="r">Each Pays</th><th class="r">Remaining</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div id="schedule-c" class="schedule-section hidden">
-      <div class="sched-header"><h2>Payment Schedule</h2><span class="option-label">Option C &mdash; 12 months / 26 fortnights</span></div>
-      <p class="sched-note" id="sched-note-c"></p>
-      <table class="sched-table" id="table-c">
-        <thead><tr><th>#</th><th>Due Date</th><th class="r">Payment</th><th class="r">Each Pays</th><th class="r">Remaining</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
 
-  </div><!-- /advanced -->
+      <h3 class="adv-section-title">Visual Overview</h3>
+      <div class="visuals-grid">
+        <div class="visual-card">
+          <h3>Where Your Money Goes</h3>
+          <div class="chart-wrap donut"><canvas id="donutChart"></canvas></div>
+        </div>
+        <div class="visual-card">
+          <h3>Fortnightly Payment Comparison</h3>
+          <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+        </div>
+        <div class="visual-card full-width">
+          <h3>Balance Paydown Over Time</h3>
+          <div class="chart-wrap" style="height: 320px;"><canvas id="lineChart"></canvas></div>
+        </div>
+      </div>
 
-  <footer>Generated March 2026 &nbsp;|&nbsp; Dates are approximate &nbsp;|&nbsp; Exchange rates via open.er-api.com</footer>
+      <h3 class="adv-section-title">Choose Your Repayment Option</h3>
+      <div class="options-grid">
+        <div class="option-card opt-a" id="opt-a" onclick="showSchedule('a')">
+          <div class="badge">Fastest Payoff</div>
+          <h3>Option A</h3>
+          <p class="period">6 months &middot; 13 fortnights</p>
+          <div class="big-amount" id="opt-a-combined"></div>
+          <div class="per-label">per fortnight (combined)</div>
+          <div class="each" id="opt-a-each"></div>
+          <div class="each-label">each per fortnight</div>
+          <div class="monthly-eq" id="opt-a-monthly"></div>
+        </div>
+        <div class="option-card opt-b" id="opt-b" onclick="showSchedule('b')">
+          <div class="badge">Balanced</div>
+          <h3>Option B</h3>
+          <p class="period">9 months &middot; 20 fortnights</p>
+          <div class="big-amount" id="opt-b-combined"></div>
+          <div class="per-label">per fortnight (combined)</div>
+          <div class="each" id="opt-b-each"></div>
+          <div class="each-label">each per fortnight</div>
+          <div class="monthly-eq" id="opt-b-monthly"></div>
+        </div>
+        <div class="option-card opt-c active" id="opt-c" onclick="showSchedule('c')">
+          <div class="badge">Most Comfortable</div>
+          <h3>Option C</h3>
+          <p class="period">12 months &middot; 26 fortnights</p>
+          <div class="big-amount" id="opt-c-combined"></div>
+          <div class="per-label">per fortnight (combined)</div>
+          <div class="each" id="opt-c-each"></div>
+          <div class="each-label">each per fortnight</div>
+          <div class="monthly-eq" id="opt-c-monthly"></div>
+        </div>
+      </div>
 
-</div>
+      <h3 class="adv-section-title">Per Person Split</h3>
+      <div class="person-split">
+        <div class="person-card-adv"><h4>Ibrahim</h4><div class="amt" id="you-amt"></div><div class="det" id="you-total"></div></div>
+        <div class="person-card-adv"><h4>Haajar</h4><div class="amt" id="wife-amt"></div><div class="det" id="wife-total"></div></div>
+      </div>
+
+      <div id="schedule-a" class="schedule-section hidden">
+        <div class="sched-header"><h2>Payment Schedule</h2><span class="option-label">Option A &mdash; 6 months / 13 fortnights</span></div>
+        <p class="sched-note" id="sched-note-a"></p>
+        <table class="sched-table" id="table-a">
+          <thead><tr><th>#</th><th>Due Date</th><th class="r">Payment</th><th class="r">Each Pays</th><th class="r">Remaining</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div id="schedule-b" class="schedule-section hidden">
+        <div class="sched-header"><h2>Payment Schedule</h2><span class="option-label">Option B &mdash; 9 months / 20 fortnights</span></div>
+        <p class="sched-note" id="sched-note-b"></p>
+        <table class="sched-table" id="table-b">
+          <thead><tr><th>#</th><th>Due Date</th><th class="r">Payment</th><th class="r">Each Pays</th><th class="r">Remaining</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div id="schedule-c" class="schedule-section hidden">
+        <div class="sched-header"><h2>Payment Schedule</h2><span class="option-label">Option C &mdash; 12 months / 26 fortnights</span></div>
+        <p class="sched-note" id="sched-note-c"></p>
+        <table class="sched-table" id="table-c">
+          <thead><tr><th>#</th><th>Due Date</th><th class="r">Payment</th><th class="r">Each Pays</th><th class="r">Remaining</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div><!-- /advanced -->
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    Generated March 2026 &nbsp;|&nbsp; Dates are approximate &nbsp;|&nbsp; Exchange rates via open.er-api.com
+  </footer>
+
+</div><!-- /main-container -->
 
 <script>
-  // ===== BASE DATA (USD, hotel in EUR) =====
+  // ===================================================================
+  //  TAB NAVIGATION
+  // ===================================================================
+  function switchTab(tabId) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + tabId).classList.add('active');
+    // Find the clicked button
+    const tabs = document.querySelectorAll('.nav-tab');
+    const tabMap = ['adventure','flights','tunisia','payment'];
+    tabs.forEach((t, i) => {
+      if (tabMap[i] === tabId) t.classList.add('active');
+    });
+    // Re-trigger fade-up for newly visible elements
+    observeFadeUps();
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ===================================================================
+  //  COUNTDOWN
+  // ===================================================================
+  // Jul 24 2026 13:25 NZST (NZST = UTC+12, but NZST in July is actually NZDT doesn't apply;
+  // NZ in July is NZST = UTC+12)
+  const DEPARTURE = new Date(Date.UTC(2026, 6, 24, 1, 25, 0)); // 13:25 NZST = 01:25 UTC
+
+  function updateCountdown() {
+    const now = Date.now();
+    const diff = DEPARTURE.getTime() - now;
+    if (diff <= 0) {
+      document.getElementById('cd-days').textContent = '0';
+      document.getElementById('cd-hours').textContent = '0';
+      document.getElementById('cd-mins').textContent = '0';
+      document.getElementById('cd-secs').textContent = '0';
+      return;
+    }
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-days').textContent = days;
+    document.getElementById('cd-hours').textContent = hours;
+    document.getElementById('cd-mins').textContent = mins;
+    document.getElementById('cd-secs').textContent = secs;
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // ===================================================================
+  //  FADE-UP ANIMATION (IntersectionObserver)
+  // ===================================================================
+  function observeFadeUps() {
+    const els = document.querySelectorAll('.fade-up:not(.visible)');
+    if (!els.length) return;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          // Stagger animation
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(el => observer.observe(el));
+  }
+  observeFadeUps();
+
+  // ===================================================================
+  //  PAYMENT PLAN LOGIC
+  // ===================================================================
   const BASE = {
     cathay: 3113.89,
     ita: 1136.20,
     hotelEur: 135.00,
-    eurToUsd: 1.09, // default fallback, updated live
+    eurToUsd: 1.09,
     get hotelUsd() { return Math.round(this.hotelEur * this.eurToUsd * 100) / 100; },
     get subtotal() { return this.cathay + this.ita + this.hotelUsd; },
     get fee() { return Math.round(this.subtotal * 0.05 * 100) / 100; },
     get total() { return Math.round((this.subtotal + this.fee) * 100) / 100; },
   };
   const OPT_DEF = {
-    a: { fortnights: 13, color: '#e74c3c', label: 'A: 6 months', months: 6 },
-    b: { fortnights: 20, color: '#f39c12', label: 'B: 9 months', months: 9 },
-    c: { fortnights: 26, color: '#27ae60', label: 'C: 12 months', months: 12 },
+    a: { fortnights: 13, color: '#f43f5e', label: 'A: 6 months', months: 6 },
+    b: { fortnights: 20, color: '#f59e0b', label: 'B: 9 months', months: 9 },
+    c: { fortnights: 26, color: '#0d9488', label: 'C: 12 months', months: 12 },
   };
-  const START = new Date(2026, 2, 27);
+  const START = new Date(2026, 2, 27); // 27 Mar 2026
 
   let currentCurrency = 'USD';
   let nzdRate = null;
@@ -529,7 +1984,7 @@
     return { fortnights: n, payment, each, monthly, total: Math.round(total * 100) / 100 };
   }
 
-  // ===== VIEW TOGGLE =====
+  // --- View toggle ---
   function setView(view) {
     currentView = view;
     document.getElementById('btn-simple').classList.toggle('active', view === 'simple');
@@ -543,7 +1998,7 @@
     renderAll();
   }
 
-  // ===== CURRENCY =====
+  // --- Currency ---
   async function fetchRate() {
     const btn = document.getElementById('refresh-btn');
     const label = document.getElementById('refresh-label');
@@ -554,15 +2009,14 @@
       const data = await res.json();
       if (data.result === 'success' && data.rates) {
         if (data.rates.NZD) nzdRate = data.rates.NZD;
-        // EUR→USD = 1 / (USD→EUR)
         if (data.rates.EUR) BASE.eurToUsd = Math.round(1 / data.rates.EUR * 10000) / 10000;
-        document.getElementById('rate-display').textContent = nzdRate ? nzdRate.toFixed(4) : '—';
+        document.getElementById('rate-display').textContent = nzdRate ? nzdRate.toFixed(4) : '\u2014';
         document.getElementById('rate-time').textContent =
           'updated ' + new Date().toLocaleTimeString('en-NZ', { hour: '2-digit', minute: '2-digit' });
         renderAll();
       }
     } catch (e) {
-      document.getElementById('rate-time').textContent = 'fetch failed — try again';
+      document.getElementById('rate-time').textContent = 'fetch failed \u2014 try again';
     }
     btn.classList.remove('loading');
     label.textContent = 'Refresh Rate';
@@ -576,88 +2030,45 @@
     renderAll();
   }
 
-  // ===== RENDER =====
+  // --- Render ---
   function renderAll() {
     renderSimple();
     renderAdvanced();
   }
 
-  // --- Simple view ---
   function renderSimple() {
     document.getElementById('simple-total').textContent = fmt(BASE.total);
-
     ['a','b','c'].forEach(k => {
       const o = optCalc(k);
-      document.getElementById(`sopt-${k}-each`).textContent = s() + o.each.toFixed(2);
-      document.getElementById(`sopt-${k}-combined`).textContent = s() + o.payment.toFixed(2);
+      document.getElementById('sopt-' + k + '-each').textContent = s() + o.each.toFixed(2);
+      document.getElementById('sopt-' + k + '-combined').textContent = s() + o.payment.toFixed(2);
     });
-
     updateSimpleSummary();
-    buildSimpleTable(activeOption);
   }
 
   function updateSimpleSummary() {
     const o = optCalc(activeOption);
     const dur = OPT_DEF[activeOption].months;
-    document.getElementById('simple-summary').innerHTML = `
-      <div class="s-msg">
-        Over <strong>${dur} months</strong> (${o.fortnights} fortnights), each of us puts in
-        <span class="highlight">${s()}${o.each.toFixed(2)}</span> per fortnight.<br>
-        That's <strong>${s()}${o.payment.toFixed(2)}</strong> combined every two weeks until it's paid off.
-      </div>
-    `;
+    document.getElementById('simple-summary').innerHTML =
+      '<div class="s-msg">' +
+      'Over <strong>' + dur + ' months</strong> (' + o.fortnights + ' fortnights), each of us puts in ' +
+      '<span class="highlight">' + s() + o.each.toFixed(2) + '</span> per fortnight.<br>' +
+      'That\u2019s <strong>' + s() + o.payment.toFixed(2) + '</strong> combined every two weeks until it\u2019s paid off.' +
+      '</div>';
   }
 
   function pickSimple(key) {
     activeOption = key;
     document.querySelectorAll('.simple-opt').forEach(c => c.classList.remove('active'));
     document.getElementById('sopt-' + key).classList.add('active');
-    // Also sync advanced view
     document.querySelectorAll('.option-card').forEach(c => c.classList.remove('active'));
     document.getElementById('opt-' + key).classList.add('active');
-
     ['a','b','c'].forEach(k => {
-      document.getElementById('simple-schedule-' + k).classList.toggle('hidden', k !== key);
       document.getElementById('schedule-' + k).classList.toggle('hidden', k !== key);
     });
-
     updateSimpleSummary();
-    buildSimpleTable(key);
     rebuildAdvancedTable(key);
     updatePersonSplit();
-  }
-
-  function buildSimpleTable(key) {
-    const o = optCalc(key);
-    const tbody = document.querySelector(`#stable-${key} tbody`);
-    tbody.innerHTML = '';
-    let balance = o.total;
-    for (let i = 1; i <= o.fortnights; i++) {
-      const d = new Date(START);
-      d.setDate(START.getDate() + (i - 1) * 14);
-      let each;
-      if (i < o.fortnights) {
-        each = o.each;
-        balance = Math.round((balance - o.payment) * 100) / 100;
-      } else {
-        each = Math.round(balance / 2 * 100) / 100;
-        balance = 0;
-      }
-      const tr = document.createElement('tr');
-      if (balance === 0) tr.classList.add('paid-off');
-      const dateStr = d.toLocaleDateString('en-NZ', { day: 'numeric', month: 'short', year: 'numeric' });
-      tr.innerHTML = `
-        <td>${i}</td>
-        <td>${dateStr}</td>
-        <td class="r">${s()}${each.toFixed(2)}</td>
-        <td class="r">${balance === 0 ? '<strong>' + s() + '0.00 &#10003;</strong>' : s() + balance.toFixed(2)}</td>
-      `;
-      tbody.appendChild(tr);
-    }
-    // Show this schedule
-    ['a','b','c'].forEach(k => {
-      document.getElementById('simple-schedule-' + k).classList.toggle('hidden', k !== key);
-    });
   }
 
   // --- Advanced view ---
@@ -677,16 +2088,15 @@
 
     ['a','b','c'].forEach(k => {
       const o = optCalc(k);
-      document.getElementById(`opt-${k}-combined`).textContent = s() + o.payment.toFixed(2);
-      document.getElementById(`opt-${k}-each`).textContent = s() + o.each.toFixed(2);
-      document.getElementById(`opt-${k}-monthly`).innerHTML = '&asymp; ' + s() + o.monthly.toFixed(2) + ' / month';
-      document.getElementById(`sched-note-${k}`).textContent =
-        `${s()}${o.payment.toFixed(2)} per fortnight (${s()}${o.each.toFixed(2)} each). Final payment adjusted to clear balance.`;
+      document.getElementById('opt-' + k + '-combined').textContent = s() + o.payment.toFixed(2);
+      document.getElementById('opt-' + k + '-each').textContent = s() + o.each.toFixed(2);
+      document.getElementById('opt-' + k + '-monthly').innerHTML = '&asymp; ' + s() + o.monthly.toFixed(2) + ' / month';
+      document.getElementById('sched-note-' + k).textContent =
+        s() + o.payment.toFixed(2) + ' per fortnight (' + s() + o.each.toFixed(2) + ' each). Final payment adjusted to clear balance.';
     });
 
     updatePersonSplit();
     rebuildAdvancedTable(activeOption);
-
     if (chartsInitialized) renderCharts();
   }
 
@@ -695,15 +2105,15 @@
     const totalC = o.total;
     const half1 = Math.ceil(totalC * 100 / 2) / 100;
     const half2 = Math.floor(totalC * 100 / 2) / 100;
-    document.getElementById('you-amt').textContent = `${s()}${o.each.toFixed(2)} / fortnight`;
-    document.getElementById('you-total').textContent = `${s()}${half1.toFixed(2)} total over ${o.fortnights} fortnights`;
-    document.getElementById('wife-amt').textContent = `${s()}${o.each.toFixed(2)} / fortnight`;
-    document.getElementById('wife-total').textContent = `${s()}${half2.toFixed(2)} total over ${o.fortnights} fortnights`;
+    document.getElementById('you-amt').textContent = s() + o.each.toFixed(2) + ' / fortnight';
+    document.getElementById('you-total').textContent = s() + half1.toFixed(2) + ' total over ' + o.fortnights + ' fortnights';
+    document.getElementById('wife-amt').textContent = s() + o.each.toFixed(2) + ' / fortnight';
+    document.getElementById('wife-total').textContent = s() + half2.toFixed(2) + ' total over ' + o.fortnights + ' fortnights';
   }
 
   function rebuildAdvancedTable(key) {
     const o = optCalc(key);
-    const tbody = document.querySelector(`#table-${key} tbody`);
+    const tbody = document.querySelector('#table-' + key + ' tbody');
     tbody.innerHTML = '';
     let balance = o.total;
     for (let i = 1; i <= o.fortnights; i++) {
@@ -720,12 +2130,11 @@
       const tr = document.createElement('tr');
       if (balance === 0) tr.classList.add('paid-off');
       const dateStr = d.toLocaleDateString('en-NZ', { day: 'numeric', month: 'short', year: 'numeric' });
-      tr.innerHTML = `
-        <td>${i}</td><td>${dateStr}</td>
-        <td class="r">${s()}${payment.toFixed(2)}</td>
-        <td class="r">${s()}${each.toFixed(2)}</td>
-        <td class="r">${balance === 0 ? '<strong>' + s() + '0.00 &#10003;</strong>' : s() + balance.toFixed(2)}</td>
-      `;
+      tr.innerHTML =
+        '<td>' + i + '</td><td>' + dateStr + '</td>' +
+        '<td class="r">' + s() + payment.toFixed(2) + '</td>' +
+        '<td class="r">' + s() + each.toFixed(2) + '</td>' +
+        '<td class="r">' + (balance === 0 ? '<strong>' + s() + '0.00 \u2713</strong>' : s() + balance.toFixed(2)) + '</td>';
       tbody.appendChild(tr);
     }
     ['a','b','c'].forEach(k => {
@@ -740,12 +2149,11 @@
     document.querySelectorAll('.simple-opt').forEach(c => c.classList.remove('active'));
     document.getElementById('sopt-' + key).classList.add('active');
     rebuildAdvancedTable(key);
-    buildSimpleTable(key);
     updatePersonSplit();
     updateSimpleSummary();
   }
 
-  // ===== CHARTS =====
+  // --- Charts ---
   function renderCharts() {
     const sym = s(), cur = currentCurrency;
     const totalC = Math.round(BASE.total * r() * 100) / 100;
@@ -756,10 +2164,21 @@
     donutChart = new Chart(document.getElementById('donutChart'), {
       type: 'doughnut',
       data: {
-        labels: ['Cathay Pacific (AKL→HKG→MXP)', 'ITA Airways (MXP→TUN)', 'Hotel (Sep 3–4)', 'Transfer Fee (5%)'],
-        datasets: [{ data: [BASE.cathay, BASE.ita, BASE.hotelUsd, BASE.fee].map(v => Math.round(v * r() * 100) / 100), backgroundColor: ['#0f3460','#3a86ff','#f39c12','#e0e4ef'], borderWidth: 0, hoverOffset: 8 }]
+        labels: ['Cathay Pacific (AKL\u2194HKG\u2194MXP)', 'ITA Airways (LIN\u2194TUN)', 'Hotel (Sep 3\u20134)', 'Transfer Fee (5%)'],
+        datasets: [{
+          data: [BASE.cathay, BASE.ita, BASE.hotelUsd, BASE.fee].map(v => Math.round(v * r() * 100) / 100),
+          backgroundColor: ['#0d9488','#38bdf8','#f59e0b','#e2e8f0'],
+          borderWidth: 0,
+          hoverOffset: 8
+        }]
       },
-      options: { responsive: true, cutout: '55%', plugins: { legend: { position: 'bottom', labels: { padding: 14, font: { size: 11 }, usePointStyle: true, pointStyleWidth: 10 } }, tooltip: { callbacks: { label: ctx => ` ${sym}${ctx.parsed.toFixed(2)} (${(ctx.parsed / totalC * 100).toFixed(1)}%)` } } } }
+      options: {
+        responsive: true, cutout: '55%',
+        plugins: {
+          legend: { position: 'bottom', labels: { padding: 14, font: { size: 11, family: 'Nunito' }, usePointStyle: true, pointStyleWidth: 10 } },
+          tooltip: { callbacks: { label: ctx => ' ' + sym + ctx.parsed.toFixed(2) + ' (' + (ctx.parsed / totalC * 100).toFixed(1) + '%)' } }
+        }
+      }
     });
 
     const barData = ['a','b','c'].map(k => optCalc(k).each);
@@ -768,27 +2187,61 @@
       data: {
         labels: ['Option A\n6 months', 'Option B\n9 months', 'Option C\n12 months'],
         datasets: [
-          { label: 'Your share', data: [...barData], backgroundColor: ['rgba(231,76,60,0.7)','rgba(243,156,18,0.7)','rgba(39,174,96,0.7)'], borderRadius: 4 },
-          { label: "Wife's share", data: [...barData], backgroundColor: ['rgba(231,76,60,0.35)','rgba(243,156,18,0.35)','rgba(39,174,96,0.35)'], borderRadius: 4 }
+          { label: 'Ibrahim', data: [...barData], backgroundColor: ['rgba(244,63,94,0.7)','rgba(245,158,11,0.7)','rgba(13,148,136,0.7)'], borderRadius: 6 },
+          { label: 'Haajar', data: [...barData], backgroundColor: ['rgba(244,63,94,0.35)','rgba(245,158,11,0.35)','rgba(13,148,136,0.35)'], borderRadius: 6 }
         ]
       },
-      options: { responsive: true, scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, beginAtZero: true, ticks: { callback: v => sym + v }, title: { display: true, text: `Per Fortnight (${cur})`, font: { size: 11 } } } }, plugins: { legend: { position: 'bottom', labels: { padding: 14, font: { size: 11 }, usePointStyle: true, pointStyleWidth: 10 } }, tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${sym}${ctx.parsed.y.toFixed(2)}` } } } }
+      options: {
+        responsive: true,
+        scales: {
+          x: { stacked: true, grid: { display: false } },
+          y: { stacked: true, beginAtZero: true, ticks: { callback: v => sym + v, font: { family: 'Nunito' } }, title: { display: true, text: 'Per Fortnight (' + cur + ')', font: { size: 11, family: 'Nunito' } } }
+        },
+        plugins: {
+          legend: { position: 'bottom', labels: { padding: 14, font: { size: 11, family: 'Nunito' }, usePointStyle: true, pointStyleWidth: 10 } },
+          tooltip: { callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + sym + ctx.parsed.y.toFixed(2) } }
+        }
+      }
     });
 
     function pd(key) {
       const o = optCalc(key);
       const pts = [{ x: 0, y: totalC }]; let b = totalC;
-      for (let i = 1; i <= o.fortnights; i++) { if (i < o.fortnights) { b = Math.round((b - o.payment) * 100) / 100; } else { b = 0; } pts.push({ x: i, y: b }); }
+      for (let i = 1; i <= o.fortnights; i++) {
+        if (i < o.fortnights) { b = Math.round((b - o.payment) * 100) / 100; } else { b = 0; }
+        pts.push({ x: i, y: b });
+      }
       return pts;
     }
     lineChart = new Chart(document.getElementById('lineChart'), {
       type: 'line',
-      data: { datasets: ['a','b','c'].map(k => ({ label: OPT_DEF[k].label, data: pd(k), borderColor: OPT_DEF[k].color, backgroundColor: OPT_DEF[k].color + '18', fill: true, tension: 0.2, pointRadius: 3, pointHoverRadius: 6, borderWidth: 2.5 })) },
-      options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, scales: { x: { type: 'linear', title: { display: true, text: 'Fortnight #', font: { size: 11 } }, ticks: { stepSize: 2 }, grid: { color: '#f0f0f0' }, min: 0, max: 27 }, y: { beginAtZero: true, title: { display: true, text: `Remaining Balance (${cur})`, font: { size: 11 } }, ticks: { callback: v => sym + v.toLocaleString() }, grid: { color: '#f0f0f0' } } }, plugins: { legend: { position: 'bottom', labels: { padding: 14, font: { size: 11 }, usePointStyle: true, pointStyleWidth: 10 } }, tooltip: { callbacks: { title: ctx => `Fortnight ${ctx[0].parsed.x}`, label: ctx => ` ${ctx.dataset.label}: ${sym}${ctx.parsed.y.toFixed(2)} remaining` } } } }
+      data: {
+        datasets: ['a','b','c'].map(k => ({
+          label: OPT_DEF[k].label,
+          data: pd(k),
+          borderColor: OPT_DEF[k].color,
+          backgroundColor: OPT_DEF[k].color + '18',
+          fill: true, tension: 0.2, pointRadius: 3, pointHoverRadius: 6, borderWidth: 2.5
+        }))
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        scales: {
+          x: { type: 'linear', title: { display: true, text: 'Fortnight #', font: { size: 11, family: 'Nunito' } }, ticks: { stepSize: 2, font: { family: 'Nunito' } }, grid: { color: '#f0f0f0' }, min: 0, max: 27 },
+          y: { beginAtZero: true, title: { display: true, text: 'Remaining Balance (' + cur + ')', font: { size: 11, family: 'Nunito' } }, ticks: { callback: v => sym + v.toLocaleString(), font: { family: 'Nunito' } }, grid: { color: '#f0f0f0' } }
+        },
+        plugins: {
+          legend: { position: 'bottom', labels: { padding: 14, font: { size: 11, family: 'Nunito' }, usePointStyle: true, pointStyleWidth: 10 } },
+          tooltip: { callbacks: { title: ctx => 'Fortnight ' + ctx[0].parsed.x, label: ctx => ' ' + ctx.dataset.label + ': ' + sym + ctx.parsed.y.toFixed(2) + ' remaining' } }
+        }
+      }
     });
   }
 
-  // ===== INIT =====
+  // ===================================================================
+  //  INIT
+  // ===================================================================
   fetchRate().then(() => { renderAll(); pickSimple('c'); });
 </script>
 
