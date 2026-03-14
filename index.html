@@ -1,2249 +1,1105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ibrahim &amp; Haajar — Mediterranean Adventure 2026</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-  <style>
-    /* ===== CSS VARIABLES ===== */
-    :root {
-      --teal: #0d9488;
-      --teal-dark: #0a7a70;
-      --teal-light: #99f6e4;
-      --gold: #f59e0b;
-      --gold-light: #fde68a;
-      --coral: #f43f5e;
-      --coral-light: #fecdd3;
-      --sky: #38bdf8;
-      --sky-light: #bae6fd;
-      --navy: #0f172a;
-      --slate: #475569;
-      --slate-light: #94a3b8;
-      --bg: #f0fdfa;
-      --card-bg: #ffffff;
-      --card-shadow: 0 4px 24px rgba(13,148,136,0.08);
-      --card-hover-shadow: 0 8px 32px rgba(13,148,136,0.16);
-      --radius: 16px;
-      --radius-sm: 10px;
-      --font-heading: 'Fredoka', sans-serif;
-      --font-body: 'Nunito', sans-serif;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ibrahim & Haajar — Mediterranean Journey 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+<style>
+/* ===== RESET & BASE ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --clr-dark:#1a1a3e;--clr-mid:#2d2b55;--clr-purple:#4a3f6b;--clr-muted:#7b6b8a;
+  --clr-gold:#c9a87c;--clr-gold-light:#e8d5b7;--clr-page:#f4f5f9;--clr-card:#fff;
+  --clr-tag-bg:#f0ecf5;--clr-tag-text:#5a4d6e;
+  --shadow-card:0 8px 30px rgba(26,26,62,0.08);--shadow-hover:0 12px 40px rgba(26,26,62,0.14);
+  --radius:16px;--radius-sm:10px;--radius-xs:6px;
+  --font-heading:'Cormorant Garamond',Georgia,serif;--font-body:'DM Sans',system-ui,sans-serif;
+  --transition:0.3s ease;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font-body);background:var(--clr-page);color:#333;line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--clr-gold);text-decoration:none}
 
-    /* ===== RESET & BASE ===== */
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: var(--font-body);
-      color: var(--navy);
-      background: var(--bg);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
+/* ===== TYPOGRAPHY ===== */
+h1,h2,h3,h4{font-family:var(--font-heading);font-weight:600;color:var(--clr-dark)}
+h1{font-size:clamp(2rem,5vw,3.5rem);line-height:1.15}
+h2{font-size:clamp(1.6rem,3.5vw,2.4rem);line-height:1.2;margin-bottom:.5rem}
+h3{font-size:1.3rem;line-height:1.3}
+.subtitle{font-family:var(--font-body);font-size:1.05rem;color:var(--clr-muted);font-weight:400}
 
-    /* ===== FADE-UP ANIMATION ===== */
-    .fade-up {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .fade-up.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+/* ===== NAV ===== */
+.nav{position:sticky;top:0;z-index:100;background:var(--clr-dark);border-bottom:1px solid rgba(201,168,124,.15);backdrop-filter:blur(10px)}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;gap:4px;padding:6px 12px}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-tab{font-family:var(--font-body);font-size:.85rem;font-weight:600;padding:10px 18px;border:none;border-radius:var(--radius-xs);background:transparent;color:rgba(255,255,255,.6);cursor:pointer;white-space:nowrap;transition:var(--transition);letter-spacing:.3px}
+.nav-tab:hover{color:#fff;background:rgba(255,255,255,.08)}
+.nav-tab.active{background:var(--clr-gold);color:var(--clr-dark)}
 
-    /* ===== CLOUDS ANIMATION (HERO) ===== */
-    @keyframes drift {
-      0% { transform: translateX(-10%); }
-      50% { transform: translateX(10%); }
-      100% { transform: translateX(-10%); }
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
-    }
-    @keyframes pulse-glow {
-      0%, 100% { box-shadow: 0 0 20px rgba(245,158,11,0.3); }
-      50% { box-shadow: 0 0 40px rgba(245,158,11,0.6); }
-    }
+/* ===== CONTENT ===== */
+.tab-content{display:none;animation:fadeUp .45s ease}
+.tab-content.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.container{max-width:1000px;margin:0 auto;padding:0 20px}
+.section-header{text-align:center;padding:48px 20px 28px}
+.section-header h2{margin-bottom:6px}
 
-    /* ===== TOP NAV ===== */
-    .top-nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 2px solid var(--teal-light);
-      padding: 0 20px;
-    }
-    .nav-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      gap: 0;
-    }
-    .nav-brand {
-      font-family: var(--font-heading);
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: var(--teal);
-      padding: 14px 0;
-      margin-right: auto;
-      white-space: nowrap;
-    }
-    .nav-tabs {
-      display: flex;
-      gap: 0;
-    }
-    .nav-tab {
-      padding: 14px 20px;
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 0.85rem;
-      color: var(--slate);
-      background: none;
-      border: none;
-      cursor: pointer;
-      position: relative;
-      transition: color 0.2s;
-      white-space: nowrap;
-    }
-    .nav-tab:hover { color: var(--teal); }
-    .nav-tab.active { color: var(--teal); }
-    .nav-tab.active::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 12px;
-      right: 12px;
-      height: 3px;
-      background: var(--teal);
-      border-radius: 3px 3px 0 0;
-    }
+/* ===== HERO ===== */
+.hero{position:relative;background:linear-gradient(135deg,#1a1a3e 0%,#2d2b55 30%,#4a3f6b 60%,#7b6b8a 100%);color:#fff;text-align:center;padding:100px 20px 80px;overflow:hidden}
+.hero::before{content:'';position:absolute;top:30%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(201,168,124,.18) 0%,transparent 70%);pointer-events:none}
+.hero h1{color:#fff;margin-bottom:12px;position:relative}
+.hero .subtitle{color:rgba(255,255,255,.7);font-size:1.1rem;margin-bottom:24px;position:relative}
+.couple-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,124,.18);border:1px solid rgba(201,168,124,.3);border-radius:30px;padding:8px 22px;font-size:.95rem;color:var(--clr-gold-light);margin-bottom:28px;position:relative}
+.countdown-grid{display:flex;justify-content:center;gap:16px;margin-bottom:32px;position:relative;flex-wrap:wrap}
+.cd-unit{background:rgba(255,255,255,.08);border:1px solid rgba(201,168,124,.2);border-radius:var(--radius-sm);padding:14px 18px;min-width:80px}
+.cd-unit .num{font-family:var(--font-heading);font-size:2rem;font-weight:700;color:var(--clr-gold);display:block;line-height:1}
+.cd-unit .lbl{font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.5);margin-top:4px;display:block}
+.scroll-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:rgba(201,168,124,.2);border:1px solid rgba(201,168,124,.3);color:var(--clr-gold-light);cursor:pointer;font-size:1.3rem;transition:var(--transition);position:relative;animation:gentleBounce 2.5s ease-in-out infinite}
+.scroll-btn:hover{background:rgba(201,168,124,.35)}
+@keyframes gentleBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 
-    /* ===== MAIN CONTAINER ===== */
-    .main-container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 20px 60px;
-    }
+/* ===== CARDS ===== */
+.card{background:var(--clr-card);border-radius:var(--radius);box-shadow:var(--shadow-card);padding:28px;margin-bottom:20px;transition:var(--transition)}
+.card:hover{box-shadow:var(--shadow-hover)}
 
-    /* ===== TAB PANELS ===== */
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
+/* ===== PHASE TIMELINE ===== */
+.timeline{position:relative;padding:30px 0 10px}
+.timeline::before{content:'';position:absolute;left:28px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--clr-gold),var(--clr-muted),transparent)}
+.phase-card{position:relative;margin-left:60px;margin-bottom:24px;padding:24px 28px;background:var(--clr-card);border-radius:var(--radius);box-shadow:var(--shadow-card);transition:var(--transition)}
+.phase-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px)}
+.phase-card::before{content:'';position:absolute;left:-42px;top:28px;width:12px;height:12px;border-radius:50%;background:var(--clr-gold);border:3px solid var(--clr-page);box-shadow:0 0 0 2px var(--clr-gold)}
+.phase-card .phase-flag{font-size:1.6rem;margin-bottom:6px;display:block}
+.phase-card h3{margin-bottom:4px}
+.phase-card .phase-dates{font-size:.88rem;color:var(--clr-muted);margin-bottom:6px;font-weight:500}
+.phase-card .phase-people{font-size:.85rem;color:#666}
+.phase-card .phase-stay{font-size:.82rem;color:var(--clr-purple);margin-top:6px;font-style:italic}
 
-    /* ===== HERO SECTION ===== */
-    .hero {
-      position: relative;
-      background: linear-gradient(135deg, var(--teal) 0%, #0ea5e9 50%, var(--sky) 100%);
-      border-radius: 0 0 var(--radius) var(--radius);
-      padding: 60px 30px 50px;
-      text-align: center;
-      color: #fff;
-      overflow: hidden;
-      margin-bottom: 40px;
-    }
-    .hero-clouds {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-    .cloud {
-      position: absolute;
-      background: rgba(255,255,255,0.08);
-      border-radius: 50%;
-    }
-    .cloud-1 { width: 300px; height: 80px; top: 10%; left: -5%; animation: drift 20s ease-in-out infinite; }
-    .cloud-2 { width: 200px; height: 60px; top: 25%; right: -5%; animation: drift 25s ease-in-out infinite reverse; }
-    .cloud-3 { width: 250px; height: 70px; top: 60%; left: 10%; animation: drift 22s ease-in-out infinite 3s; }
-    .cloud-4 { width: 180px; height: 50px; top: 75%; right: 15%; animation: drift 18s ease-in-out infinite 5s; }
+/* ===== FLIGHT CARDS ===== */
+.flight-section-label{font-family:var(--font-heading);font-size:1.3rem;color:var(--clr-dark);margin:36px 0 16px;padding-bottom:8px;border-bottom:2px solid var(--clr-tag-bg)}
+.flight-card{border-radius:var(--radius);padding:24px 28px;margin-bottom:16px;box-shadow:var(--shadow-card);transition:var(--transition)}
+.flight-card:hover{box-shadow:var(--shadow-hover)}
+.flight-card.cathay{background:linear-gradient(135deg,#1a1a3e,#2a2755);color:#fff}
+.flight-card.cathay .fc-airline{color:var(--clr-gold-light)}
+.flight-card.cathay .fc-route-line{border-color:rgba(201,168,124,.4)}
+.flight-card.cathay .fc-time{color:#fff}
+.flight-card.cathay .fc-city{color:rgba(255,255,255,.7)}
+.flight-card.cathay .fc-detail{color:rgba(255,255,255,.55)}
+.flight-card.cathay .fc-dur{background:rgba(201,168,124,.2);color:var(--clr-gold-light);border-color:rgba(201,168,124,.3)}
+.flight-card.cathay .fc-bag{background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.15)}
+.flight-card.ita{background:linear-gradient(135deg,#4a3f6b,#5d4f80);color:#fff}
+.flight-card.ita .fc-airline{color:var(--clr-gold-light)}
+.flight-card.ita .fc-route-line{border-color:rgba(201,168,124,.3)}
+.flight-card.ita .fc-time{color:#fff}
+.flight-card.ita .fc-city{color:rgba(255,255,255,.7)}
+.flight-card.ita .fc-detail{color:rgba(255,255,255,.55)}
+.flight-card.ita .fc-dur{background:rgba(201,168,124,.15);color:var(--clr-gold-light);border-color:rgba(201,168,124,.25)}
+.flight-card.ita .fc-bag{background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.15)}
+.flight-card.tbd{background:var(--clr-card);border:2px dashed var(--clr-muted);color:var(--clr-dark)}
+.fc-airline{font-family:var(--font-body);font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;display:block}
+.fc-route{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.fc-endpoint{text-align:center;min-width:80px}
+.fc-time{font-family:var(--font-heading);font-size:1.6rem;font-weight:700;line-height:1.1}
+.fc-city{font-size:.78rem;margin-top:2px}
+.fc-route-line{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;border-top:2px dashed rgba(0,0,0,.15);position:relative;min-width:80px;margin-top:10px}
+.fc-plane{font-size:1rem;background:var(--clr-gold);color:var(--clr-dark);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;position:relative;top:-1px}
+.fc-dur{font-size:.72rem;padding:4px 10px;border-radius:20px;border:1px solid rgba(0,0,0,.1);background:rgba(0,0,0,.04);font-weight:600;white-space:nowrap}
+.fc-meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.fc-detail{font-size:.78rem;color:#888}
+.fc-bag{font-size:.72rem;padding:3px 10px;border-radius:20px;border:1px solid rgba(0,0,0,.08);background:rgba(0,0,0,.03);font-weight:500}
 
-    .hero-content { position: relative; z-index: 2; }
-    .hero h1 {
-      font-family: var(--font-heading);
-      font-size: 2.6rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      text-shadow: 0 2px 12px rgba(0,0,0,0.15);
-    }
-    .hero-subtitle {
-      font-size: 1.15rem;
-      font-weight: 500;
-      opacity: 0.9;
-      margin-bottom: 30px;
-    }
-    .hero-route-badges {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 30px;
-    }
-    .hero-route-badges .city {
-      background: rgba(255,255,255,0.2);
-      backdrop-filter: blur(4px);
-      padding: 5px 14px;
-      border-radius: 20px;
-      font-weight: 700;
-      font-size: 0.85rem;
-    }
-    .hero-route-badges .arrow {
-      font-size: 1rem;
-      opacity: 0.7;
-    }
+/* ===== ACCOMMODATION CARDS ===== */
+.accom-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin:24px 0}
+.accom-card{background:var(--clr-card);border-radius:var(--radius-sm);box-shadow:var(--shadow-card);padding:20px;border-left:4px solid var(--clr-gold)}
+.accom-card h4{font-size:1rem;margin-bottom:4px}
+.accom-card .accom-dates{font-size:.82rem;color:var(--clr-muted);margin-bottom:6px}
+.accom-card .accom-note{font-size:.82rem;color:#666}
 
-    /* Countdown */
-    .countdown-wrap {
-      margin-bottom: 28px;
-    }
-    .countdown-label {
-      font-size: 0.85rem;
-      opacity: 0.75;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      font-weight: 600;
-    }
-    .countdown {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .countdown-unit {
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(6px);
-      border-radius: var(--radius-sm);
-      padding: 12px 18px;
-      min-width: 80px;
-      text-align: center;
-    }
-    .countdown-unit .num {
-      font-family: var(--font-heading);
-      font-size: 2rem;
-      font-weight: 700;
-      line-height: 1;
-    }
-    .countdown-unit .lbl {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      opacity: 0.8;
-      margin-top: 4px;
-    }
+/* ===== BAGGAGE SUMMARY ===== */
+.baggage-card{background:linear-gradient(135deg,#f8f6f1,#f0ecf5);border-radius:var(--radius);padding:24px 28px;margin:24px 0}
+.baggage-card h3{margin-bottom:12px;font-size:1.15rem}
+.bag-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.06);font-size:.88rem;flex-wrap:wrap;gap:6px}
+.bag-row:last-child{border-bottom:none}
+.bag-label{color:#555;flex:1}
+.bag-value{font-weight:600;color:var(--clr-dark)}
 
-    /* Person badges */
-    .person-badges {
-      display: flex;
-      justify-content: center;
-      gap: 14px;
-      margin-top: 8px;
-    }
-    .person-badge {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,0.2);
-      backdrop-filter: blur(6px);
-      padding: 8px 18px;
-      border-radius: 30px;
-      font-weight: 700;
-      font-size: 0.9rem;
-    }
-    .person-badge .avatar {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8rem;
-    }
-    .person-badge .avatar.ib { background: var(--gold); color: var(--navy); }
-    .person-badge .avatar.ha { background: var(--coral); color: #fff; }
+/* ===== CAROUSEL ===== */
+.carousel{position:relative;border-radius:var(--radius);overflow:hidden;margin:0 auto 32px;max-width:1000px;aspect-ratio:3/1;background:#1a1a3e}
+.carousel-track{display:flex;transition:transform .5s ease;height:100%}
+.carousel-slide{min-width:100%;height:100%;position:relative}
+.carousel-slide img{width:100%;height:100%;object-fit:cover}
+.carousel-slide::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(26,26,62,.45) 100%)}
+.carousel-btn{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:rgba(26,26,62,.55);border:1px solid rgba(201,168,124,.3);color:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);z-index:2}
+.carousel-btn:hover{background:rgba(26,26,62,.8)}
+.carousel-btn.prev{left:12px}
+.carousel-btn.next{right:12px}
+.carousel-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:2}
+.carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);border:none;cursor:pointer;transition:var(--transition)}
+.carousel-dot.active{background:var(--clr-gold);transform:scale(1.25)}
 
-    /* ===== SECTION STYLES ===== */
-    .section-heading {
-      font-family: var(--font-heading);
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--teal-dark);
-      margin-bottom: 6px;
-    }
-    .section-subheading {
-      font-size: 1rem;
-      color: var(--slate-light);
-      margin-bottom: 30px;
-      font-weight: 500;
-    }
+/* ===== PROGRESS BAR ===== */
+.progress-wrap{background:var(--clr-card);border-radius:var(--radius);box-shadow:var(--shadow-card);padding:24px 28px;margin-bottom:24px}
+.progress-label{display:flex;justify-content:space-between;font-size:.88rem;color:var(--clr-muted);margin-bottom:8px}
+.progress-bar{height:8px;background:var(--clr-tag-bg);border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--clr-gold),var(--clr-purple));border-radius:4px;transition:width .4s ease}
 
-    /* ===== ROUTE TIMELINE ===== */
-    .route-timeline {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      margin-bottom: 40px;
-    }
-    .route-card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: var(--card-shadow);
-      border-left: 4px solid var(--teal);
-      transition: transform 0.3s, box-shadow 0.3s;
-      position: relative;
-    }
-    .route-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--card-hover-shadow);
-    }
-    .route-card:nth-child(2) { border-left-color: var(--gold); }
-    .route-card:nth-child(3) { border-left-color: var(--coral); }
-    .route-card:nth-child(4) { border-left-color: var(--sky); }
-    .route-card:nth-child(5) { border-left-color: #a78bfa; }
-    .route-card .rc-icon {
-      font-size: 1.8rem;
-      margin-bottom: 10px;
-    }
-    .route-card .rc-dates {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--teal);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-bottom: 4px;
-    }
-    .route-card:nth-child(2) .rc-dates { color: var(--gold); }
-    .route-card:nth-child(3) .rc-dates { color: var(--coral); }
-    .route-card:nth-child(4) .rc-dates { color: var(--sky); }
-    .route-card:nth-child(5) .rc-dates { color: #a78bfa; }
-    .route-card .rc-title {
-      font-family: var(--font-heading);
-      font-size: 1.15rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-    .route-card .rc-desc {
-      font-size: 0.88rem;
-      color: var(--slate);
-      line-height: 1.5;
-    }
+/* ===== CHECKLIST CARDS ===== */
+.checklist-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:32px}
+.check-card{display:flex;gap:16px;align-items:flex-start;background:var(--clr-card);border-radius:var(--radius-sm);box-shadow:var(--shadow-card);padding:20px;transition:var(--transition);cursor:pointer}
+.check-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.check-card.checked{opacity:.55}
+.check-card.checked .check-name{text-decoration:line-through;color:var(--clr-muted)}
+.check-box{flex-shrink:0;width:24px;height:24px;border:2px solid var(--clr-muted);border-radius:6px;display:flex;align-items:center;justify-content:center;transition:var(--transition);margin-top:2px;font-size:.85rem;color:transparent}
+.check-card.checked .check-box{background:var(--clr-gold);border-color:var(--clr-gold);color:var(--clr-dark)}
+.check-emoji{font-size:1.6rem;flex-shrink:0}
+.check-body{flex:1;min-width:0}
+.check-name{font-family:var(--font-heading);font-size:1.15rem;font-weight:600;color:var(--clr-dark);margin-bottom:3px;transition:var(--transition)}
+.check-desc{font-size:.85rem;color:#666;line-height:1.55}
+.check-tag{display:inline-block;font-size:.7rem;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--clr-tag-bg);color:var(--clr-tag-text);margin-top:6px;letter-spacing:.3px}
 
-    /* ===== FLIGHT CARDS ===== */
-    .flights-section {
-      margin-bottom: 40px;
-    }
-    .flights-section .leg-title {
-      font-family: var(--font-heading);
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: var(--teal-dark);
-      margin-bottom: 14px;
-      padding-bottom: 8px;
-      border-bottom: 2px solid var(--teal-light);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .flights-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 16px;
-      margin-bottom: 30px;
-    }
-    .flight-card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 22px 24px;
-      box-shadow: var(--card-shadow);
-      transition: transform 0.3s, box-shadow 0.3s;
-      position: relative;
-      overflow: hidden;
-    }
-    .flight-card:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--card-hover-shadow);
-    }
-    .flight-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--teal), var(--sky));
-    }
-    .flight-card.ita::before {
-      background: linear-gradient(90deg, var(--coral), var(--gold));
-    }
-    .fc-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 14px;
-    }
-    .fc-flight-num {
-      font-family: var(--font-heading);
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--teal-dark);
-    }
-    .flight-card.ita .fc-flight-num { color: var(--coral); }
-    .fc-airline {
-      font-size: 0.75rem;
-      color: var(--slate-light);
-      font-weight: 600;
-    }
-    .fc-date {
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: var(--slate-light);
-      text-align: right;
-    }
-    .fc-route {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-    .fc-airport {
-      text-align: center;
-    }
-    .fc-airport .code {
-      font-family: var(--font-heading);
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--navy);
-      line-height: 1;
-    }
-    .fc-airport .city {
-      font-size: 0.72rem;
-      color: var(--slate-light);
-      margin-top: 2px;
-    }
-    .fc-airport .time {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--teal-dark);
-      margin-top: 4px;
-    }
-    .flight-card.ita .fc-airport .time { color: var(--coral); }
-    .fc-line {
-      flex: 1;
-      position: relative;
-      height: 2px;
-      background: var(--teal-light);
-    }
-    .flight-card.ita .fc-line { background: var(--coral-light); }
-    .fc-line::before {
-      content: '';
-      position: absolute;
-      right: -2px;
-      top: -4px;
-      width: 0; height: 0;
-      border-left: 8px solid var(--teal-light);
-      border-top: 5px solid transparent;
-      border-bottom: 5px solid transparent;
-    }
-    .flight-card.ita .fc-line::before { border-left-color: var(--coral-light); }
-    .fc-line .duration-pill {
-      position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--bg);
-      padding: 1px 10px;
-      border-radius: 12px;
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: var(--teal-dark);
-      white-space: nowrap;
-    }
-    .flight-card.ita .fc-line .duration-pill { color: var(--coral); }
-    .fc-meta {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      font-size: 0.75rem;
-      color: var(--slate);
-    }
-    .fc-meta span {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
+/* ===== TIPS CARD ===== */
+.tips-card{background:linear-gradient(135deg,#f8f6f1,#f0ecf5);border-radius:var(--radius);padding:28px;margin:32px 0}
+.tips-card h3{margin-bottom:16px;font-size:1.3rem}
+.tip-item{margin-bottom:14px}
+.tip-item:last-child{margin-bottom:0}
+.tip-label{font-weight:700;color:var(--clr-dark);font-size:.85rem;text-transform:uppercase;letter-spacing:.5px}
+.tip-text{font-size:.88rem;color:#555;margin-top:2px;line-height:1.55}
 
-    /* Hotel card */
-    .hotel-card {
-      background: linear-gradient(135deg, #fef3c7 0%, #fff7ed 100%);
-      border-radius: var(--radius);
-      padding: 22px 24px;
-      box-shadow: var(--card-shadow);
-      border: 2px solid var(--gold-light);
-      margin-bottom: 30px;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .hotel-card:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--card-hover-shadow);
-    }
-    .hotel-card .hc-title {
-      font-family: var(--font-heading);
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--gold);
-      margin-bottom: 6px;
-    }
-    .hotel-card .hc-details {
-      font-size: 0.9rem;
-      color: var(--slate);
-    }
+/* ===== BUDGET TAB ===== */
+.view-toggle{display:flex;justify-content:center;gap:8px;margin-bottom:28px}
+.view-btn{font-family:var(--font-body);font-size:.82rem;font-weight:600;padding:8px 20px;border-radius:20px;border:2px solid var(--clr-muted);background:transparent;color:var(--clr-muted);cursor:pointer;transition:var(--transition)}
+.view-btn.active{background:var(--clr-dark);border-color:var(--clr-dark);color:#fff}
+.view-simple,.view-advanced{animation:fadeUp .35s ease}
+.cost-breakdown{background:var(--clr-card);border-radius:var(--radius);box-shadow:var(--shadow-card);padding:28px;margin-bottom:24px}
+.cost-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.06);font-size:.92rem;flex-wrap:wrap;gap:4px}
+.cost-row:last-child{border-bottom:none}
+.cost-row.total{font-weight:700;font-size:1.05rem;color:var(--clr-dark);border-top:2px solid var(--clr-dark);margin-top:4px;padding-top:14px}
+.cost-label{color:#555}
+.cost-value{font-weight:600;color:var(--clr-dark)}
+.currency-toggle{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:24px}
+.curr-btn{font-family:var(--font-body);font-size:.8rem;font-weight:600;padding:6px 16px;border-radius:16px;border:2px solid var(--clr-tag-bg);background:transparent;color:var(--clr-muted);cursor:pointer;transition:var(--transition)}
+.curr-btn.active{background:var(--clr-gold);border-color:var(--clr-gold);color:var(--clr-dark)}
+.refresh-btn{font-size:.75rem;padding:5px 12px;border-radius:16px;border:1px solid var(--clr-muted);background:transparent;color:var(--clr-muted);cursor:pointer;transition:var(--transition)}
+.refresh-btn:hover{background:var(--clr-tag-bg)}
+.option-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:24px}
+.option-card{background:var(--clr-card);border-radius:var(--radius);box-shadow:var(--shadow-card);padding:24px;text-align:center;cursor:pointer;transition:var(--transition);border:2px solid transparent}
+.option-card:hover,.option-card.selected{border-color:var(--clr-gold);box-shadow:var(--shadow-hover)}
+.option-card.selected{background:linear-gradient(135deg,#faf7f2,#f0ecf5)}
+.option-months{font-family:var(--font-heading);font-size:2rem;font-weight:700;color:var(--clr-dark)}
+.option-label{font-size:.78rem;color:var(--clr-muted);margin-bottom:10px}
+.option-amount{font-size:1.3rem;font-weight:700;color:var(--clr-gold)}
+.option-freq{font-size:.78rem;color:var(--clr-muted);margin-top:2px}
+.summary-sentence{text-align:center;font-family:var(--font-heading);font-size:1.3rem;color:var(--clr-dark);padding:20px;background:var(--clr-card);border-radius:var(--radius);box-shadow:var(--shadow-card);margin-bottom:24px}
 
-    /* Baggage card */
-    .baggage-card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 22px 24px;
-      box-shadow: var(--card-shadow);
-      border: 2px solid var(--teal-light);
-    }
-    .baggage-card h3 {
-      font-family: var(--font-heading);
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: var(--teal-dark);
-      margin-bottom: 10px;
-    }
-    .baggage-card ul {
-      list-style: none;
-      padding: 0;
-    }
-    .baggage-card li {
-      font-size: 0.88rem;
-      color: var(--slate);
-      padding: 5px 0;
-      border-bottom: 1px solid #f0fdf4;
-    }
-    .baggage-card li:last-child { border-bottom: none; }
-    .baggage-card li strong { color: var(--navy); }
+/* Advanced charts & table */
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
+.chart-wrap{background:var(--clr-card);border-radius:var(--radius);box-shadow:var(--shadow-card);padding:24px}
+.chart-wrap canvas{max-height:280px}
+.chart-wrap.full{grid-column:1/-1}
+.schedule-table{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:12px}
+.schedule-table th{background:var(--clr-dark);color:#fff;padding:10px 12px;text-align:left;font-weight:600}
+.schedule-table td{padding:8px 12px;border-bottom:1px solid rgba(0,0,0,.06)}
+.schedule-table tr:nth-child(even){background:rgba(240,236,245,.3)}
 
-    /* ===== TUNISIA GUIDE ===== */
-    .guide-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-      margin-bottom: 40px;
-    }
-    .guide-card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: var(--card-shadow);
-      transition: transform 0.3s, box-shadow 0.3s;
-      position: relative;
-      overflow: hidden;
-    }
-    .guide-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--card-hover-shadow);
-    }
-    .guide-card .gc-icon {
-      font-size: 2.2rem;
-      margin-bottom: 10px;
-    }
-    .guide-card .gc-name {
-      font-family: var(--font-heading);
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 6px;
-    }
-    .guide-card .gc-desc {
-      font-size: 0.88rem;
-      color: var(--slate);
-      line-height: 1.55;
-      margin-bottom: 10px;
-    }
-    .gc-tag {
-      display: inline-block;
-      padding: 3px 12px;
-      border-radius: 20px;
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .gc-tag.culture { background: #ede9fe; color: #7c3aed; }
-    .gc-tag.beach { background: #e0f2fe; color: #0284c7; }
-    .gc-tag.food { background: #fef3c7; color: #d97706; }
-    .gc-tag.adventure { background: #dcfce7; color: #16a34a; }
-    .gc-tag.history { background: #fee2e2; color: #dc2626; }
+/* ===== FOOTER ===== */
+.page-footer{text-align:center;padding:40px 20px;font-size:.78rem;color:var(--clr-muted)}
 
-    /* Tips card */
-    .tips-card {
-      background: linear-gradient(135deg, var(--coral) 0%, #fb7185 100%);
-      border-radius: var(--radius);
-      padding: 28px;
-      color: #fff;
-      grid-column: 1 / -1;
-    }
-    .tips-card .tc-title {
-      font-family: var(--font-heading);
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 14px;
-    }
-    .tips-card ul {
-      list-style: none;
-      padding: 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 10px;
-    }
-    .tips-card li {
-      font-size: 0.9rem;
-      padding: 6px 0;
-      padding-left: 24px;
-      position: relative;
-      line-height: 1.5;
-    }
-    .tips-card li::before {
-      content: attr(data-icon);
-      position: absolute;
-      left: 0;
-      top: 6px;
-    }
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+  .hero{padding:70px 16px 60px}
+  .cd-unit{min-width:64px;padding:10px 12px}
+  .cd-unit .num{font-size:1.5rem}
+  .phase-card{margin-left:48px;padding:18px 20px}
+  .timeline::before{left:22px}
+  .fc-route{flex-direction:column;gap:8px}
+  .fc-route-line{width:100%;border-top:none;border-left:2px dashed rgba(201,168,124,.4);flex-direction:column;min-width:auto;margin-top:0;padding:6px 0}
+  .chart-row{grid-template-columns:1fr}
+  .carousel{aspect-ratio:2/1}
+  .accom-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .nav-tab{padding:8px 14px;font-size:.78rem}
+  .container{padding:0 14px}
+  .card{padding:20px}
+  .flight-card{padding:18px 20px}
+  .option-grid{grid-template-columns:1fr}
+}
 
-    /* ===== PAYMENT PLAN TAB ===== */
-    .payment-section {
-      margin-bottom: 40px;
-    }
-
-    /* Controls bar */
-    .payment-controls {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
-    .toggle-group {
-      display: flex;
-      border-radius: var(--radius-sm);
-      overflow: hidden;
-      border: 2px solid var(--teal);
-    }
-    .toggle-group button {
-      padding: 8px 20px;
-      border: none;
-      background: #fff;
-      color: var(--teal);
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 0.82rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .toggle-group button.active {
-      background: var(--teal);
-      color: #fff;
-    }
-    .toggle-group button:hover:not(.active) {
-      background: var(--teal-light);
-    }
-
-    /* Currency bar */
-    .currency-bar {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 14px 20px;
-      margin-bottom: 28px;
-      box-shadow: var(--card-shadow);
-      flex-wrap: wrap;
-    }
-    .currency-bar label {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--slate);
-    }
-    .refresh-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 16px;
-      border: 2px solid var(--teal);
-      border-radius: var(--radius-sm);
-      background: #fff;
-      color: var(--teal);
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 0.82rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .refresh-btn:hover { background: var(--teal); color: #fff; }
-    .refresh-btn.loading { opacity: 0.5; pointer-events: none; }
-    .refresh-btn svg { width: 16px; height: 16px; }
-    .refresh-btn.loading svg { animation: spin 0.8s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .rate-info {
-      font-size: 0.78rem;
-      color: var(--slate-light);
-      margin-left: auto;
-    }
-    .rate-info strong { color: var(--teal-dark); }
-
-    /* Simple view - total card */
-    .simple-hero {
-      text-align: center;
-      padding: 10px 0 20px;
-    }
-    .simple-route {
-      font-size: 1rem;
-      color: var(--slate-light);
-      margin-bottom: 24px;
-    }
-    .simple-route span {
-      display: inline-block;
-      background: var(--teal-light);
-      border-radius: 6px;
-      padding: 2px 10px;
-      color: var(--teal-dark);
-      font-weight: 700;
-      font-size: 0.88rem;
-    }
-    .simple-total-card {
-      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
-      border-radius: var(--radius);
-      padding: 28px 30px;
-      color: #fff;
-      display: inline-block;
-      margin-bottom: 32px;
-      box-shadow: 0 8px 32px rgba(13,148,136,0.3);
-    }
-    .simple-total-card .label {
-      font-size: 0.8rem;
-      opacity: 0.7;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      font-weight: 600;
-    }
-    .simple-total-card .amount {
-      font-family: var(--font-heading);
-      font-size: 2.4rem;
-      font-weight: 700;
-      margin: 4px 0;
-    }
-    .simple-total-card .sub {
-      font-size: 0.85rem;
-      opacity: 0.7;
-    }
-
-    /* Option cards (simple) */
-    .simple-options {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-    .simple-opt {
-      background: var(--card-bg);
-      border: 2px solid #e0e4ef;
-      border-radius: var(--radius);
-      padding: 24px 16px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s;
-      position: relative;
-      box-shadow: var(--card-shadow);
-    }
-    .simple-opt:hover {
-      border-color: var(--teal);
-      transform: translateY(-3px);
-      box-shadow: var(--card-hover-shadow);
-    }
-    .simple-opt.active {
-      border-color: var(--teal);
-      box-shadow: 0 4px 20px rgba(13,148,136,0.25);
-      transform: translateY(-3px);
-    }
-    .simple-opt .s-badge {
-      position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.62rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 3px 14px;
-      border-radius: 10px;
-      color: #fff;
-      white-space: nowrap;
-    }
-    .simple-opt:nth-child(1) .s-badge { background: var(--coral); }
-    .simple-opt:nth-child(2) .s-badge { background: var(--gold); }
-    .simple-opt:nth-child(3) .s-badge { background: var(--teal); }
-    .simple-opt .s-duration {
-      font-size: 0.85rem;
-      color: var(--slate-light);
-      margin-top: 8px;
-      margin-bottom: 12px;
-    }
-    .simple-opt .s-amount {
-      font-family: var(--font-heading);
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--teal-dark);
-    }
-    .simple-opt .s-label {
-      font-size: 0.78rem;
-      color: var(--slate-light);
-      margin-bottom: 4px;
-    }
-    .simple-opt .s-per-person {
-      font-size: 0.82rem;
-      color: var(--slate);
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid #eee;
-    }
-    .simple-opt .s-per-person strong {
-      color: var(--teal-dark);
-      font-size: 1.05rem;
-    }
-
-    .simple-summary {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 24px 28px;
-      text-align: center;
-      margin-bottom: 28px;
-      box-shadow: var(--card-shadow);
-    }
-    .simple-summary .s-msg {
-      font-size: 1.05rem;
-      color: var(--slate);
-      line-height: 1.7;
-    }
-    .simple-summary .s-msg strong { color: var(--teal-dark); }
-    .simple-summary .s-msg .highlight {
-      display: inline-block;
-      background: var(--teal);
-      color: #fff;
-      padding: 2px 12px;
-      border-radius: 6px;
-      font-family: var(--font-heading);
-      font-weight: 700;
-      font-size: 1.15rem;
-    }
-
-    /* ===== ADVANCED VIEW ===== */
-    .summary-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 36px;
-    }
-    .summary-card {
-      border: 1px solid var(--teal-light);
-      border-radius: var(--radius-sm);
-      padding: 18px 20px;
-      text-align: center;
-      background: var(--card-bg);
-      box-shadow: var(--card-shadow);
-    }
-    .summary-card h3 {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--slate-light);
-      margin-bottom: 4px;
-      font-family: var(--font-body);
-    }
-    .summary-card .val {
-      font-family: var(--font-heading);
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--teal-dark);
-    }
-    .summary-card .det {
-      font-size: 0.78rem;
-      color: var(--slate-light);
-      margin-top: 2px;
-    }
-    .summary-card.grand {
-      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
-      border-color: var(--teal);
-    }
-    .summary-card.grand h3,
-    .summary-card.grand .det { color: rgba(255,255,255,0.65); }
-    .summary-card.grand .val { color: #fff; }
-
-    .adv-section-title {
-      font-family: var(--font-heading);
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--teal-dark);
-      margin-bottom: 12px;
-      padding-bottom: 6px;
-      border-bottom: 2px solid var(--teal);
-    }
-
-    /* Tables */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 32px;
-      font-size: 0.88rem;
-    }
-    th {
-      text-align: left;
-      padding: 9px 10px;
-      background: var(--teal-light);
-      font-weight: 700;
-      font-size: 0.74rem;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      color: var(--teal-dark);
-    }
-    td {
-      padding: 9px 10px;
-      border-bottom: 1px solid #eee;
-    }
-    .r { text-align: right; font-variant-numeric: tabular-nums; }
-    .total-row td {
-      font-weight: 700;
-      border-top: 2px solid var(--teal);
-      border-bottom: 2px solid var(--teal);
-      background: #f0fdf4;
-    }
-    .fee-row td { color: var(--slate-light); font-style: italic; }
-    .route-sub { font-size: 0.75rem; color: var(--slate-light); display: block; }
-
-    /* Visuals */
-    .visuals-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-bottom: 36px;
-    }
-    .visual-card {
-      border: 1px solid var(--teal-light);
-      border-radius: var(--radius);
-      padding: 20px;
-      background: var(--card-bg);
-      box-shadow: var(--card-shadow);
-    }
-    .visual-card.full-width { grid-column: 1 / -1; }
-    .visual-card h3 {
-      font-family: var(--font-heading);
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--teal-dark);
-      margin-bottom: 14px;
-    }
-    .chart-wrap { position: relative; width: 100%; }
-    .chart-wrap.donut { max-width: 280px; margin: 0 auto; }
-
-    /* Option cards (advanced) */
-    .options-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 36px;
-    }
-    .option-card {
-      border: 2px solid #dde;
-      border-radius: var(--radius);
-      padding: 22px 16px;
-      text-align: center;
-      position: relative;
-      cursor: pointer;
-      transition: all 0.3s;
-      background: var(--card-bg);
-      box-shadow: var(--card-shadow);
-    }
-    .option-card:hover {
-      border-color: var(--teal);
-      transform: translateY(-3px);
-      box-shadow: var(--card-hover-shadow);
-    }
-    .option-card.active {
-      border-color: var(--teal);
-      box-shadow: 0 4px 20px rgba(13,148,136,0.25);
-      transform: translateY(-3px);
-    }
-    .option-card .badge {
-      position: absolute;
-      top: -11px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #fff;
-      font-size: 0.62rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 3px 14px;
-      border-radius: 10px;
-      white-space: nowrap;
-    }
-    .option-card.opt-a .badge { background: var(--coral); }
-    .option-card.opt-b .badge { background: var(--gold); }
-    .option-card.opt-c .badge { background: var(--teal); }
-    .option-card h3 {
-      font-family: var(--font-heading);
-      font-size: 0.95rem;
-      color: var(--teal-dark);
-      margin-bottom: 2px;
-      margin-top: 8px;
-    }
-    .option-card .period { font-size: 0.78rem; color: var(--slate-light); margin-bottom: 14px; }
-    .option-card .big-amount {
-      font-family: var(--font-heading);
-      font-size: 1.55rem;
-      font-weight: 700;
-      color: var(--navy);
-    }
-    .option-card .per-label { font-size: 0.72rem; color: var(--slate-light); margin-bottom: 10px; }
-    .option-card .each {
-      font-family: var(--font-heading);
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--teal-dark);
-    }
-    .option-card .each-label { font-size: 0.7rem; color: var(--slate-light); }
-    .option-card .monthly-eq {
-      font-size: 0.75rem;
-      color: var(--slate-light);
-      margin-top: 12px;
-      padding-top: 10px;
-      border-top: 1px solid #eee;
-    }
-
-    /* Person split */
-    .person-split {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 32px;
-    }
-    .person-card-adv {
-      border: 1px solid var(--teal-light);
-      border-radius: var(--radius-sm);
-      padding: 16px 18px;
-      text-align: center;
-      background: var(--card-bg);
-      box-shadow: var(--card-shadow);
-    }
-    .person-card-adv h4 {
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--slate-light);
-      margin-bottom: 4px;
-    }
-    .person-card-adv .amt {
-      font-family: var(--font-heading);
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--teal-dark);
-    }
-    .person-card-adv .det {
-      font-size: 0.75rem;
-      color: var(--slate-light);
-      margin-top: 2px;
-    }
-
-    /* Schedule section */
-    .schedule-section { margin-bottom: 40px; }
-    .schedule-section .sched-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 10px;
-      padding-bottom: 5px;
-      border-bottom: 2px solid var(--teal);
-    }
-    .schedule-section .sched-header h2 {
-      font-family: var(--font-heading);
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: var(--teal-dark);
-    }
-    .schedule-section .sched-header .option-label { font-size: 0.8rem; color: var(--slate-light); }
-    .sched-table tbody tr:nth-child(even) { background: #f0fdf4; }
-    .sched-table tr.paid-off td { background: #dcfce7; }
-    .sched-note {
-      font-size: 0.78rem;
-      color: var(--slate-light);
-      margin-top: -20px;
-      margin-bottom: 24px;
-    }
-
-    /* Footer */
-    .site-footer {
-      text-align: center;
-      font-size: 0.75rem;
-      color: var(--slate-light);
-      margin-top: 40px;
-      padding-top: 14px;
-      border-top: 1px solid var(--teal-light);
-    }
-
-    .hidden { display: none !important; }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 768px) {
-      .hero h1 { font-size: 1.8rem; }
-      .hero { padding: 40px 20px 35px; }
-      .countdown { gap: 10px; }
-      .countdown-unit { padding: 8px 12px; min-width: 65px; }
-      .countdown-unit .num { font-size: 1.5rem; }
-      .nav-brand { font-size: 0.9rem; }
-      .nav-tab { padding: 12px 12px; font-size: 0.78rem; }
-      .simple-options,
-      .options-grid,
-      .summary-row { grid-template-columns: 1fr; }
-      .visuals-grid,
-      .person-split { grid-template-columns: 1fr; }
-      .flights-grid { grid-template-columns: 1fr; }
-      .guide-grid { grid-template-columns: 1fr; }
-      .route-timeline { grid-template-columns: 1fr; }
-      .currency-bar,
-      .payment-controls { flex-direction: column; align-items: flex-start; }
-      .rate-info { margin-left: 0; }
-      .tips-card ul { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 480px) {
-      .hero h1 { font-size: 1.4rem; }
-      .hero-subtitle { font-size: 0.95rem; }
-      .nav-tabs { gap: 0; }
-      .nav-tab { padding: 10px 8px; font-size: 0.72rem; }
-      .main-container { padding: 0 12px 40px; }
-    }
-
-    /* ===== PRINT STYLES ===== */
-    @media print {
-      body { background: #fff; }
-      .top-nav { position: static; border-bottom: 1px solid #ccc; }
-      .hero { break-inside: avoid; }
-      .tab-panel { display: block !important; page-break-before: always; }
-      .tab-panel:first-child { page-break-before: auto; }
-      .flight-card, .guide-card, .route-card, .simple-opt, .option-card, .summary-card {
-        break-inside: avoid;
-        box-shadow: none;
-        border: 1px solid #ddd;
-      }
-      .flight-card:hover, .guide-card:hover, .route-card:hover,
-      .simple-opt:hover, .option-card:hover { transform: none; }
-      .simple-opt.active, .option-card.active { transform: none; }
-      .fade-up { opacity: 1 !important; transform: none !important; }
-      .hero,
-      .simple-total-card, .summary-card.grand, .tips-card,
-      .simple-opt .s-badge, .option-card .badge,
-      .sched-table tbody tr:nth-child(even),
-      .sched-table tr.paid-off td,
-      th, .total-row td,
-      .toggle-group button.active,
-      .gc-tag, .person-badge, .countdown-unit, .hero-route-badges .city {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-      .sched-table td, .sched-table th { padding: 4px 6px; font-size: 0.75rem; }
-    }
-  </style>
+/* ===== PRINT ===== */
+@media print{
+  body{background:#fff !important;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  .nav,.scroll-btn,.carousel-btn,.carousel-dots,.view-toggle,.currency-toggle{display:none !important}
+  .tab-content{display:block !important;page-break-inside:avoid}
+  .hero{background:var(--clr-dark) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .flight-card.cathay,.flight-card.ita{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .card,.flight-card,.phase-card,.check-card,.option-card{box-shadow:none;border:1px solid #ddd}
+}
+</style>
 </head>
 <body>
 
-<!-- ===== TOP NAVIGATION ===== -->
-<nav class="top-nav">
+<!-- ===== NAVIGATION ===== -->
+<nav class="nav">
   <div class="nav-inner">
-    <div class="nav-brand">Mediterranean 2026</div>
-    <div class="nav-tabs">
-      <button class="nav-tab active" onclick="switchTab('adventure')">Our Adventure</button>
-      <button class="nav-tab" onclick="switchTab('flights')">Flights</button>
-      <button class="nav-tab" onclick="switchTab('tunisia')">Tunisia Guide</button>
-      <button class="nav-tab" onclick="switchTab('payment')">Payment Plan</button>
-    </div>
+    <button class="nav-tab active" data-tab="trip">Our Trip</button>
+    <button class="nav-tab" data-tab="flights">Flights</button>
+    <button class="nav-tab" data-tab="tunisia">Tunisia</button>
+    <button class="nav-tab" data-tab="libya">Libya</button>
+    <button class="nav-tab" data-tab="milan">Milan</button>
+    <button class="nav-tab" data-tab="budget">Budget</button>
   </div>
 </nav>
 
-<!-- ===== MAIN CONTENT ===== -->
-<div class="main-container">
-
-  <!-- ==================== TAB 1: OUR ADVENTURE ==================== -->
-  <div id="tab-adventure" class="tab-panel active">
-
-    <!-- HERO -->
-    <div class="hero">
-      <div class="hero-clouds">
-        <div class="cloud cloud-1"></div>
-        <div class="cloud cloud-2"></div>
-        <div class="cloud cloud-3"></div>
-        <div class="cloud cloud-4"></div>
-      </div>
-      <div class="hero-content">
-        <h1>Ibrahim &amp; Haajar's Mediterranean Adventure</h1>
-        <p class="hero-subtitle">Auckland &rarr; Milan &rarr; Tunisia &rarr; Libya &rarr; Home</p>
-
-        <div class="hero-route-badges">
-          <span class="city">Auckland</span>
-          <span class="arrow">&rarr;</span>
-          <span class="city">Hong Kong</span>
-          <span class="arrow">&rarr;</span>
-          <span class="city">Milan</span>
-          <span class="arrow">&rarr;</span>
-          <span class="city">Tunis</span>
-          <span class="arrow">&rarr;</span>
-          <span class="city">Libya</span>
-          <span class="arrow">&rarr;</span>
-          <span class="city">Auckland</span>
-        </div>
-
-        <div class="countdown-wrap">
-          <div class="countdown-label">Countdown to Departure</div>
-          <div class="countdown" id="countdown">
-            <div class="countdown-unit"><div class="num" id="cd-days">--</div><div class="lbl">Days</div></div>
-            <div class="countdown-unit"><div class="num" id="cd-hours">--</div><div class="lbl">Hours</div></div>
-            <div class="countdown-unit"><div class="num" id="cd-mins">--</div><div class="lbl">Minutes</div></div>
-            <div class="countdown-unit"><div class="num" id="cd-secs">--</div><div class="lbl">Seconds</div></div>
-          </div>
-        </div>
-
-        <div class="person-badges">
-          <div class="person-badge">
-            <div class="avatar ib">I</div>
-            Ibrahim
-          </div>
-          <div class="person-badge">
-            <div class="avatar ha">H</div>
-            Haajar
-          </div>
-        </div>
-      </div>
+<!-- ===== TAB 1: OUR TRIP ===== -->
+<div id="tab-trip" class="tab-content active">
+  <section class="hero">
+    <h1>Ibrahim &amp; Haajar's<br>Mediterranean Journey</h1>
+    <p class="subtitle">Auckland &middot; Milan &middot; Tunisia &middot; Libya &middot; Home</p>
+    <div class="couple-badge">&#x1F491; Ibrahim &amp; Haajar</div>
+    <div class="countdown-grid" id="countdown">
+      <div class="cd-unit"><span class="num" id="cd-days">--</span><span class="lbl">Days</span></div>
+      <div class="cd-unit"><span class="num" id="cd-hrs">--</span><span class="lbl">Hours</span></div>
+      <div class="cd-unit"><span class="num" id="cd-min">--</span><span class="lbl">Minutes</span></div>
+      <div class="cd-unit"><span class="num" id="cd-sec">--</span><span class="lbl">Seconds</span></div>
     </div>
+    <button class="scroll-btn" onclick="document.getElementById('route-timeline').scrollIntoView({behavior:'smooth'})" aria-label="Scroll down">&darr;</button>
+  </section>
 
-    <!-- ROUTE OVERVIEW -->
-    <h2 class="section-heading fade-up">The Journey</h2>
-    <p class="section-subheading fade-up">Six weeks across three countries, one unforgettable summer</p>
-
-    <div class="route-timeline">
-      <div class="route-card fade-up">
-        <div class="rc-icon">&#127987;&#65039;</div>
-        <div class="rc-dates">Jul 25 &ndash; 27</div>
-        <div class="rc-title">Milan with Family</div>
-        <div class="rc-desc">Land in Milan and spend two days with mama, papa, and Yasmeen. Catch up, eat well, recharge before the next leg.</div>
+  <div class="container" id="route-timeline">
+    <div class="section-header">
+      <h2>The Route</h2>
+      <p class="subtitle">Six weeks across the Mediterranean</p>
+    </div>
+    <div class="timeline">
+      <div class="phase-card">
+        <span class="phase-flag">&#x1F1EE;&#x1F1F9;</span>
+        <h3>Milan with Family</h3>
+        <div class="phase-dates">Jul 25 &ndash; 27, 2026</div>
+        <div class="phase-people">Mama, Papa, Yasmeen + Ibrahim &amp; Haajar</div>
+        <div class="phase-stay">Airbnb (booked by papa)</div>
       </div>
-      <div class="route-card fade-up">
-        <div class="rc-icon">&#127796;</div>
-        <div class="rc-dates">Jul 27 &ndash; Aug 10</div>
-        <div class="rc-title">Tunisia</div>
-        <div class="rc-desc">Two weeks exploring Tunis and Beni Khiar. Ancient medinas, blue-and-white villages, stunning coastline, incredible food. Haajar's first time here.</div>
+      <div class="phase-card">
+        <span class="phase-flag">&#x1F1F9;&#x1F1F3;</span>
+        <h3>Tunisia</h3>
+        <div class="phase-dates">Jul 27 &ndash; Aug 10, 2026</div>
+        <div class="phase-people">Tunis &amp; Beni Khiar</div>
+        <div class="phase-stay">Airbnb (or hotel TBD)</div>
       </div>
-      <div class="route-card fade-up">
-        <div class="rc-icon">&#127962;&#65039;</div>
-        <div class="rc-dates">Aug 10 &ndash; Sep 2</div>
-        <div class="rc-title">Libya</div>
-        <div class="rc-desc">Three weeks visiting Haajar's family. Flights TBD. Time to connect, explore, and make memories on home turf.</div>
+      <div class="phase-card">
+        <span class="phase-flag">&#x1F1F1;&#x1F1FE;</span>
+        <h3>Libya</h3>
+        <div class="phase-dates">Aug 10 &ndash; Sep 2, 2026</div>
+        <div class="phase-people">Shahhat, Jabal Akhdar &mdash; Cyrenaica</div>
+        <div class="phase-stay">Staying with Haajar's family</div>
       </div>
-      <div class="route-card fade-up">
-        <div class="rc-icon">&#127751;</div>
-        <div class="rc-dates">Sep 3 &ndash; 4</div>
-        <div class="rc-title">Milan Overnight</div>
-        <div class="rc-desc">Fly back to Milan from Tunisia. One night at Crowne Plaza near Malpensa before the long haul home.</div>
+      <div class="phase-card">
+        <span class="phase-flag">&#x1F1F9;&#x1F1F3;</span>
+        <h3>Back to Tunisia</h3>
+        <div class="phase-dates">Sep 2 &ndash; 3, 2026</div>
+        <div class="phase-people">Return from Libya (flights TBD)</div>
+        <div class="phase-stay">Transit</div>
       </div>
-      <div class="route-card fade-up">
-        <div class="rc-icon">&#9992;&#65039;</div>
-        <div class="rc-dates">Sep 4 &ndash; 6</div>
-        <div class="rc-title">Flying Home</div>
-        <div class="rc-desc">Milan &rarr; Hong Kong &rarr; Auckland. Two flights, one stopover, and then back to reality in Aotearoa.</div>
+      <div class="phase-card">
+        <span class="phase-flag">&#x1F1EE;&#x1F1F9;</span>
+        <h3>Milan Overnight</h3>
+        <div class="phase-dates">Sep 3 &ndash; 4, 2026</div>
+        <div class="phase-people">Just Ibrahim &amp; Haajar</div>
+        <div class="phase-stay">Crowne Plaza near Malpensa</div>
+      </div>
+      <div class="phase-card">
+        <span class="phase-flag">&#x2708;&#xFE0F;</span>
+        <h3>Journey Home</h3>
+        <div class="phase-dates">Sep 4 &ndash; 6, 2026</div>
+        <div class="phase-people">MXP &rarr; HKG &rarr; AKL</div>
+        <div class="phase-stay">Cathay Pacific &mdash; Economy Essential</div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- ==================== TAB 2: FLIGHTS ==================== -->
-  <div id="tab-flights" class="tab-panel">
-    <h2 class="section-heading fade-up" style="margin-top: 30px;">Flight Itinerary</h2>
-    <p class="section-subheading fade-up">Every leg of the journey, departure to doorstep</p>
+<!-- ===== TAB 2: FLIGHTS ===== -->
+<div id="tab-flights" class="tab-content">
+  <div class="container">
+    <div class="section-header">
+      <h2>Flight Itinerary</h2>
+      <p class="subtitle">Every leg of the journey</p>
+    </div>
 
-    <!-- Outbound: AKL to MXP -->
-    <div class="flights-section">
-      <div class="leg-title fade-up">&#128747; Auckland to Milan (Outbound)</div>
-      <div class="flights-grid">
-        <div class="flight-card fade-up">
-          <div class="fc-top">
-            <div>
-              <div class="fc-flight-num">CX198</div>
-              <div class="fc-airline">Cathay Pacific &middot; Economy</div>
-            </div>
-            <div class="fc-date">Thu, 24 Jul</div>
-          </div>
-          <div class="fc-route">
-            <div class="fc-airport">
-              <div class="code">AKL</div>
-              <div class="city">Auckland</div>
-              <div class="time">13:25</div>
-            </div>
-            <div class="fc-line">
-              <span class="duration-pill">11h 40m</span>
-            </div>
-            <div class="fc-airport">
-              <div class="code">HKG</div>
-              <div class="city">Hong Kong</div>
-              <div class="time">21:05</div>
-            </div>
-          </div>
-          <div class="fc-meta">
-            <span>&#128188; 1 checked bag each</span>
-            <span>&#128337; Economy Light</span>
-          </div>
-        </div>
-
-        <div class="flight-card fade-up">
-          <div class="fc-top">
-            <div>
-              <div class="fc-flight-num">CX233</div>
-              <div class="fc-airline">Cathay Pacific &middot; Economy</div>
-            </div>
-            <div class="fc-date">Fri, 25 Jul</div>
-          </div>
-          <div class="fc-route">
-            <div class="fc-airport">
-              <div class="code">HKG</div>
-              <div class="city">Hong Kong</div>
-              <div class="time">00:50</div>
-            </div>
-            <div class="fc-line">
-              <span class="duration-pill">13h 10m</span>
-            </div>
-            <div class="fc-airport">
-              <div class="code">MXP</div>
-              <div class="city">Milan Malpensa</div>
-              <div class="time">08:00</div>
-            </div>
-          </div>
-          <div class="fc-meta">
-            <span>&#128188; 1 checked bag each</span>
-            <span>&#128337; Economy Light</span>
-          </div>
-        </div>
+    <!-- AKL -> MXP -->
+    <div class="flight-section-label">Auckland &rarr; Milan &mdash; Jul 24&ndash;25</div>
+    <div class="flight-card cathay">
+      <span class="fc-airline">Cathay Pacific</span>
+      <div class="fc-route">
+        <div class="fc-endpoint"><span class="fc-time">13:25</span><span class="fc-city">AKL</span></div>
+        <div class="fc-route-line"><div class="fc-plane">&#x2708;</div><div class="fc-dur">11h 40m</div></div>
+        <div class="fc-endpoint"><span class="fc-time">21:05</span><span class="fc-city">HKG</span></div>
+      </div>
+      <div class="fc-meta">
+        <span class="fc-detail">CX198 &middot; Jul 24 &middot; Economy Light</span>
+        <span class="fc-bag">&#x1F9F3; 1 checked bag each</span>
+      </div>
+    </div>
+    <div class="flight-card cathay">
+      <span class="fc-airline">Cathay Pacific</span>
+      <div class="fc-route">
+        <div class="fc-endpoint"><span class="fc-time">00:50</span><span class="fc-city">HKG</span></div>
+        <div class="fc-route-line"><div class="fc-plane">&#x2708;</div><div class="fc-dur">13h 10m</div></div>
+        <div class="fc-endpoint"><span class="fc-time">08:00</span><span class="fc-city">MXP</span></div>
+      </div>
+      <div class="fc-meta">
+        <span class="fc-detail">CX233 &middot; Jul 25 &middot; Economy Light</span>
+        <span class="fc-bag">&#x1F9F3; 1 checked bag each</span>
       </div>
     </div>
 
-    <!-- Milan to Tunis -->
-    <div class="flights-section">
-      <div class="leg-title fade-up">&#127796; Milan to Tunis</div>
-      <div class="flights-grid">
-        <div class="flight-card ita fade-up">
-          <div class="fc-top">
-            <div>
-              <div class="fc-flight-num">AZ2109</div>
-              <div class="fc-airline">ITA Airways</div>
-            </div>
-            <div class="fc-date">Sun, 27 Jul</div>
-          </div>
-          <div class="fc-route">
-            <div class="fc-airport">
-              <div class="code">LIN</div>
-              <div class="city">Milan Linate</div>
-              <div class="time">19:00</div>
-            </div>
-            <div class="fc-line">
-              <span class="duration-pill">1h 10m</span>
-            </div>
-            <div class="fc-airport">
-              <div class="code">FCO</div>
-              <div class="city">Rome</div>
-              <div class="time">20:10</div>
-            </div>
-          </div>
-          <div class="fc-meta">
-            <span>&#128188; 1 checked bag each</span>
-            <span>&#127470;&#127481; ITA Airways</span>
-          </div>
-        </div>
-
-        <div class="flight-card ita fade-up">
-          <div class="fc-top">
-            <div>
-              <div class="fc-flight-num">AZ862</div>
-              <div class="fc-airline">ITA Airways</div>
-            </div>
-            <div class="fc-date">Sun, 27 Jul</div>
-          </div>
-          <div class="fc-route">
-            <div class="fc-airport">
-              <div class="code">FCO</div>
-              <div class="city">Rome</div>
-              <div class="time">22:00</div>
-            </div>
-            <div class="fc-line">
-              <span class="duration-pill">1h 20m</span>
-            </div>
-            <div class="fc-airport">
-              <div class="code">TUN</div>
-              <div class="city">Tunis Carthage</div>
-              <div class="time">22:20</div>
-            </div>
-          </div>
-          <div class="fc-meta">
-            <span>&#128188; 1 checked bag each</span>
-            <span>&#127481;&#127475; Arriving Tunisia</span>
-          </div>
-        </div>
+    <!-- MXP -> TUN -->
+    <div class="flight-section-label">Milan &rarr; Tunis &mdash; Jul 27</div>
+    <div class="flight-card ita">
+      <span class="fc-airline">ITA Airways</span>
+      <div class="fc-route">
+        <div class="fc-endpoint"><span class="fc-time">19:00</span><span class="fc-city">LIN</span></div>
+        <div class="fc-route-line"><div class="fc-plane">&#x2708;</div><div class="fc-dur">1h 10m</div></div>
+        <div class="fc-endpoint"><span class="fc-time">20:10</span><span class="fc-city">FCO</span></div>
+      </div>
+      <div class="fc-meta">
+        <span class="fc-detail">AZ2109 &middot; Jul 27 &middot; Milan Linate &rarr; Rome FCO</span>
+        <span class="fc-bag">&#x1F9F3; 1 checked bag each</span>
+      </div>
+    </div>
+    <div class="flight-card ita">
+      <span class="fc-airline">ITA Airways</span>
+      <div class="fc-route">
+        <div class="fc-endpoint"><span class="fc-time">22:00</span><span class="fc-city">FCO</span></div>
+        <div class="fc-route-line"><div class="fc-plane">&#x2708;</div><div class="fc-dur">1h 20m</div></div>
+        <div class="fc-endpoint"><span class="fc-time">22:20</span><span class="fc-city">TUN</span></div>
+      </div>
+      <div class="fc-meta">
+        <span class="fc-detail">AZ862 &middot; Jul 27 &middot; Rome FCO &rarr; Tunis</span>
+        <span class="fc-bag">&#x1F9F3; 1 checked bag each</span>
       </div>
     </div>
 
-    <!-- Tunis to Milan (return) -->
-    <div class="flights-section">
-      <div class="leg-title fade-up">&#128747; Tunis to Milan (Return)</div>
-      <div class="flights-grid">
-        <div class="flight-card ita fade-up">
-          <div class="fc-top">
-            <div>
-              <div class="fc-flight-num">AZ861</div>
-              <div class="fc-airline">ITA Airways</div>
-            </div>
-            <div class="fc-date">Wed, 3 Sep</div>
-          </div>
-          <div class="fc-route">
-            <div class="fc-airport">
-              <div class="code">TUN</div>
-              <div class="city">Tunis</div>
-              <div class="time">05:30</div>
-            </div>
-            <div class="fc-line">
-              <span class="duration-pill">1h 25m</span>
-            </div>
-            <div class="fc-airport">
-              <div class="code">FCO</div>
-              <div class="city">Rome</div>
-              <div class="time">07:55</div>
-            </div>
-          </div>
-          <div class="fc-meta">
-            <span>&#128188; 1 checked bag each</span>
-            <span>&#128188; Haajar has extra bag</span>
-          </div>
-        </div>
+    <!-- Libya TBD -->
+    <div class="flight-section-label">Tunisia &harr; Libya &mdash; Aug 10 &amp; Sep 2</div>
+    <div class="flight-card tbd" style="text-align:center;padding:36px">
+      <span style="font-size:2rem;display:block;margin-bottom:8px">&#x2708;&#xFE0F;</span>
+      <h3 style="margin-bottom:6px">Flights TBD</h3>
+      <p class="subtitle" style="font-size:.9rem">Round trip: Tunis &rarr; Libya (Aug 10) &amp; Libya &rarr; Tunis (Sep 2)<br>Details to be confirmed</p>
+    </div>
 
-        <div class="flight-card ita fade-up">
-          <div class="fc-top">
-            <div>
-              <div class="fc-flight-num">AZ2028</div>
-              <div class="fc-airline">ITA Airways</div>
-            </div>
-            <div class="fc-date">Wed, 3 Sep</div>
-          </div>
-          <div class="fc-route">
-            <div class="fc-airport">
-              <div class="code">FCO</div>
-              <div class="city">Rome</div>
-              <div class="time">09:00</div>
-            </div>
-            <div class="fc-line">
-              <span class="duration-pill">1h 10m</span>
-            </div>
-            <div class="fc-airport">
-              <div class="code">LIN</div>
-              <div class="city">Milan Linate</div>
-              <div class="time">10:10</div>
-            </div>
-          </div>
-          <div class="fc-meta">
-            <span>&#128188; 1 checked bag each</span>
-            <span>&#127470;&#127481; ITA Airways</span>
-          </div>
-        </div>
+    <!-- TUN -> MXP -->
+    <div class="flight-section-label">Tunis &rarr; Milan &mdash; Sep 3</div>
+    <div class="flight-card ita">
+      <span class="fc-airline">ITA Airways</span>
+      <div class="fc-route">
+        <div class="fc-endpoint"><span class="fc-time">05:30</span><span class="fc-city">TUN</span></div>
+        <div class="fc-route-line"><div class="fc-plane">&#x2708;</div><div class="fc-dur">1h 25m</div></div>
+        <div class="fc-endpoint"><span class="fc-time">07:55</span><span class="fc-city">FCO</span></div>
+      </div>
+      <div class="fc-meta">
+        <span class="fc-detail">AZ861 &middot; Sep 3 &middot; Tunis &rarr; Rome FCO</span>
+        <span class="fc-bag">&#x1F9F3; 1 checked bag each</span>
+      </div>
+    </div>
+    <div class="flight-card ita">
+      <span class="fc-airline">ITA Airways</span>
+      <div class="fc-route">
+        <div class="fc-endpoint"><span class="fc-time">09:00</span><span class="fc-city">FCO</span></div>
+        <div class="fc-route-line"><div class="fc-plane">&#x2708;</div><div class="fc-dur">1h 10m</div></div>
+        <div class="fc-endpoint"><span class="fc-time">10:10</span><span class="fc-city">LIN</span></div>
+      </div>
+      <div class="fc-meta">
+        <span class="fc-detail">AZ2028 &middot; Sep 3 &middot; Rome FCO &rarr; Milan Linate</span>
+        <span class="fc-bag">&#x1F9F3; 1 checked bag each</span>
       </div>
     </div>
 
-    <!-- Hotel -->
-    <div class="hotel-card fade-up">
-      <div class="hc-title">&#127976; Crowne Plaza Milan-Malpensa</div>
-      <div class="hc-details">
-        <strong>Sep 3 &ndash; 4</strong> &middot; 1 night &middot; Overnight stop before the long-haul home
+    <!-- MXP -> AKL -->
+    <div class="flight-section-label">Milan &rarr; Auckland &mdash; Sep 4&ndash;6</div>
+    <div class="flight-card cathay">
+      <span class="fc-airline">Cathay Pacific</span>
+      <div class="fc-route">
+        <div class="fc-endpoint"><span class="fc-time">12:45</span><span class="fc-city">MXP</span></div>
+        <div class="fc-route-line"><div class="fc-plane">&#x2708;</div><div class="fc-dur">11h 30m</div></div>
+        <div class="fc-endpoint"><span class="fc-time">06:15<sup>+1</sup></span><span class="fc-city">HKG</span></div>
+      </div>
+      <div class="fc-meta">
+        <span class="fc-detail">CX234 &middot; Sep 4 &middot; Economy Essential</span>
+        <span class="fc-bag">&#x1F9F3; 2 checked bags each</span>
+      </div>
+    </div>
+    <div class="flight-card cathay">
+      <span class="fc-airline">Cathay Pacific</span>
+      <div class="fc-route">
+        <div class="fc-endpoint"><span class="fc-time">21:10</span><span class="fc-city">HKG</span></div>
+        <div class="fc-route-line"><div class="fc-plane">&#x2708;</div><div class="fc-dur">10h 40m</div></div>
+        <div class="fc-endpoint"><span class="fc-time">11:50<sup>+1</sup></span><span class="fc-city">AKL</span></div>
+      </div>
+      <div class="fc-meta">
+        <span class="fc-detail">CX113 &middot; Sep 5 &middot; Economy Essential</span>
+        <span class="fc-bag">&#x1F9F3; 2 checked bags each</span>
       </div>
     </div>
 
-    <!-- Milan to Auckland (return) -->
-    <div class="flights-section">
-      <div class="leg-title fade-up">&#127758; Milan to Auckland (Home)</div>
-      <div class="flights-grid">
-        <div class="flight-card fade-up">
-          <div class="fc-top">
-            <div>
-              <div class="fc-flight-num">CX234</div>
-              <div class="fc-airline">Cathay Pacific &middot; Economy</div>
-            </div>
-            <div class="fc-date">Thu, 4 Sep</div>
-          </div>
-          <div class="fc-route">
-            <div class="fc-airport">
-              <div class="code">MXP</div>
-              <div class="city">Milan Malpensa</div>
-              <div class="time">12:45</div>
-            </div>
-            <div class="fc-line">
-              <span class="duration-pill">11h 30m</span>
-            </div>
-            <div class="fc-airport">
-              <div class="code">HKG</div>
-              <div class="city">Hong Kong</div>
-              <div class="time">06:15+1</div>
-            </div>
-          </div>
-          <div class="fc-meta">
-            <span>&#128188; 2 checked bags each</span>
-            <span>&#128337; Economy Essential</span>
-          </div>
-        </div>
-
-        <div class="flight-card fade-up">
-          <div class="fc-top">
-            <div>
-              <div class="fc-flight-num">CX113</div>
-              <div class="fc-airline">Cathay Pacific &middot; Economy</div>
-            </div>
-            <div class="fc-date">Fri, 5 Sep</div>
-          </div>
-          <div class="fc-route">
-            <div class="fc-airport">
-              <div class="code">HKG</div>
-              <div class="city">Hong Kong</div>
-              <div class="time">21:10</div>
-            </div>
-            <div class="fc-line">
-              <span class="duration-pill">10h 40m</span>
-            </div>
-            <div class="fc-airport">
-              <div class="code">AKL</div>
-              <div class="city">Auckland</div>
-              <div class="time">11:50+1</div>
-            </div>
-          </div>
-          <div class="fc-meta">
-            <span>&#128188; 2 checked bags each</span>
-            <span>&#127758; Welcome home!</span>
-          </div>
-        </div>
+    <!-- ACCOMMODATION -->
+    <div class="flight-section-label">Accommodation Summary</div>
+    <div class="accom-grid">
+      <div class="accom-card">
+        <h4>&#x1F1EE;&#x1F1F9; Milan Arrival</h4>
+        <div class="accom-dates">Jul 25 &ndash; 27</div>
+        <div class="accom-note">Airbnb (booked by papa)</div>
+      </div>
+      <div class="accom-card">
+        <h4>&#x1F1F9;&#x1F1F3; Tunisia</h4>
+        <div class="accom-dates">Jul 27 &ndash; Aug 10</div>
+        <div class="accom-note">Airbnb in Beni Khiar area</div>
+      </div>
+      <div class="accom-card">
+        <h4>&#x1F1F1;&#x1F1FE; Libya</h4>
+        <div class="accom-dates">Aug 10 &ndash; Sep 2</div>
+        <div class="accom-note">Staying with Haajar's family (Hasi home, Shahhat)</div>
+      </div>
+      <div class="accom-card">
+        <h4>&#x1F1EE;&#x1F1F9; Milan Overnight</h4>
+        <div class="accom-dates">Sep 3 &ndash; 4</div>
+        <div class="accom-note">Crowne Plaza near Malpensa</div>
       </div>
     </div>
 
-    <!-- Baggage summary -->
-    <div class="baggage-card fade-up">
-      <h3>&#128188; Baggage Summary</h3>
-      <ul>
-        <li><strong>Outbound (Cathay Pacific):</strong> 1 checked bag each &mdash; Economy Light fare</li>
-        <li><strong>Milan &rarr; Tunis (ITA Airways):</strong> 1 checked bag each</li>
-        <li><strong>Tunis &rarr; Milan (ITA Airways):</strong> 1 checked bag each + Haajar has an extra bag on return</li>
-        <li><strong>Return (Cathay Pacific):</strong> 2 checked bags each &mdash; Economy Essential fare</li>
-      </ul>
+    <!-- BAGGAGE -->
+    <div class="baggage-card">
+      <h3>&#x1F9F3; Baggage Summary</h3>
+      <div class="bag-row"><span class="bag-label">Cathay Pacific &mdash; Outbound (Economy Light)</span><span class="bag-value">1 bag each (23kg)</span></div>
+      <div class="bag-row"><span class="bag-label">Cathay Pacific &mdash; Return (Economy Essential)</span><span class="bag-value">2 bags each (23kg)</span></div>
+      <div class="bag-row"><span class="bag-label">ITA Airways &mdash; All segments</span><span class="bag-value">1 bag each (23kg)</span></div>
+      <div class="bag-row"><span class="bag-label">Haajar &mdash; Extra bag on ITA return (Sep 3)</span><span class="bag-value">+1 extra bag</span></div>
     </div>
   </div>
+</div>
 
-  <!-- ==================== TAB 3: TUNISIA GUIDE ==================== -->
-  <div id="tab-tunisia" class="tab-panel">
-    <h2 class="section-heading fade-up" style="margin-top: 30px;">Discovering Tunisia</h2>
-    <p class="section-subheading fade-up">Haajar's First Visit &mdash; Between Tunis &amp; Beni Khiar &mdash; Jul 27 to Aug 10</p>
-
-    <div class="guide-grid">
-      <div class="guide-card fade-up">
-        <div class="gc-icon">&#127979;</div>
-        <div class="gc-name">Medina of Tunis</div>
-        <div class="gc-desc">A UNESCO World Heritage labyrinth of ancient souks, hidden courtyards, and the grand Zitouna Mosque. Lose yourself in the narrow alleys lined with spice vendors, copper artisans, and traditional perfume shops.</div>
-        <span class="gc-tag culture">Culture</span>
-        <span class="gc-tag history">History</span>
+<!-- ===== TAB 3: TUNISIA ===== -->
+<div id="tab-tunisia" class="tab-content">
+  <div class="container">
+    <div class="section-header">
+      <h2>Discovering Tunisia</h2>
+      <p class="subtitle">Haajar's First Visit &middot; Tunis &amp; Beni Khiar &middot; Jul 27 &ndash; Aug 10</p>
+    </div>
+    <div class="carousel" id="carousel-tunisia">
+      <div class="carousel-track">
+        <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1548889984-9359d6ccc8d7?w=1200&h=400&fit=crop" alt="Sidi Bou Said" loading="lazy"></div>
+        <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1568454537842-d933e46d89e8?w=1200&h=400&fit=crop" alt="Mediterranean beach" loading="lazy"></div>
+        <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1585148820754-accf0efef6f7?w=1200&h=400&fit=crop" alt="Tunis architecture" loading="lazy"></div>
+        <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1539437829885-920dc8282e80?w=1200&h=400&fit=crop" alt="Medina alley" loading="lazy"></div>
+        <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85f10e?w=1200&h=400&fit=crop" alt="Ruins landscape" loading="lazy"></div>
       </div>
+      <button class="carousel-btn prev" aria-label="Previous">&lsaquo;</button>
+      <button class="carousel-btn next" aria-label="Next">&rsaquo;</button>
+      <div class="carousel-dots"></div>
+    </div>
+    <div class="progress-wrap" id="tunisia-progress"></div>
+    <div class="checklist-grid" id="tunisia-checklist"></div>
+    <div class="tips-card" id="tunisia-tips"></div>
+  </div>
+</div>
 
-      <div class="guide-card fade-up">
-        <div class="gc-icon">&#128153;</div>
-        <div class="gc-name">Sidi Bou Said</div>
-        <div class="gc-desc">The most photographed village in Tunisia. Whitewashed walls, cobalt-blue doors, and bougainvillea everywhere. Sip mint tea at the legendary Caf&eacute; des Nattes while overlooking the Gulf of Tunis.</div>
-        <span class="gc-tag culture">Culture</span>
+<!-- ===== TAB 4: LIBYA ===== -->
+<div id="tab-libya" class="tab-content">
+  <div class="container">
+    <div class="section-header">
+      <h2>Haajar's Homeland</h2>
+      <p class="subtitle">Shahhat &middot; Jabal Akhdar &middot; Cyrenaica &middot; Aug 10 &ndash; Sep 2</p>
+      <p class="subtitle" style="margin-top:6px;font-size:.88rem">Round trip: Tunis &rarr; Libya (Aug 10) &amp; Libya &rarr; Tunis (Sep 2), then Tunis &rarr; Milan (Sep 3)</p>
+    </div>
+    <div class="carousel" id="carousel-libya">
+      <div class="carousel-track">
+        <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=1200&h=400&fit=crop" alt="Ancient ruins columns" loading="lazy"></div>
+        <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85f10e?w=1200&h=400&fit=crop" alt="Mediterranean coast" loading="lazy"></div>
+        <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=400&fit=crop" alt="Mountain landscape" loading="lazy"></div>
+        <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1544735716-392fe2489fbe?w=1200&h=400&fit=crop" alt="Ancient architecture" loading="lazy"></div>
+        <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?w=1200&h=400&fit=crop" alt="Traditional tea" loading="lazy"></div>
       </div>
+      <button class="carousel-btn prev" aria-label="Previous">&lsaquo;</button>
+      <button class="carousel-btn next" aria-label="Next">&rsaquo;</button>
+      <div class="carousel-dots"></div>
+    </div>
+    <div class="progress-wrap" id="libya-progress"></div>
+    <div class="checklist-grid" id="libya-checklist"></div>
+    <div class="tips-card" id="libya-tips"></div>
+  </div>
+</div>
 
-      <div class="guide-card fade-up">
-        <div class="gc-icon">&#127963;&#65039;</div>
-        <div class="gc-name">Carthage Ruins</div>
-        <div class="gc-desc">Walk through Punic and Roman ruins that once rivalled Rome itself. Climb Byrsa Hill for sweeping views, explore the massive Antonine Baths, and stand where Hannibal once ruled. UNESCO World Heritage.</div>
-        <span class="gc-tag history">History</span>
+<!-- ===== TAB 5: MILAN ===== -->
+<div id="tab-milan" class="tab-content">
+  <div class="container">
+    <div class="section-header">
+      <h2>Milan &mdash; La Dolce Vita</h2>
+      <p class="subtitle">Family Time &middot; Jul 25&ndash;27 &amp; Sep 3&ndash;4</p>
+    </div>
+    <div class="carousel" id="carousel-milan">
+      <div class="carousel-track">
+        <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1513581166391-887a96ddeafd?w=1200&h=400&fit=crop" alt="Milan Duomo" loading="lazy"></div>
+        <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1520175480223-6ccbb6da983a?w=1200&h=400&fit=crop" alt="Galleria" loading="lazy"></div>
+        <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1534445867742-43195f401b6c?w=1200&h=400&fit=crop" alt="Navigli canals" loading="lazy"></div>
+        <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1551524559-8af4e6624d72?w=1200&h=400&fit=crop" alt="Italian gelato" loading="lazy"></div>
+        <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1543968332-f99478b1ebdc?w=1200&h=400&fit=crop" alt="Lake Como" loading="lazy"></div>
       </div>
+      <button class="carousel-btn prev" aria-label="Previous">&lsaquo;</button>
+      <button class="carousel-btn next" aria-label="Next">&rsaquo;</button>
+      <div class="carousel-dots"></div>
+    </div>
+    <div class="progress-wrap" id="milan-progress"></div>
+    <div class="checklist-grid" id="milan-checklist"></div>
+    <div class="tips-card" id="milan-tips"></div>
+  </div>
+</div>
 
-      <div class="guide-card fade-up">
-        <div class="gc-icon">&#127912;</div>
-        <div class="gc-name">Bardo Museum</div>
-        <div class="gc-desc">Home to the world's finest collection of Roman mosaics, displayed in a former Ottoman palace. Stunning floors and walls covered in intricate ancient art spanning centuries of North African civilisation.</div>
-        <span class="gc-tag history">History</span>
-        <span class="gc-tag culture">Culture</span>
-      </div>
+<!-- ===== TAB 6: BUDGET ===== -->
+<div id="tab-budget" class="tab-content">
+  <div class="container">
+    <div class="section-header">
+      <h2>Our Budget</h2>
+      <p class="subtitle">How we're paying it off together</p>
+    </div>
 
-      <div class="guide-card fade-up">
-        <div class="gc-icon">&#127958;&#65039;</div>
-        <div class="gc-name">Beni Khiar</div>
-        <div class="gc-desc">Your home base on the Cap Bon coast. Known for traditional Tunisian foutas (hand-woven textiles), local beach access, and an authentic small-town pace. The perfect launchpad for exploring the peninsula.</div>
-        <span class="gc-tag beach">Beach</span>
-        <span class="gc-tag culture">Culture</span>
-      </div>
+    <div class="view-toggle">
+      <button class="view-btn active" data-view="simple">Simple</button>
+      <button class="view-btn" data-view="advanced">Advanced</button>
+    </div>
 
-      <div class="guide-card fade-up">
-        <div class="gc-icon">&#127754;</div>
-        <div class="gc-name">Hammamet</div>
-        <div class="gc-desc">Just next door to Beni Khiar, this resort town has golden beaches, an old medina with jasmine-scented gardens, and a lively waterfront. Perfect for lazy beach days and sunset strolls.</div>
-        <span class="gc-tag beach">Beach</span>
-      </div>
+    <div class="currency-toggle">
+      <button class="curr-btn active" data-curr="USD">USD $</button>
+      <button class="curr-btn" data-curr="NZD">NZD $</button>
+      <button class="refresh-btn" id="refreshRate">&#x21BB; Refresh Rate</button>
+    </div>
 
-      <div class="guide-card fade-up">
-        <div class="gc-icon">&#127843;</div>
-        <div class="gc-name">Nabeul</div>
-        <div class="gc-desc">The ceramics capital of Tunisia, right next to Beni Khiar. Hit the famous Friday market for hand-painted pottery, colourful tiles, and local produce. A feast for the senses and perfect for picking up souvenirs.</div>
-        <span class="gc-tag culture">Culture</span>
-        <span class="gc-tag adventure">Adventure</span>
-      </div>
+    <!-- SIMPLE VIEW -->
+    <div class="view-simple" id="view-simple">
+      <div class="cost-breakdown" id="cost-breakdown-simple"></div>
+      <div class="option-grid" id="option-grid"></div>
+      <div class="summary-sentence" id="summary-sentence"></div>
+    </div>
 
-      <div class="guide-card fade-up">
-        <div class="gc-icon">&#127773;</div>
-        <div class="gc-name">La Marsa Beach</div>
-        <div class="gc-desc">A trendy beach suburb of Tunis with a relaxed vibe, waterfront caf&eacute;s, and golden sand. Stroll the corniche at sunset, grab street food, and watch the city skyline glow against the Mediterranean.</div>
-        <span class="gc-tag beach">Beach</span>
+    <!-- ADVANCED VIEW -->
+    <div class="view-advanced" id="view-advanced" style="display:none">
+      <div class="cost-breakdown" id="cost-breakdown-adv"></div>
+      <div class="chart-row">
+        <div class="chart-wrap"><canvas id="chart-donut"></canvas></div>
+        <div class="chart-wrap"><canvas id="chart-bar"></canvas></div>
       </div>
-
-      <div class="guide-card fade-up">
-        <div class="gc-icon">&#127860;</div>
-        <div class="gc-name">Tunisian Food Guide</div>
-        <div class="gc-desc">Must-try dishes: <strong>brik</strong> (crispy egg pastry), <strong>lablebi</strong> (chickpea soup), <strong>couscous</strong> with lamb, <strong>ojja</strong> (spicy egg and tomato shakshuka-style), <strong>bambalouni</strong> (Tunisian doughnuts), and endless glasses of sweet <strong>mint tea</strong>.</div>
-        <span class="gc-tag food">Food</span>
-      </div>
-
-      <div class="guide-card fade-up">
-        <div class="gc-icon">&#127747;</div>
-        <div class="gc-name">Cap Bon Peninsula</div>
-        <div class="gc-desc">The dramatic peninsula curving northeast from Tunis. Take coastal drives past vineyards and citrus groves, visit the ancient hot springs at Korbous, and find secluded beaches along the rugged shore.</div>
-        <span class="gc-tag adventure">Adventure</span>
-      </div>
-
-      <div class="guide-card fade-up">
-        <div class="gc-icon">&#127963;&#65039;</div>
-        <div class="gc-name">El Jem Amphitheatre</div>
-        <div class="gc-desc">If you take a day trip south, this is the third-largest Roman amphitheatre in the world, remarkably preserved. Walk the underground chambers where gladiators once waited. UNESCO World Heritage and absolutely jaw-dropping.</div>
-        <span class="gc-tag history">History</span>
-        <span class="gc-tag adventure">Adventure</span>
-      </div>
-
-      <div class="guide-card fade-up">
-        <div class="gc-icon">&#127970;</div>
-        <div class="gc-name">Dar Essid &amp; Traditional Dars</div>
-        <div class="gc-desc">Step inside a centuries-old Tunisian townhouse. Ornate tilework, carved stucco, interior courtyards with fountains. These historic homes offer a window into traditional Tunisian family life and architecture.</div>
-        <span class="gc-tag culture">Culture</span>
-        <span class="gc-tag history">History</span>
-      </div>
-
-      <!-- Tips card -->
-      <div class="tips-card fade-up">
-        <div class="tc-title">&#128161; Tips for Haajar</div>
-        <ul>
-          <li data-icon="&#127483;&#127475;">Arabic is the main language &mdash; Tunisian dialect (Derja) is close to Libyan Arabic, so you will understand most of it</li>
-          <li data-icon="&#128176;">Currency is the Tunisian Dinar (TND). ATMs are widely available; carry small notes for souks</li>
-          <li data-icon="&#9728;&#65039;">Summer is HOT &mdash; expect 30&ndash;40&deg;C. Stay hydrated, wear sunscreen, plan activities for mornings and evenings</li>
-          <li data-icon="&#128087;">Modest dress is appreciated in medinas and mosques &mdash; a light scarf is useful</li>
-          <li data-icon="&#128172;">Haggling is expected in souks &mdash; start at half the asking price and enjoy the back-and-forth</li>
-          <li data-icon="&#127817;">Try local fruit &mdash; summer means figs, peaches, watermelon, and prickly pear everywhere</li>
-        </ul>
-      </div>
+      <div class="chart-wrap full" style="margin-bottom:24px"><canvas id="chart-line"></canvas></div>
+      <div class="card" id="schedule-container"></div>
     </div>
   </div>
+</div>
 
-  <!-- ==================== TAB 4: PAYMENT PLAN ==================== -->
-  <div id="tab-payment" class="tab-panel">
-    <h2 class="section-heading fade-up" style="margin-top: 30px;">Payment Plan</h2>
-    <p class="section-subheading fade-up">Flights + Hotel &middot; Fortnightly repayment &middot; Split 50/50</p>
-
-    <!-- Controls -->
-    <div class="payment-controls fade-up">
-      <div class="toggle-group">
-        <button id="btn-simple" class="active" onclick="setView('simple')">Simple View</button>
-        <button id="btn-advanced" onclick="setView('advanced')">Advanced View</button>
-      </div>
-    </div>
-
-    <!-- Currency bar -->
-    <div class="currency-bar fade-up">
-      <label>Currency:</label>
-      <div class="toggle-group">
-        <button id="btn-usd" class="active" onclick="setCurrency('USD')">USD $</button>
-        <button id="btn-nzd" onclick="setCurrency('NZD')">NZD $</button>
-      </div>
-      <button class="refresh-btn" id="refresh-btn" onclick="fetchRate()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M1 4v6h6"/><path d="M23 20v-6h-6"/>
-          <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
-        </svg>
-        <span id="refresh-label">Refresh Rate</span>
-      </button>
-      <span class="rate-info" id="rate-info">1 USD = <strong id="rate-display">&mdash;</strong> NZD &nbsp;|&nbsp; <span id="rate-time">fetching...</span></span>
-    </div>
-
-    <!-- ===== SIMPLE VIEW ===== -->
-    <div id="view-simple">
-      <div class="simple-hero">
-        <div class="simple-route">
-          <span>Auckland</span> &rarr; <span>Hong Kong</span> &rarr; <span>Milan</span> &rarr; <span>Tunis</span>
-        </div>
-        <div class="simple-total-card">
-          <div class="label">Total Trip Cost (incl. 5% fee)</div>
-          <div class="amount" id="simple-total"></div>
-          <div class="sub">Cathay Pacific + ITA Airways + Hotel</div>
-        </div>
-      </div>
-
-      <h3 class="adv-section-title">Pick a Payment Plan</h3>
-      <div class="simple-options">
-        <div class="simple-opt" id="sopt-a" onclick="pickSimple('a')">
-          <div class="s-badge">6 Months</div>
-          <div class="s-duration">13 fortnights</div>
-          <div class="s-label">Each of us pays</div>
-          <div class="s-amount" id="sopt-a-each"></div>
-          <div class="s-label">per fortnight</div>
-          <div class="s-per-person">Combined: <strong id="sopt-a-combined"></strong></div>
-        </div>
-        <div class="simple-opt" id="sopt-b" onclick="pickSimple('b')">
-          <div class="s-badge">9 Months</div>
-          <div class="s-duration">20 fortnights</div>
-          <div class="s-label">Each of us pays</div>
-          <div class="s-amount" id="sopt-b-each"></div>
-          <div class="s-label">per fortnight</div>
-          <div class="s-per-person">Combined: <strong id="sopt-b-combined"></strong></div>
-        </div>
-        <div class="simple-opt active" id="sopt-c" onclick="pickSimple('c')">
-          <div class="s-badge">12 Months</div>
-          <div class="s-duration">26 fortnights</div>
-          <div class="s-label">Each of us pays</div>
-          <div class="s-amount" id="sopt-c-each"></div>
-          <div class="s-label">per fortnight</div>
-          <div class="s-per-person">Combined: <strong id="sopt-c-combined"></strong></div>
-        </div>
-      </div>
-
-      <div class="simple-summary" id="simple-summary"></div>
-    </div>
-
-    <!-- ===== ADVANCED VIEW ===== -->
-    <div id="view-advanced" class="hidden">
-      <div class="summary-row">
-        <div class="summary-card">
-          <h3>Flights Subtotal</h3>
-          <div class="val" id="sum-subtotal"></div>
-          <div class="det" id="sum-subtotal-det">USD before fees</div>
-        </div>
-        <div class="summary-card">
-          <h3>5% Transfer Fee</h3>
-          <div class="val" id="sum-fee"></div>
-          <div class="det">Applied to total</div>
-        </div>
-        <div class="summary-card grand">
-          <h3>Grand Total</h3>
-          <div class="val" id="sum-grand"></div>
-          <div class="det" id="sum-grand-det">Amount to repay</div>
-        </div>
-      </div>
-
-      <h3 class="adv-section-title">Cost Breakdown</h3>
-      <table>
-        <thead><tr><th>Item</th><th>Details</th><th class="r" id="cost-col-header">Cost (USD)</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>Cathay Pacific</td>
-            <td>Auckland &rarr; Hong Kong &rarr; Milan <span class="route-sub">AKL &rarr; HKG &rarr; MXP (return)</span></td>
-            <td class="r" id="cost-cathay"></td>
-          </tr>
-          <tr>
-            <td>ITA Airways</td>
-            <td>Milan &harr; Tunis <span class="route-sub">LIN &rarr; FCO &rarr; TUN (return)</span></td>
-            <td class="r" id="cost-ita"></td>
-          </tr>
-          <tr>
-            <td>Hotel</td>
-            <td>Sep 3&ndash;4 &nbsp;<span class="route-sub">1 night &middot; booked at &euro;135.00</span></td>
-            <td class="r" id="cost-hotel"></td>
-          </tr>
-          <tr class="fee-row"><td colspan="2">5% transfer fee</td><td class="r" id="cost-fee"></td></tr>
-          <tr class="total-row"><td colspan="2">Total to Repay</td><td class="r" id="cost-total"></td></tr>
-        </tbody>
-      </table>
-
-      <h3 class="adv-section-title">Visual Overview</h3>
-      <div class="visuals-grid">
-        <div class="visual-card">
-          <h3>Where Your Money Goes</h3>
-          <div class="chart-wrap donut"><canvas id="donutChart"></canvas></div>
-        </div>
-        <div class="visual-card">
-          <h3>Fortnightly Payment Comparison</h3>
-          <div class="chart-wrap"><canvas id="barChart"></canvas></div>
-        </div>
-        <div class="visual-card full-width">
-          <h3>Balance Paydown Over Time</h3>
-          <div class="chart-wrap" style="height: 320px;"><canvas id="lineChart"></canvas></div>
-        </div>
-      </div>
-
-      <h3 class="adv-section-title">Choose Your Repayment Option</h3>
-      <div class="options-grid">
-        <div class="option-card opt-a" id="opt-a" onclick="showSchedule('a')">
-          <div class="badge">Fastest Payoff</div>
-          <h3>Option A</h3>
-          <p class="period">6 months &middot; 13 fortnights</p>
-          <div class="big-amount" id="opt-a-combined"></div>
-          <div class="per-label">per fortnight (combined)</div>
-          <div class="each" id="opt-a-each"></div>
-          <div class="each-label">each per fortnight</div>
-          <div class="monthly-eq" id="opt-a-monthly"></div>
-        </div>
-        <div class="option-card opt-b" id="opt-b" onclick="showSchedule('b')">
-          <div class="badge">Balanced</div>
-          <h3>Option B</h3>
-          <p class="period">9 months &middot; 20 fortnights</p>
-          <div class="big-amount" id="opt-b-combined"></div>
-          <div class="per-label">per fortnight (combined)</div>
-          <div class="each" id="opt-b-each"></div>
-          <div class="each-label">each per fortnight</div>
-          <div class="monthly-eq" id="opt-b-monthly"></div>
-        </div>
-        <div class="option-card opt-c active" id="opt-c" onclick="showSchedule('c')">
-          <div class="badge">Most Comfortable</div>
-          <h3>Option C</h3>
-          <p class="period">12 months &middot; 26 fortnights</p>
-          <div class="big-amount" id="opt-c-combined"></div>
-          <div class="per-label">per fortnight (combined)</div>
-          <div class="each" id="opt-c-each"></div>
-          <div class="each-label">each per fortnight</div>
-          <div class="monthly-eq" id="opt-c-monthly"></div>
-        </div>
-      </div>
-
-      <h3 class="adv-section-title">Per Person Split</h3>
-      <div class="person-split">
-        <div class="person-card-adv"><h4>Ibrahim</h4><div class="amt" id="you-amt"></div><div class="det" id="you-total"></div></div>
-        <div class="person-card-adv"><h4>Haajar</h4><div class="amt" id="wife-amt"></div><div class="det" id="wife-total"></div></div>
-      </div>
-
-      <div id="schedule-a" class="schedule-section hidden">
-        <div class="sched-header"><h2>Payment Schedule</h2><span class="option-label">Option A &mdash; 6 months / 13 fortnights</span></div>
-        <p class="sched-note" id="sched-note-a"></p>
-        <table class="sched-table" id="table-a">
-          <thead><tr><th>#</th><th>Due Date</th><th class="r">Payment</th><th class="r">Each Pays</th><th class="r">Remaining</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-      <div id="schedule-b" class="schedule-section hidden">
-        <div class="sched-header"><h2>Payment Schedule</h2><span class="option-label">Option B &mdash; 9 months / 20 fortnights</span></div>
-        <p class="sched-note" id="sched-note-b"></p>
-        <table class="sched-table" id="table-b">
-          <thead><tr><th>#</th><th>Due Date</th><th class="r">Payment</th><th class="r">Each Pays</th><th class="r">Remaining</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-      <div id="schedule-c" class="schedule-section hidden">
-        <div class="sched-header"><h2>Payment Schedule</h2><span class="option-label">Option C &mdash; 12 months / 26 fortnights</span></div>
-        <p class="sched-note" id="sched-note-c"></p>
-        <table class="sched-table" id="table-c">
-          <thead><tr><th>#</th><th>Due Date</th><th class="r">Payment</th><th class="r">Each Pays</th><th class="r">Remaining</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </div><!-- /advanced -->
-  </div>
-
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    Generated March 2026 &nbsp;|&nbsp; Dates are approximate &nbsp;|&nbsp; Exchange rates via open.er-api.com
-  </footer>
-
-</div><!-- /main-container -->
+<footer class="page-footer">
+  Ibrahim &amp; Haajar &mdash; Mediterranean Journey 2026
+</footer>
 
 <script>
-  // ===================================================================
-  //  TAB NAVIGATION
-  // ===================================================================
-  function switchTab(tabId) {
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-    document.getElementById('tab-' + tabId).classList.add('active');
-    // Find the clicked button
-    const tabs = document.querySelectorAll('.nav-tab');
-    const tabMap = ['adventure','flights','tunisia','payment'];
-    tabs.forEach((t, i) => {
-      if (tabMap[i] === tabId) t.classList.add('active');
-    });
-    // Re-trigger fade-up for newly visible elements
-    observeFadeUps();
-    // Scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+/* ========================================================
+   DATA
+   ======================================================== */
+
+const TUNISIA_ITEMS = [
+  { id:"medina-tunis", name:"Medina of Tunis", emoji:"\u{1F54C}", desc:"Lose yourselves in the labyrinthine alleys of this UNESCO-listed medina, where the scent of oud and spices drifts past the grand Zitouna Mosque.", tag:"Culture", checked:false },
+  { id:"sidi-bou-said", name:"Sidi Bou Said", emoji:"\u{1F499}", desc:"Wander hand-in-hand through the iconic blue-and-white hilltop village, then share pine-nut tea at the legendary Caf\u00e9 des Nattes.", tag:"Romance", checked:false },
+  { id:"carthage-ruins", name:"Carthage Ruins", emoji:"\u{1F3DB}\uFE0F", desc:"Stand together on Byrsa Hill where Hannibal\u2019s empire once reigned, then explore the Antonine Baths stretching toward the sea.", tag:"History", checked:false },
+  { id:"bardo-museum", name:"Bardo Museum", emoji:"\u{1F3A8}", desc:"Marvel at the world\u2019s finest Roman mosaics housed in a stunning 19th-century palace.", tag:"History", checked:false },
+  { id:"beni-khiar", name:"Beni Khiar \u2014 Your Base", emoji:"\u{1F3E1}", desc:"Your home on the Cap Bon coast \u2014 a quiet town famous for handwoven foutas and textile workshops.", tag:"Culture", checked:false },
+  { id:"hammamet", name:"Hammamet", emoji:"\u{1F30A}", desc:"Jasmine-scented old medina, powder-soft sand, turquoise water \u2014 the Mediterranean at its most inviting.", tag:"Beach", checked:false },
+  { id:"nabeul-pottery", name:"Nabeul Pottery Market", emoji:"\u{1F3FA}", desc:"Friday market in Tunisia\u2019s ceramics capital \u2014 hand-painted bowls, tiles, and tagines blazing with colour.", tag:"Shopping", checked:false },
+  { id:"la-marsa-beach", name:"La Marsa Beach", emoji:"\u{1F3D6}\uFE0F", desc:"The Tunisois favourite beach suburb \u2014 calm turquoise shallows by day, seaside caf\u00e9s at sunset.", tag:"Beach", checked:false },
+  { id:"tunisian-food", name:"Tunisian Food Essentials", emoji:"\u{1F37D}\uFE0F", desc:"Crispy brik, fiery lablebi, fluffy couscous, spicy ojja, and sweet bambalouni \u2014 every bite a revelation.", tag:"Food", checked:false },
+  { id:"cap-bon-drive", name:"Cap Bon Peninsula Drive", emoji:"\u{1F697}", desc:"Scenic coastal road \u2014 vineyards, turquoise coves, Korbous hot springs, wild coastline.", tag:"Adventure", checked:false },
+  { id:"el-jem", name:"El Jem Amphitheatre", emoji:"\u{1F3DF}\uFE0F", desc:"Day-trip to the third-largest Roman amphitheatre on earth \u2014 golden arches rising from the Sahel plain.", tag:"History", checked:false },
+  { id:"traditional-dar", name:"Visit a Traditional Dar", emoji:"\u{1F6AA}", desc:"Step through an unassuming door into a hidden courtyard palace \u2014 zellige tiles, carved stucco, orange trees.", tag:"Culture", checked:false },
+  { id:"la-goulette-sunset", name:"Sunset at La Goulette", emoji:"\u{1F305}", desc:"Walk the waterfront as fishing boats bob and the sun melts into the sea \u2014 then grab fried complet poisson.", tag:"Romance", checked:false },
+  { id:"bambalouni-beach", name:"Bambalouni at the Beach", emoji:"\u{1F369}", desc:"Hot sugar-dusted Tunisian doughnuts fried to order while sitting on the sand. Simple perfection.", tag:"Food", checked:false },
+  { id:"copper-souk", name:"Haggle in the Copper Souk", emoji:"\u{1F514}", desc:"The rhythmic clanging of the Souk el-Attarine \u2014 gleaming copper trays, lanterns, hand-hammered teapots.", tag:"Shopping", checked:false },
+  { id:"cafe-saf-saf", name:"Caf\u00e9 Saf Saf", emoji:"\u2615", desc:"Thick Turkish coffee under an ancient mulberry tree at La Marsa\u2019s oldest caf\u00e9 \u2014 300 years of people-watching.", tag:"Culture", checked:false },
+  { id:"matching-foutas", name:"Buy Matching Foutas", emoji:"\u{1F9E3}", desc:"Pick out matching hand-loomed foutas from Beni Khiar \u2014 your favourite souvenir long after the tan fades.", tag:"Shopping", checked:false },
+  { id:"dar-el-jeld", name:"Dinner at Dar El Jeld", emoji:"\u2728", desc:"Fine Tunisian cuisine in a candlelit 18th-century palace in the medina. Order the lamb couscous.", tag:"Food", checked:false },
+  { id:"avenue-bourguiba", name:"Avenue Habib Bourguiba", emoji:"\u{1F334}", desc:"Tunis\u2019s grand tree-lined boulevard \u2014 Art Nouveau facades, Th\u00e9\u00e2tre Municipal, buzzing caf\u00e9 terraces.", tag:"Culture", checked:false },
+  { id:"fresh-harissa", name:"Try Fresh Tunisian Harissa", emoji:"\u{1F336}\uFE0F", desc:"Brick-red, smoky, still warm from the stone mortar. Buy a jar and drizzle it on everything.", tag:"Food", checked:false },
+  { id:"sunrise-cafe-nattes", name:"Sunrise at Caf\u00e9 des Nattes", emoji:"\u2600\uFE0F", desc:"Wake early, climb to Sidi Bou Said before the crowds \u2014 watch the Med turn from silver to sapphire.", tag:"Romance", checked:false }
+];
+
+const TUNISIA_TIPS = {
+  language: 'Tunisian Arabic (Derja) plus French are the main languages. In tourist areas, some English is spoken. Learn: "Salam" (hello), "Bislema" (goodbye), "Yishek" (thank you), "B\u2019shwiya" (slowly/gently). Haajar\u2019s Arabic will be understood with minor dialect adjustments.',
+  currency: 'Tunisian Dinar (TND). Cash is preferred in souks and smaller shops. ATMs are widely available in Tunis and tourist areas. Credit cards work at hotels and larger restaurants. It is illegal to take dinars out of Tunisia, so spend or exchange before departure.',
+  weather: 'Late July to early August is peak summer \u2014 expect 32\u201338\u00b0C (90\u2013100\u00b0F) with high humidity on the coast. The sea is perfect for swimming. Carry water, wear sunscreen, and plan indoor/shaded activities for midday. Evenings are warm and lovely for coastal walks.',
+  dress: 'Tunisia is moderate but respectful dress is appreciated, especially in the medina and at mosques. Light, breathable clothing with shoulders covered for mosque visits. Haajar: a light scarf for the head when entering religious sites. Ibrahim: long trousers for mosque visits.',
+  haggling: 'Haggling is expected and enjoyed in souks and markets. Start at about 40\u201350% of the asking price and work your way to 60\u201370%. Be friendly, walk away if the price isn\u2019t right \u2014 they\u2019ll often call you back. Fixed prices in modern shops and supermarkets.',
+  food: 'Tunisian food is halal by default. Street food is excellent and cheap. Must-try: brik \u00e0 l\u2019oeuf, lablebi, couscous, ojja, bambalouni. Drink fresh mint tea or citronnade. Tap water is generally safe in cities but bottled water is cheap and widely available.'
+};
+
+const LIBYA_ITEMS = [
+  { id:"cyrene-ruins", name:"Cyrene \u2014 Ancient City of Shahhat", emoji:"\u{1F3DB}", desc:"Walk hand-in-hand through the ruins Haajar grew up beside \u2014 the Temple of Zeus, the Agora, the carved tombs. A UNESCO World Heritage Site that has watched over her family for generations.", tag:"History", checked:false },
+  { id:"apollonia-susah", name:"Apollonia (Susah) \u2014 Port of the Ancients", emoji:"\u{1F30A}", desc:"Where the ancient harbour meets turquoise Mediterranean water. Roman columns rise from the sea floor and Byzantine churches crumble into wildflowers \u2014 Haajar used to come here as a girl.", tag:"History", checked:false },
+  { id:"jabal-akhdar", name:"Jabal Akhdar \u2014 The Green Mountain", emoji:"\u{1F33F}", desc:"Libya\u2019s secret garden \u2014 a lush highland of juniper forests, terraced farms, and wildflowers that defies every expectation of North Africa. Haajar\u2019s backyard, and the air smells like rosemary.", tag:"Nature", checked:false },
+  { id:"wadi-al-kuf", name:"Wadi al-Kuf Bridge & Gorge", emoji:"\u{1F309}", desc:"A vertiginous Italian-era bridge spanning a deep gorge carved into the Green Mountain. Pull over, stand at the edge, and feel the wind roar up from the valley floor.", tag:"Adventure", checked:false },
+  { id:"shahhat-hometown", name:"Shahhat \u2014 Haajar\u2019s Hometown", emoji:"\u{1F3E1}", desc:"The small mountain town where Haajar grew up, where everyone knows the Hasi family, and where Ibrahim will finally see the streets and corners of all her childhood stories.", tag:"Family", checked:false },
+  { id:"hasi-family-time", name:"Time with the Hasi Family", emoji:"\u{1F468}\u200D\u{1F469}\u200D\u{1F467}\u200D\u{1F466}", desc:"The whole reason for the journey. Long evenings drinking tea on the floor, kids running around, Haajar translating between Arabic and laughter. This is where Ibrahim becomes family.", tag:"Family", checked:false },
+  { id:"benghazi-city", name:"Benghazi \u2014 Libya\u2019s Eastern Capital", emoji:"\u{1F307}", desc:"Walk the corniche at golden hour, explore the old Italian quarter, and feel the pulse of Libya\u2019s resilient second city. Haajar will show you the Benghazi she remembers.", tag:"Culture", checked:false },
+  { id:"tolmeita-ptolemais", name:"Tolmeita (Ptolemais) \u2014 Forgotten Ruins", emoji:"\u{1F3DA}", desc:"Between Benghazi and Shahhat, Roman columns and mosaics sit in quiet fields with almost no tourists. An entire ancient city waiting just for the two of you.", tag:"History", checked:false },
+  { id:"libyan-food", name:"Libyan Food Essentials", emoji:"\u{1F372}", desc:"Tear into hand-pounded bazin with red sauce, slurp sharba Libiya on a cool mountain evening, twist mbakbka with your fingers, and finish with sweet asida. Haajar\u2019s mother\u2019s couscous will ruin you for all other food.", tag:"Food", checked:false },
+  { id:"cook-bazin", name:"Cook Bazin with the Family", emoji:"\u{1FAD3}", desc:"Stand in the kitchen with Haajar\u2019s mother and aunties as they pound barley dough and build the dish by hand. You stir the sauce \u2014 they\u2019ll judge your technique and love you for trying.", tag:"Family", checked:false },
+  { id:"libyan-tea", name:"The Libyan Tea Ceremony", emoji:"\u{1FAD6}", desc:"Three rounds poured from height into tiny glasses: the first bitter like life, the second balanced like love, the third sweet like death. Haajar\u2019s uncle will pour and you\u2019ll drink until you can\u2019t refuse another glass.", tag:"Culture", checked:false },
+  { id:"souq-benghazi", name:"Souq al-Jareed & Local Markets", emoji:"\u{1F9FA}", desc:"Wander through Benghazi\u2019s old market or a Shahhat roadside souq \u2014 spices piled in pyramids, silver jewelry, woven baskets, and Haajar bargaining in rapid-fire Libyan Arabic while you stand there grinning.", tag:"Culture", checked:false },
+  { id:"mediterranean-beaches", name:"Mediterranean Beaches near Susah", emoji:"\u{1F3D6}", desc:"Hidden coves and rocky beaches where the Green Mountain tumbles into crystalline sea. The water is impossibly clear, the coast is empty, and for a moment it feels like you\u2019ve found the edge of the known world.", tag:"Nature", checked:false },
+  { id:"jabal-akhdar-sunset", name:"Sunset from Jabal Akhdar", emoji:"\u{1F305}", desc:"Find a ledge on the Green Mountain as the sun drops into the Mediterranean far below. The whole coast turns gold, then rose, then violet. Haajar next to you, pointing out landmarks in the fading light.", tag:"Nature", checked:false },
+  { id:"cyrene-sunrise", name:"Sunrise over Cyrene Ruins", emoji:"\u{1F304}", desc:"Wake before dawn, walk to the ancient city in the half-light, and watch the sun rise over columns that have stood for 2,600 years. The silence is sacred and the light is extraordinary.", tag:"Adventure", checked:false },
+  { id:"shahhat-mosque", name:"Visit a Local Shahhat Mosque", emoji:"\u{1F54C}", desc:"Pray Jumu\u2019ah or Dhuhr at the mosque where Haajar\u2019s family worships. Ibrahim steps into the row beside her uncles and brothers \u2014 a quiet, profound moment of belonging.", tag:"Culture", checked:false },
+  { id:"libyan-arabic", name:"Learn Libyan Arabic from Haajar", emoji:"\u{1F5E3}", desc:"Haajar teaches Ibrahim to say \u201ckifak ya zalame\u201d instead of textbook Arabic, to roll his \u201csh\u201d sounds the Cyrenaican way, and to survive a conversation with her grandfather. The family will love every butchered attempt.", tag:"Family", checked:false },
+  { id:"green-mountain-picnic", name:"Picnic in the Juniper Forests", emoji:"\u{1F332}", desc:"Spread a blanket under ancient juniper trees in the cool mountain air while August burns the coast below. Haajar\u2019s family will pack enough food for twelve even though it\u2019s just the two of you.", tag:"Nature", checked:false }
+];
+
+const LIBYA_TIPS = {
+  language: 'Libyan Arabic (Derja) is the daily language \u2014 it\u2019s quite different from Modern Standard Arabic or Gulf dialects. In eastern Libya (Cyrenaica), the dialect has its own character. Haajar is your interpreter and guide. Learn a few key phrases: "Salam alaikum" (hello), "Barak Allahu fik" (thank you/bless you), "Inshallah" (God willing). The family will appreciate any effort, no matter how clumsy.',
+  currency: 'Libyan Dinar (LYD). Cash is king \u2014 ATMs can be unreliable, so bring enough euros or USD to exchange locally. The official and black-market rates can differ significantly. Haajar\u2019s family will know the best way to handle money. Budget generously but expect to spend very little \u2014 Libyan hospitality means the family will refuse to let you pay for almost anything.',
+  weather: 'August in coastal Libya is hot (35\u201340\u00b0C / 95\u2013104\u00b0F), but Shahhat and the Jabal Akhdar sit at ~600m elevation and are noticeably cooler \u2014 expect mid-20s to low 30s\u00b0C with cool evenings. Bring layers for mountain evenings and light, breathable clothing for daytime. The coast will be sweltering, so plan beach and Benghazi trips for early morning or late afternoon.',
+  safety: 'Eastern Libya (Cyrenaica) is generally calmer than the west, but conditions change. Check UK FCDO, US State Department, and Canadian travel advisories close to departure. Register with your embassy. Haajar\u2019s family is your best source of real-time local knowledge \u2014 defer to them on which roads to take, where to go, and when. Avoid travel after dark on unfamiliar roads.',
+  dress: 'Libya is a conservative Muslim country. Ibrahim: long trousers and shirts with sleeves, especially for family visits and mosques. Haajar will dress appropriately as she always does. Remove shoes when entering homes. During family gatherings, follow Haajar\u2019s lead on greetings \u2014 men and women may socialize separately at times. Modesty and respect go a long way.',
+  food: 'Everything is halal \u2014 no concerns there. Home cooking with the family will be the highlight of the entire trip. Expect enormous meals, multiple courses, and absolute refusal to let you leave the table anything less than stuffed. Libyan cuisine is underrated: rich lamb stews, hand-rolled couscous, stuffed grape leaves, fresh flatbread. Always eat with your right hand when eating communally. Accept every offer of tea.'
+};
+
+const MILAN_ITEMS = [
+  { id:"duomo-di-milano", name:"Duomo di Milano", emoji:"\u26EA", desc:"Stand beneath the largest Gothic cathedral in Italy and then climb to the rooftop terraces \u2014 135 marble spires above the city, the Alps on the horizon, and the whole family gasping at the same view.", tag:"Landmark", checked:false },
+  { id:"duomo-family-photo", name:"Family Photo at the Duomo", emoji:"\u{1F4F8}", desc:"Gather everyone in Piazza del Duomo \u2014 mama, papa, Yasmeen, Ibrahim, and Haajar \u2014 for the photo that will live on the mantelpiece forever. Ask a stranger, take twenty shots, get one perfect one.", tag:"Family", checked:false },
+  { id:"galleria-vittorio", name:"Galleria Vittorio Emanuele II", emoji:"\u{1F3DB}", desc:"Walk through the world\u2019s oldest active shopping mall \u2014 a cathedral of glass and iron arches built in 1877. Spin on the bull mosaic for good luck, window-shop Prada, and tilt your head back at the vaulted ceiling.", tag:"Shopping", checked:false },
+  { id:"navigli-evening", name:"Navigli District \u2014 Evening Canal Walk", emoji:"\u{1F303}", desc:"As the sun drops, the canal-side fills with fairy lights, buskers, and the clink of aperitivo glasses. Stroll along the water with Haajar while the family lingers at a table behind you, pretending not to watch.", tag:"Romance", checked:false },
+  { id:"gelato-crawl", name:"Italian Gelato Crawl", emoji:"\u{1F366}", desc:"Three gelaterias, three neighbourhoods, no regrets. Start at the Duomo, hit Navigli, finish in Brera. Yasmeen will want pistachio every time. Papa will say one scoop is enough and then order two.", tag:"Food", checked:false },
+  { id:"italian-coffee", name:"Italian Coffee Culture \u2014 Standing Espresso", emoji:"\u2615", desc:"Order an espresso at a standing bar, drink it in three sips like a local, and pay a third of what you would sitting down. Introduce mama and papa to the Italian way \u2014 no milk after 11am, no exceptions.", tag:"Culture", checked:false },
+  { id:"castello-sforzesco", name:"Castello Sforzesco", emoji:"\u{1F3F0}", desc:"A 15th-century fortress turned museum complex in the heart of Milan. Wander the courtyards where the Sforza dukes once ruled, see Michelangelo\u2019s final sculpture, and let Yasmeen pretend she\u2019s a medieval princess.", tag:"Landmark", checked:false },
+  { id:"parco-sempione", name:"Parco Sempione", emoji:"\u{1F333}", desc:"The green lung behind the castle \u2014 shady paths, a lake, and the Arco della Pace gleaming at the far end. Perfect for a family rest stop: mama and papa on a bench, everyone else sprawled on the grass.", tag:"Family", checked:false },
+  { id:"brera-district", name:"Brera District & Pinacoteca", emoji:"\u{1F3A8}", desc:"Milan\u2019s artsy bohemian quarter \u2014 cobblestoned streets, independent boutiques, and the Pinacoteca di Brera housing Raphael and Caravaggio. Wander slowly, peek into galleries, and let Haajar photograph every doorway.", tag:"Culture", checked:false },
+  { id:"aperitivo-hour", name:"Aperitivo Hour \u2014 The Milanese Ritual", emoji:"\u{1F942}", desc:"Order one drink between 6 and 9pm and an entire buffet of snacks appears for free \u2014 olives, bruschetta, pasta salads, focaccia. The family will not believe this is real. Find a halal-friendly spot with mocktails and juice.", tag:"Culture", checked:false },
+  { id:"halal-food-milan", name:"Halal Restaurants near Stazione Centrale", emoji:"\u{1F37D}", desc:"The area around Milan\u2019s main station has excellent Middle Eastern, Turkish, and North African restaurants serving halal food. Perfect for the whole family \u2014 familiar flavours after a long day of sightseeing, with kebabs, shawarma, and grilled meats.", tag:"Food", checked:false },
+  { id:"luini-panzerotti", name:"Luini Panzerotti \u2014 Milan Street Food", emoji:"\u{1FAD3}", desc:"Join the queue at Luini, a tiny bakery two minutes from the Duomo that has been frying golden panzerotti since 1888. Molten mozzarella and tomato in a crispy pocket \u2014 grab the cheese ones for the family.", tag:"Food", checked:false },
+  { id:"shopping-milan", name:"Shopping \u2014 Via Montenapoleone & Corso Buenos Aires", emoji:"\u{1F6CD}", desc:"Window-shop the impossible elegance of the Quadrilatero della Moda, then head to Corso Buenos Aires where the prices are human. Yasmeen and Haajar will disappear into Zara; papa will find a bench.", tag:"Shopping", checked:false },
+  { id:"lake-como-daytrip", name:"Day Trip to Lake Como", emoji:"\u26F4", desc:"One hour by train from Milano Centrale to the most beautiful lake in Europe. Take the family on a ferry between Bellagio, Varenna, and Menaggio \u2014 mountains plunging into sapphire water, villas dripping with wisteria.", tag:"Landmark", checked:false },
+  { id:"last-dinner-milan", name:"Last Night Family Dinner", emoji:"\u{1F35D}", desc:"The final evening before the family flies to Tunis \u2014 find a restaurant with a courtyard, order too much risotto alla Milanese, and linger until the waiters start stacking chairs. Hold onto this one.", tag:"Family", checked:false },
+  { id:"malpensa-overnight", name:"Malpensa Airport Overnight \u2014 Just the Two of You", emoji:"\u2708\uFE0F", desc:"Sep 3\u20134: the family has flown on to Tunis, and it\u2019s just Ibrahim and Haajar again. One quiet night near Malpensa before the long haul back to Auckland \u2014 order room service, repack the bags, and talk about everything you just lived through.", tag:"Romance", checked:false }
+];
+
+const MILAN_TIPS = {
+  language: 'Italian is the main language, but English is widely spoken in tourist areas, restaurants, and shops around the centre. Learn a few basics: "Buongiorno" (good morning), "Grazie" (thank you), "Per favore" (please), "Il conto" (the bill). Milanese people appreciate the effort even if your accent is terrible.',
+  currency: 'Euro (EUR). Cards are widely accepted almost everywhere \u2014 contactless works at most restaurants, shops, and even gelaterias. Keep a small amount of cash for street vendors, markets, and smaller cafes. ATMs (Bancomat) are plentiful; avoid the ones with dynamic currency conversion fees.',
+  weather: 'Late July in Milan is hot and humid \u2014 expect 30\u201335\u00b0C (86\u201395\u00b0F) with occasional thunderstorms in the afternoon. Carry water, wear sunscreen, and plan indoor activities (museums, Galleria, churches) for the 1\u20133pm heat. Evenings cool down enough for a comfortable Navigli stroll.',
+  transport: 'Milan\u2019s Metro is excellent and covers most tourist areas. Buy a 24hr or 48hr travel pass (around \u20ac7\u201313) for unlimited rides on Metro, trams, and buses. The Duomo is on both M1 and M3 lines. For Lake Como, trains leave from Milano Centrale every 30\u201360 minutes. For Malpensa airport, the Malpensa Express train runs from Centrale (50 min, ~\u20ac13).',
+  food: 'Finding halal food in Milan is straightforward. The area around Stazione Centrale and Via Padova has many Middle Eastern, Turkish, and North African restaurants. For Italian restaurants, stick to seafood and vegetarian dishes if halal meat isn\u2019t available \u2014 margherita pizza, pasta al pomodoro, risotto, and cheese panzerotti from Luini are all safe options. Ask "\u00c8 halal?" or check HalalTrip/Zabihah apps before the trip.',
+  dress: 'Milan is Italy\u2019s fashion capital, so smart casual fits right in. Comfortable walking shoes are essential \u2014 cobblestones will destroy anything flimsy. For the Duomo and churches, shoulders and knees must be covered (carry a light scarf). Late July heat means breathable fabrics: linen, cotton, light layers. Sunglasses and a hat are non-negotiable.'
+};
+
+/* ========================================================
+   BUDGET DATA & LOGIC
+   ======================================================== */
+const BASE = {
+  cathay: 3113.89,
+  ita: 1136.20,
+  hotelEUR: 135,
+  transferPct: 0.05,
+  fallbackNZD: 1.72
+};
+
+let nzdRate = BASE.fallbackNZD;
+let currentCurr = 'USD';
+let selectedMonths = 9;
+
+async function fetchRate() {
+  try {
+    const r = await fetch('https://open.er-api.com/v6/latest/USD');
+    if (!r.ok) throw new Error('rate fetch failed');
+    const d = await r.json();
+    if (d && d.rates && d.rates.NZD) { nzdRate = d.rates.NZD; }
+  } catch {
+    /* use fallback */
   }
+  renderBudget();
+}
 
-  // ===================================================================
-  //  COUNTDOWN
-  // ===================================================================
-  // Jul 24 2026 13:25 NZST (NZST = UTC+12, but NZST in July is actually NZDT doesn't apply;
-  // NZ in July is NZST = UTC+12)
-  const DEPARTURE = new Date(Date.UTC(2026, 6, 24, 1, 25, 0)); // 13:25 NZST = 01:25 UTC
+function toDisplay(usd) {
+  const val = currentCurr === 'NZD' ? usd * nzdRate : usd;
+  return val.toFixed(2);
+}
+function sym() { return currentCurr === 'NZD' ? 'NZD $' : 'USD $'; }
 
-  function updateCountdown() {
-    const now = Date.now();
-    const diff = DEPARTURE.getTime() - now;
-    if (diff <= 0) {
-      document.getElementById('cd-days').textContent = '0';
-      document.getElementById('cd-hours').textContent = '0';
-      document.getElementById('cd-mins').textContent = '0';
-      document.getElementById('cd-secs').textContent = '0';
-      return;
+function getHotelUSD() { return BASE.hotelEUR * 1.08; }
+function getSubtotal() { return BASE.cathay + BASE.ita + getHotelUSD(); }
+function getTransferFee() { return getSubtotal() * BASE.transferPct; }
+function getGrandTotal() { return getSubtotal() + getTransferFee(); }
+
+function optCalc(months) {
+  const total = getGrandTotal();
+  const perPerson = total / 2;
+  const fortnights = months * (26 / 12);
+  const perFortnight = perPerson / fortnights;
+  return { total, perPerson, fortnights: Math.round(fortnights), perFortnight };
+}
+
+function renderBudget() {
+  const s = sym();
+  const hotelUSD = getHotelUSD();
+  const subtotal = getSubtotal();
+  const fee = getTransferFee();
+  const grand = getGrandTotal();
+
+  // Simple cost breakdown
+  document.getElementById('cost-breakdown-simple').innerHTML = `
+    <h3 style="margin-bottom:14px">Cost Breakdown</h3>
+    <div class="cost-row"><span class="cost-label">Cathay Pacific (AKL \u2194 MXP)</span><span class="cost-value">${s}${toDisplay(BASE.cathay)}</span></div>
+    <div class="cost-row"><span class="cost-label">ITA Airways (Milan \u2194 Tunis)</span><span class="cost-value">${s}${toDisplay(BASE.ita)}</span></div>
+    <div class="cost-row"><span class="cost-label">Hotel (Crowne Plaza, 1 night)</span><span class="cost-value">${s}${toDisplay(hotelUSD)}</span></div>
+    <div class="cost-row"><span class="cost-label">Subtotal</span><span class="cost-value">${s}${toDisplay(subtotal)}</span></div>
+    <div class="cost-row"><span class="cost-label">5% Transfer Fee</span><span class="cost-value">${s}${toDisplay(fee)}</span></div>
+    <div class="cost-row total"><span class="cost-label">Grand Total</span><span class="cost-value">${s}${toDisplay(grand)}</span></div>
+  `;
+
+  // Option cards
+  const optGrid = document.getElementById('option-grid');
+  optGrid.innerHTML = '';
+  [6, 9, 12].forEach(m => {
+    const o = optCalc(m);
+    const card = document.createElement('div');
+    card.className = 'option-card' + (m === selectedMonths ? ' selected' : '');
+    card.innerHTML = `
+      <div class="option-months">${m}</div>
+      <div class="option-label">months</div>
+      <div class="option-amount">${s}${toDisplay(o.perFortnight)}</div>
+      <div class="option-freq">per person, per fortnight</div>
+    `;
+    card.onclick = () => { selectedMonths = m; renderBudget(); };
+    optGrid.appendChild(card);
+  });
+
+  // Summary
+  const sel = optCalc(selectedMonths);
+  document.getElementById('summary-sentence').innerHTML =
+    `Each of us pays <strong>${s}${toDisplay(sel.perFortnight)}</strong> per fortnight for <strong>${selectedMonths} months</strong> (${sel.fortnights} fortnights)`;
+
+  // Advanced breakdown
+  document.getElementById('cost-breakdown-adv').innerHTML = `
+    <h3 style="margin-bottom:14px">Detailed Cost Breakdown</h3>
+    <table class="schedule-table">
+      <thead><tr><th>Item</th><th>Amount</th><th>Per Person</th></tr></thead>
+      <tbody>
+        <tr><td>Cathay Pacific (AKL \u2194 MXP)</td><td>${s}${toDisplay(BASE.cathay)}</td><td>${s}${toDisplay(BASE.cathay / 2)}</td></tr>
+        <tr><td>ITA Airways (Milan \u2194 Tunis)</td><td>${s}${toDisplay(BASE.ita)}</td><td>${s}${toDisplay(BASE.ita / 2)}</td></tr>
+        <tr><td>Hotel (Crowne Plaza)</td><td>${s}${toDisplay(hotelUSD)}</td><td>${s}${toDisplay(hotelUSD / 2)}</td></tr>
+        <tr><td>5% Transfer Fee</td><td>${s}${toDisplay(fee)}</td><td>${s}${toDisplay(fee / 2)}</td></tr>
+        <tr style="font-weight:700;background:var(--clr-tag-bg)"><td>Grand Total</td><td>${s}${toDisplay(grand)}</td><td>${s}${toDisplay(grand / 2)}</td></tr>
+      </tbody>
+    </table>
+  `;
+
+  // Schedule table
+  const schCon = document.getElementById('schedule-container');
+  let schHTML = `<h3 style="margin-bottom:12px">Payment Schedule \u2014 ${selectedMonths} Months</h3>`;
+  schHTML += `<table class="schedule-table"><thead><tr><th>#</th><th>Fortnight</th><th>Each Pays</th><th>Running Total</th></tr></thead><tbody>`;
+  const startDate = new Date();
+  const fn = sel.fortnights;
+  for (let i = 1; i <= fn; i++) {
+    const d = new Date(startDate.getTime() + (i - 1) * 14 * 86400000);
+    const dateStr = d.toLocaleDateString('en-NZ', { day: 'numeric', month: 'short', year: 'numeric' });
+    const running = Math.min(sel.perFortnight * i, sel.perPerson);
+    schHTML += `<tr><td>${i}</td><td>${dateStr}</td><td>${s}${toDisplay(sel.perFortnight)}</td><td>${s}${toDisplay(running)}</td></tr>`;
+  }
+  schHTML += '</tbody></table>';
+  schCon.innerHTML = schHTML;
+
+  renderCharts();
+}
+
+let chartDonut, chartBar, chartLine;
+function renderCharts() {
+  if (typeof Chart === 'undefined') return;
+  const s = sym();
+  const hotelUSD = getHotelUSD();
+  const fee = getTransferFee();
+
+  const convertVal = v => currentCurr === 'NZD' ? v * nzdRate : v;
+
+  // Donut
+  if (chartDonut) chartDonut.destroy();
+  const dCtx = document.getElementById('chart-donut');
+  if (!dCtx) return;
+  chartDonut = new Chart(dCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Cathay Pacific', 'ITA Airways', 'Hotel', 'Transfer Fee'],
+      datasets: [{
+        data: [BASE.cathay, BASE.ita, hotelUSD, fee].map(convertVal),
+        backgroundColor: ['#1a1a3e', '#4a3f6b', '#c9a87c', '#7b6b8a'],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { family: 'DM Sans', size: 11 }, padding: 12 } },
+        title: { display: true, text: 'Cost Breakdown', font: { family: 'Cormorant Garamond', size: 18, weight: 600 }, color: '#1a1a3e' }
+      }
     }
-    const days = Math.floor(diff / 86400000);
-    const hours = Math.floor((diff % 86400000) / 3600000);
-    const mins = Math.floor((diff % 3600000) / 60000);
-    const secs = Math.floor((diff % 60000) / 1000);
-    document.getElementById('cd-days').textContent = days;
-    document.getElementById('cd-hours').textContent = hours;
-    document.getElementById('cd-mins').textContent = mins;
-    document.getElementById('cd-secs').textContent = secs;
+  });
+
+  // Bar
+  if (chartBar) chartBar.destroy();
+  const bCtx = document.getElementById('chart-bar');
+  if (!bCtx) return;
+  chartBar = new Chart(bCtx, {
+    type: 'bar',
+    data: {
+      labels: ['6 months', '9 months', '12 months'],
+      datasets: [{
+        label: 'Per person / fortnight (' + s.trim() + ')',
+        data: [6, 9, 12].map(m => convertVal(optCalc(m).perFortnight)),
+        backgroundColor: ['#c9a87c', '#4a3f6b', '#7b6b8a'],
+        borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: 'Fortnightly Payment Comparison', font: { family: 'Cormorant Garamond', size: 18, weight: 600 }, color: '#1a1a3e' }
+      },
+      scales: { y: { beginAtZero: true, ticks: { callback: v => s + v.toFixed(0) } } }
+    }
+  });
+
+  // Line
+  if (chartLine) chartLine.destroy();
+  const lCtx = document.getElementById('chart-line');
+  if (!lCtx) return;
+  const sel = optCalc(selectedMonths);
+  const labels = [];
+  const dataPoints = [];
+  const startDate = new Date();
+  for (let i = 0; i <= sel.fortnights; i++) {
+    const d = new Date(startDate.getTime() + i * 14 * 86400000);
+    labels.push(d.toLocaleDateString('en-NZ', { day: 'numeric', month: 'short' }));
+    const val = Math.min(sel.perFortnight * i, sel.perPerson);
+    dataPoints.push(convertVal(val));
   }
+  chartLine = new Chart(lCtx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Ibrahim', data: [...dataPoints], borderColor: '#1a1a3e', backgroundColor: 'rgba(26,26,62,.1)', fill: true, tension: .3 },
+        { label: 'Haajar', data: [...dataPoints], borderColor: '#c9a87c', backgroundColor: 'rgba(201,168,124,.1)', fill: true, tension: .3, borderDash: [6, 3] }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: { display: true, text: `Cumulative Payments \u2014 ${selectedMonths} Month Plan`, font: { family: 'Cormorant Garamond', size: 18, weight: 600 }, color: '#1a1a3e' }
+      },
+      scales: { y: { beginAtZero: true, ticks: { callback: v => s + v.toFixed(0) } } }
+    }
+  });
+}
+
+/* ========================================================
+   CAROUSEL
+   ======================================================== */
+function initCarousels() {
+  document.querySelectorAll('.carousel').forEach(carousel => {
+    const track = carousel.querySelector('.carousel-track');
+    const slides = carousel.querySelectorAll('.carousel-slide');
+    const dotsWrap = carousel.querySelector('.carousel-dots');
+    const prevBtn = carousel.querySelector('.carousel-btn.prev');
+    const nextBtn = carousel.querySelector('.carousel-btn.next');
+    let current = 0;
+    let interval;
+
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+      dot.onclick = () => goTo(i);
+      dotsWrap.appendChild(dot);
+    });
+
+    function goTo(idx) {
+      current = (idx + slides.length) % slides.length;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      dotsWrap.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    function startAuto() { interval = setInterval(() => goTo(current + 1), 5000); }
+    function stopAuto() { clearInterval(interval); }
+
+    prevBtn.onclick = () => { stopAuto(); goTo(current - 1); startAuto(); };
+    nextBtn.onclick = () => { stopAuto(); goTo(current + 1); startAuto(); };
+
+    startAuto();
+    carousel.addEventListener('mouseenter', stopAuto);
+    carousel.addEventListener('mouseleave', startAuto);
+  });
+}
+
+/* ========================================================
+   CHECKLISTS
+   ======================================================== */
+function buildChecklist(containerId, progressId, items, storageKey) {
+  const container = document.getElementById(containerId);
+  const progressWrap = document.getElementById(progressId);
+
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch { /* ignore */ }
+  items.forEach(it => { if (saved[it.id] !== undefined) it.checked = saved[it.id]; });
+
+  function save() {
+    const obj = {};
+    items.forEach(it => obj[it.id] = it.checked);
+    localStorage.setItem(storageKey, JSON.stringify(obj));
+  }
+
+  function render() {
+    const total = items.length;
+    const done = items.filter(i => i.checked).length;
+    const pct = Math.round((done / total) * 100);
+
+    progressWrap.innerHTML = `
+      <div class="progress-label"><span>${done} of ${total} explored</span><span>${pct}%</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    `;
+
+    container.innerHTML = '';
+    items.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'check-card' + (item.checked ? ' checked' : '');
+      card.innerHTML = `
+        <div class="check-box">${item.checked ? '\u2713' : ''}</div>
+        <div class="check-emoji">${item.emoji}</div>
+        <div class="check-body">
+          <div class="check-name">${item.name}</div>
+          <div class="check-desc">${item.desc}</div>
+          <span class="check-tag">${item.tag}</span>
+        </div>
+      `;
+      card.onclick = () => {
+        item.checked = !item.checked;
+        save();
+        render();
+      };
+      container.appendChild(card);
+    });
+  }
+
+  render();
+}
+
+function buildTips(containerId, tips) {
+  const el = document.getElementById(containerId);
+  const labelMap = {
+    language: 'Language', currency: 'Currency', weather: 'Weather', dress: 'Dress Code',
+    haggling: 'Haggling', food: 'Food & Drink', safety: 'Safety', transport: 'Transport'
+  };
+  let html = '<h3>Practical Tips</h3>';
+  for (const [key, val] of Object.entries(tips)) {
+    html += `<div class="tip-item"><div class="tip-label">${labelMap[key] || key}</div><div class="tip-text">${val}</div></div>`;
+  }
+  el.innerHTML = html;
+}
+
+/* ========================================================
+   COUNTDOWN
+   ======================================================== */
+function updateCountdown() {
+  // Jul 24, 2026 13:25 NZST (UTC+12) = Jul 24, 2026 01:25 UTC
+  const target = new Date(Date.UTC(2026, 6, 24, 1, 25, 0));
+  const now = new Date();
+  let diff = target - now;
+
+  if (diff <= 0) {
+    document.getElementById('cd-days').textContent = '0';
+    document.getElementById('cd-hrs').textContent = '00';
+    document.getElementById('cd-min').textContent = '00';
+    document.getElementById('cd-sec').textContent = '00';
+    return;
+  }
+
+  const days = Math.floor(diff / 86400000); diff %= 86400000;
+  const hrs = Math.floor(diff / 3600000); diff %= 3600000;
+  const min = Math.floor(diff / 60000); diff %= 60000;
+  const sec = Math.floor(diff / 1000);
+
+  document.getElementById('cd-days').textContent = days;
+  document.getElementById('cd-hrs').textContent = String(hrs).padStart(2, '0');
+  document.getElementById('cd-min').textContent = String(min).padStart(2, '0');
+  document.getElementById('cd-sec').textContent = String(sec).padStart(2, '0');
+}
+
+/* ========================================================
+   NAVIGATION
+   ======================================================== */
+function initNav() {
+  const tabs = document.querySelectorAll('.nav-tab');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      tab.classList.add('active');
+      const target = document.getElementById('tab-' + tab.dataset.tab);
+      if (target) target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+}
+
+/* ========================================================
+   VIEW TOGGLE & CURRENCY
+   ======================================================== */
+function initBudgetControls() {
+  document.querySelectorAll('.view-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const v = btn.dataset.view;
+      document.getElementById('view-simple').style.display = v === 'simple' ? '' : 'none';
+      document.getElementById('view-advanced').style.display = v === 'advanced' ? '' : 'none';
+      if (v === 'advanced') setTimeout(renderCharts, 50);
+    });
+  });
+
+  document.querySelectorAll('.curr-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.curr-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCurr = btn.dataset.curr;
+      renderBudget();
+    });
+  });
+
+  document.getElementById('refreshRate').addEventListener('click', fetchRate);
+}
+
+/* ========================================================
+   INIT
+   ======================================================== */
+document.addEventListener('DOMContentLoaded', () => {
+  initNav();
   updateCountdown();
   setInterval(updateCountdown, 1000);
+  initCarousels();
 
-  // ===================================================================
-  //  FADE-UP ANIMATION (IntersectionObserver)
-  // ===================================================================
-  function observeFadeUps() {
-    const els = document.querySelectorAll('.fade-up:not(.visible)');
-    if (!els.length) return;
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          // Stagger animation
-          setTimeout(() => {
-            entry.target.classList.add('visible');
-          }, i * 80);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-    els.forEach(el => observer.observe(el));
-  }
-  observeFadeUps();
+  buildChecklist('tunisia-checklist', 'tunisia-progress', TUNISIA_ITEMS, 'trip-checklist-tunisia');
+  buildChecklist('libya-checklist', 'libya-progress', LIBYA_ITEMS, 'trip-checklist-libya');
+  buildChecklist('milan-checklist', 'milan-progress', MILAN_ITEMS, 'trip-checklist-milan');
 
-  // ===================================================================
-  //  PAYMENT PLAN LOGIC
-  // ===================================================================
-  const BASE = {
-    cathay: 3113.89,
-    ita: 1136.20,
-    hotelEur: 135.00,
-    eurToUsd: 1.09,
-    get hotelUsd() { return Math.round(this.hotelEur * this.eurToUsd * 100) / 100; },
-    get subtotal() { return this.cathay + this.ita + this.hotelUsd; },
-    get fee() { return Math.round(this.subtotal * 0.05 * 100) / 100; },
-    get total() { return Math.round((this.subtotal + this.fee) * 100) / 100; },
-  };
-  const OPT_DEF = {
-    a: { fortnights: 13, color: '#f43f5e', label: 'A: 6 months', months: 6 },
-    b: { fortnights: 20, color: '#f59e0b', label: 'B: 9 months', months: 9 },
-    c: { fortnights: 26, color: '#0d9488', label: 'C: 12 months', months: 12 },
-  };
-  const START = new Date(2026, 2, 27); // 27 Mar 2026
+  buildTips('tunisia-tips', TUNISIA_TIPS);
+  buildTips('libya-tips', LIBYA_TIPS);
+  buildTips('milan-tips', MILAN_TIPS);
 
-  let currentCurrency = 'USD';
-  let nzdRate = null;
-  let activeOption = 'c';
-  let currentView = 'simple';
-  let donutChart, barChart, lineChart;
-  let chartsInitialized = false;
-
-  function r() { return currentCurrency === 'NZD' && nzdRate ? nzdRate : 1; }
-  function s() { return currentCurrency === 'NZD' ? 'NZ$' : '$'; }
-  function fmt(usdVal) {
-    const v = Math.round(usdVal * r() * 100) / 100;
-    return s() + v.toLocaleString('en-NZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
-  function optCalc(key) {
-    const total = BASE.total * r();
-    const n = OPT_DEF[key].fortnights;
-    const payment = Math.round(total / n * 100) / 100;
-    const each = Math.round(payment / 2 * 100) / 100;
-    const monthly = Math.round(total / OPT_DEF[key].months * 100) / 100;
-    return { fortnights: n, payment, each, monthly, total: Math.round(total * 100) / 100 };
-  }
-
-  // --- View toggle ---
-  function setView(view) {
-    currentView = view;
-    document.getElementById('btn-simple').classList.toggle('active', view === 'simple');
-    document.getElementById('btn-advanced').classList.toggle('active', view === 'advanced');
-    document.getElementById('view-simple').classList.toggle('hidden', view !== 'simple');
-    document.getElementById('view-advanced').classList.toggle('hidden', view !== 'advanced');
-    if (view === 'advanced' && !chartsInitialized) {
-      chartsInitialized = true;
-      renderCharts();
-    }
-    renderAll();
-  }
-
-  // --- Currency ---
-  async function fetchRate() {
-    const btn = document.getElementById('refresh-btn');
-    const label = document.getElementById('refresh-label');
-    btn.classList.add('loading');
-    label.textContent = 'Fetching...';
-    try {
-      const res = await fetch('https://open.er-api.com/v6/latest/USD');
-      const data = await res.json();
-      if (data.result === 'success' && data.rates) {
-        if (data.rates.NZD) nzdRate = data.rates.NZD;
-        if (data.rates.EUR) BASE.eurToUsd = Math.round(1 / data.rates.EUR * 10000) / 10000;
-        document.getElementById('rate-display').textContent = nzdRate ? nzdRate.toFixed(4) : '\u2014';
-        document.getElementById('rate-time').textContent =
-          'updated ' + new Date().toLocaleTimeString('en-NZ', { hour: '2-digit', minute: '2-digit' });
-        renderAll();
-      }
-    } catch (e) {
-      document.getElementById('rate-time').textContent = 'fetch failed \u2014 try again';
-    }
-    btn.classList.remove('loading');
-    label.textContent = 'Refresh Rate';
-  }
-
-  function setCurrency(c) {
-    currentCurrency = c;
-    document.getElementById('btn-usd').classList.toggle('active', c === 'USD');
-    document.getElementById('btn-nzd').classList.toggle('active', c === 'NZD');
-    if (c === 'NZD' && !nzdRate) { fetchRate(); return; }
-    renderAll();
-  }
-
-  // --- Render ---
-  function renderAll() {
-    renderSimple();
-    renderAdvanced();
-  }
-
-  function renderSimple() {
-    document.getElementById('simple-total').textContent = fmt(BASE.total);
-    ['a','b','c'].forEach(k => {
-      const o = optCalc(k);
-      document.getElementById('sopt-' + k + '-each').textContent = s() + o.each.toFixed(2);
-      document.getElementById('sopt-' + k + '-combined').textContent = s() + o.payment.toFixed(2);
-    });
-    updateSimpleSummary();
-  }
-
-  function updateSimpleSummary() {
-    const o = optCalc(activeOption);
-    const dur = OPT_DEF[activeOption].months;
-    document.getElementById('simple-summary').innerHTML =
-      '<div class="s-msg">' +
-      'Over <strong>' + dur + ' months</strong> (' + o.fortnights + ' fortnights), each of us puts in ' +
-      '<span class="highlight">' + s() + o.each.toFixed(2) + '</span> per fortnight.<br>' +
-      'That\u2019s <strong>' + s() + o.payment.toFixed(2) + '</strong> combined every two weeks until it\u2019s paid off.' +
-      '</div>';
-  }
-
-  function pickSimple(key) {
-    activeOption = key;
-    document.querySelectorAll('.simple-opt').forEach(c => c.classList.remove('active'));
-    document.getElementById('sopt-' + key).classList.add('active');
-    document.querySelectorAll('.option-card').forEach(c => c.classList.remove('active'));
-    document.getElementById('opt-' + key).classList.add('active');
-    ['a','b','c'].forEach(k => {
-      document.getElementById('schedule-' + k).classList.toggle('hidden', k !== key);
-    });
-    updateSimpleSummary();
-    rebuildAdvancedTable(key);
-    updatePersonSplit();
-  }
-
-  // --- Advanced view ---
-  function renderAdvanced() {
-    const cur = currentCurrency;
-    document.getElementById('sum-subtotal').textContent = fmt(BASE.subtotal);
-    document.getElementById('sum-subtotal-det').textContent = cur + ' before fees';
-    document.getElementById('sum-fee').textContent = fmt(BASE.fee);
-    document.getElementById('sum-grand').textContent = fmt(BASE.total);
-    document.getElementById('sum-grand-det').textContent = 'Amount to repay (' + cur + ')';
-    document.getElementById('cost-col-header').textContent = 'Cost (' + cur + ')';
-    document.getElementById('cost-cathay').textContent = fmt(BASE.cathay);
-    document.getElementById('cost-ita').textContent = fmt(BASE.ita);
-    document.getElementById('cost-hotel').textContent = fmt(BASE.hotelUsd);
-    document.getElementById('cost-fee').textContent = fmt(BASE.fee);
-    document.getElementById('cost-total').textContent = fmt(BASE.total);
-
-    ['a','b','c'].forEach(k => {
-      const o = optCalc(k);
-      document.getElementById('opt-' + k + '-combined').textContent = s() + o.payment.toFixed(2);
-      document.getElementById('opt-' + k + '-each').textContent = s() + o.each.toFixed(2);
-      document.getElementById('opt-' + k + '-monthly').innerHTML = '&asymp; ' + s() + o.monthly.toFixed(2) + ' / month';
-      document.getElementById('sched-note-' + k).textContent =
-        s() + o.payment.toFixed(2) + ' per fortnight (' + s() + o.each.toFixed(2) + ' each). Final payment adjusted to clear balance.';
-    });
-
-    updatePersonSplit();
-    rebuildAdvancedTable(activeOption);
-    if (chartsInitialized) renderCharts();
-  }
-
-  function updatePersonSplit() {
-    const o = optCalc(activeOption);
-    const totalC = o.total;
-    const half1 = Math.ceil(totalC * 100 / 2) / 100;
-    const half2 = Math.floor(totalC * 100 / 2) / 100;
-    document.getElementById('you-amt').textContent = s() + o.each.toFixed(2) + ' / fortnight';
-    document.getElementById('you-total').textContent = s() + half1.toFixed(2) + ' total over ' + o.fortnights + ' fortnights';
-    document.getElementById('wife-amt').textContent = s() + o.each.toFixed(2) + ' / fortnight';
-    document.getElementById('wife-total').textContent = s() + half2.toFixed(2) + ' total over ' + o.fortnights + ' fortnights';
-  }
-
-  function rebuildAdvancedTable(key) {
-    const o = optCalc(key);
-    const tbody = document.querySelector('#table-' + key + ' tbody');
-    tbody.innerHTML = '';
-    let balance = o.total;
-    for (let i = 1; i <= o.fortnights; i++) {
-      const d = new Date(START);
-      d.setDate(START.getDate() + (i - 1) * 14);
-      let payment, each;
-      if (i < o.fortnights) {
-        payment = o.payment; each = o.each;
-        balance = Math.round((balance - payment) * 100) / 100;
-      } else {
-        payment = balance; each = Math.round(payment / 2 * 100) / 100;
-        balance = 0;
-      }
-      const tr = document.createElement('tr');
-      if (balance === 0) tr.classList.add('paid-off');
-      const dateStr = d.toLocaleDateString('en-NZ', { day: 'numeric', month: 'short', year: 'numeric' });
-      tr.innerHTML =
-        '<td>' + i + '</td><td>' + dateStr + '</td>' +
-        '<td class="r">' + s() + payment.toFixed(2) + '</td>' +
-        '<td class="r">' + s() + each.toFixed(2) + '</td>' +
-        '<td class="r">' + (balance === 0 ? '<strong>' + s() + '0.00 \u2713</strong>' : s() + balance.toFixed(2)) + '</td>';
-      tbody.appendChild(tr);
-    }
-    ['a','b','c'].forEach(k => {
-      document.getElementById('schedule-' + k).classList.toggle('hidden', k !== key);
-    });
-  }
-
-  function showSchedule(key) {
-    activeOption = key;
-    document.querySelectorAll('.option-card').forEach(c => c.classList.remove('active'));
-    document.getElementById('opt-' + key).classList.add('active');
-    document.querySelectorAll('.simple-opt').forEach(c => c.classList.remove('active'));
-    document.getElementById('sopt-' + key).classList.add('active');
-    rebuildAdvancedTable(key);
-    updatePersonSplit();
-    updateSimpleSummary();
-  }
-
-  // --- Charts ---
-  function renderCharts() {
-    const sym = s(), cur = currentCurrency;
-    const totalC = Math.round(BASE.total * r() * 100) / 100;
-    if (donutChart) donutChart.destroy();
-    if (barChart) barChart.destroy();
-    if (lineChart) lineChart.destroy();
-
-    donutChart = new Chart(document.getElementById('donutChart'), {
-      type: 'doughnut',
-      data: {
-        labels: ['Cathay Pacific (AKL\u2194HKG\u2194MXP)', 'ITA Airways (LIN\u2194TUN)', 'Hotel (Sep 3\u20134)', 'Transfer Fee (5%)'],
-        datasets: [{
-          data: [BASE.cathay, BASE.ita, BASE.hotelUsd, BASE.fee].map(v => Math.round(v * r() * 100) / 100),
-          backgroundColor: ['#0d9488','#38bdf8','#f59e0b','#e2e8f0'],
-          borderWidth: 0,
-          hoverOffset: 8
-        }]
-      },
-      options: {
-        responsive: true, cutout: '55%',
-        plugins: {
-          legend: { position: 'bottom', labels: { padding: 14, font: { size: 11, family: 'Nunito' }, usePointStyle: true, pointStyleWidth: 10 } },
-          tooltip: { callbacks: { label: ctx => ' ' + sym + ctx.parsed.toFixed(2) + ' (' + (ctx.parsed / totalC * 100).toFixed(1) + '%)' } }
-        }
-      }
-    });
-
-    const barData = ['a','b','c'].map(k => optCalc(k).each);
-    barChart = new Chart(document.getElementById('barChart'), {
-      type: 'bar',
-      data: {
-        labels: ['Option A\n6 months', 'Option B\n9 months', 'Option C\n12 months'],
-        datasets: [
-          { label: 'Ibrahim', data: [...barData], backgroundColor: ['rgba(244,63,94,0.7)','rgba(245,158,11,0.7)','rgba(13,148,136,0.7)'], borderRadius: 6 },
-          { label: 'Haajar', data: [...barData], backgroundColor: ['rgba(244,63,94,0.35)','rgba(245,158,11,0.35)','rgba(13,148,136,0.35)'], borderRadius: 6 }
-        ]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          x: { stacked: true, grid: { display: false } },
-          y: { stacked: true, beginAtZero: true, ticks: { callback: v => sym + v, font: { family: 'Nunito' } }, title: { display: true, text: 'Per Fortnight (' + cur + ')', font: { size: 11, family: 'Nunito' } } }
-        },
-        plugins: {
-          legend: { position: 'bottom', labels: { padding: 14, font: { size: 11, family: 'Nunito' }, usePointStyle: true, pointStyleWidth: 10 } },
-          tooltip: { callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + sym + ctx.parsed.y.toFixed(2) } }
-        }
-      }
-    });
-
-    function pd(key) {
-      const o = optCalc(key);
-      const pts = [{ x: 0, y: totalC }]; let b = totalC;
-      for (let i = 1; i <= o.fortnights; i++) {
-        if (i < o.fortnights) { b = Math.round((b - o.payment) * 100) / 100; } else { b = 0; }
-        pts.push({ x: i, y: b });
-      }
-      return pts;
-    }
-    lineChart = new Chart(document.getElementById('lineChart'), {
-      type: 'line',
-      data: {
-        datasets: ['a','b','c'].map(k => ({
-          label: OPT_DEF[k].label,
-          data: pd(k),
-          borderColor: OPT_DEF[k].color,
-          backgroundColor: OPT_DEF[k].color + '18',
-          fill: true, tension: 0.2, pointRadius: 3, pointHoverRadius: 6, borderWidth: 2.5
-        }))
-      },
-      options: {
-        responsive: true, maintainAspectRatio: false,
-        interaction: { mode: 'index', intersect: false },
-        scales: {
-          x: { type: 'linear', title: { display: true, text: 'Fortnight #', font: { size: 11, family: 'Nunito' } }, ticks: { stepSize: 2, font: { family: 'Nunito' } }, grid: { color: '#f0f0f0' }, min: 0, max: 27 },
-          y: { beginAtZero: true, title: { display: true, text: 'Remaining Balance (' + cur + ')', font: { size: 11, family: 'Nunito' } }, ticks: { callback: v => sym + v.toLocaleString(), font: { family: 'Nunito' } }, grid: { color: '#f0f0f0' } }
-        },
-        plugins: {
-          legend: { position: 'bottom', labels: { padding: 14, font: { size: 11, family: 'Nunito' }, usePointStyle: true, pointStyleWidth: 10 } },
-          tooltip: { callbacks: { title: ctx => 'Fortnight ' + ctx[0].parsed.x, label: ctx => ' ' + ctx.dataset.label + ': ' + sym + ctx.parsed.y.toFixed(2) + ' remaining' } }
-        }
-      }
-    });
-  }
-
-  // ===================================================================
-  //  INIT
-  // ===================================================================
-  fetchRate().then(() => { renderAll(); pickSimple('c'); });
+  initBudgetControls();
+  fetchRate();
+});
 </script>
-
 </body>
 </html>
