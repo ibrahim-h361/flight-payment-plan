@@ -318,6 +318,8 @@ h3{font-size:1.3rem;line-height:1.3}
 .weather-temp{font-family:var(--font-heading);font-size:1.3rem;font-weight:700;color:var(--clr-dark)}
 .weather-details{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
 .weather-detail{font-size:.82rem;color:var(--clr-muted);font-weight:500;padding:2px 10px;background:rgba(0,0,0,.04);border-radius:20px}
+.temp-toggle{margin-left:auto;padding:6px 14px;border:1.5px solid var(--clr-gold);border-radius:20px;background:transparent;color:var(--clr-gold);font-family:var(--font-body);font-size:.82rem;font-weight:700;cursor:pointer;transition:var(--transition);flex-shrink:0}
+.temp-toggle:hover{background:var(--clr-gold);color:var(--clr-dark)}
 
 /* ===== CURRENCY REFERENCE ===== */
 .currency-ref{background:linear-gradient(135deg,#f8f6f1,#f0ecf5);border-radius:var(--radius);padding:24px 28px;margin:32px auto 0;max-width:600px}
@@ -1850,21 +1852,35 @@ function buildCalendar() {
    ======================================================== */
 function buildWeatherCards() {
   const weatherData = {
-    tunisia: { icon: '\u2600\uFE0F', temp: '32\u201338\u00b0C', details: ['Hot & sunny', 'Sea temp ~26\u00b0C', 'UV very high'] },
-    libya:   { icon: '\u26C5',       temp: '25\u201332\u00b0C', details: ['Cooler in mountains', 'Evenings ~20\u00b0C', 'Dry'] },
-    milan:   { icon: '\uD83C\uDF24\uFE0F', temp: '30\u201335\u00b0C', details: ['Hot & humid', 'Afternoon thunderstorms possible'] }
+    tunisia: { icon: '\u2600\uFE0F', c: [32,38], details: ['Hot & sunny', 'Sea temp ~26\u00b0C / 79\u00b0F', 'UV very high'] },
+    libya:   { icon: '\u26C5',       c: [25,32], details: ['Cooler in mountains', 'Evenings ~20\u00b0C / 68\u00b0F', 'Dry'] },
+    milan:   { icon: '\uD83C\uDF24\uFE0F', c: [30,35], details: ['Hot & humid', 'Afternoon thunderstorms possible'] }
   };
-  for (const [key, w] of Object.entries(weatherData)) {
-    const el = document.getElementById(key + '-weather');
-    if (!el) continue;
-    el.innerHTML = `<div class="weather-card">
-      <div class="weather-icon">${w.icon}</div>
-      <div class="weather-info">
-        <div class="weather-temp">${w.temp}</div>
-        <div class="weather-details">${w.details.map(d => `<span class="weather-detail">${d}</span>`).join('')}</div>
-      </div>
-    </div>`;
+  let useFahr = localStorage.getItem('trip-temp-unit') === 'F';
+  function toF(c) { return Math.round(c * 9/5 + 32); }
+  function render() {
+    for (const [key, w] of Object.entries(weatherData)) {
+      const el = document.getElementById(key + '-weather');
+      if (!el) continue;
+      const tempStr = useFahr
+        ? `${toF(w.c[0])}\u2013${toF(w.c[1])}\u00b0F`
+        : `${w.c[0]}\u2013${w.c[1]}\u00b0C`;
+      el.innerHTML = `<div class="weather-card">
+        <div class="weather-icon">${w.icon}</div>
+        <div class="weather-info">
+          <div class="weather-temp">${tempStr}</div>
+          <div class="weather-details">${w.details.map(d => `<span class="weather-detail">${d}</span>`).join('')}</div>
+        </div>
+        <button class="temp-toggle" onclick="toggleTempUnit()" title="Switch to ${useFahr ? 'Celsius' : 'Fahrenheit'}">${useFahr ? '\u00b0C' : '\u00b0F'}</button>
+      </div>`;
+    }
   }
+  window.toggleTempUnit = function() {
+    useFahr = !useFahr;
+    localStorage.setItem('trip-temp-unit', useFahr ? 'F' : 'C');
+    render();
+  };
+  render();
 }
 
 /* ========================================================
